@@ -65,8 +65,8 @@
   &-none {
     @include radius-none;
   }
-  &-xsm {
-    @include radius-xsm;
+  &-xs {
+    @include radius-xs;
   }
   &-sm {
     @include radius-sm;
@@ -99,10 +99,11 @@
 // text
 
 $text-sizes: (
+  'xxs': 0.625rem,
   'xs': 0.75rem,
-  's': 0.875rem,
-  'm': 1rem,
-  'l': 1.25rem,
+  'sm': 0.875rem,
+  'md': 1rem,
+  'lg': 1.25rem,
   'xl': 1.5rem,
   'xxl': 2rem,
 );
@@ -113,6 +114,7 @@ $text-weights: (
   'medium': 500,
   'semi-bold': 600,
   'bold': 700,
+  'black': 900,
 );
 
 .text {

@@ -42,7 +42,7 @@
 @mixin radius-none {
   border-radius: 0;
 }
-@mixin radius-xsm {
+@mixin radius-xs {
   border-radius: 0.125rem; // 2px
 }
 @mixin radius-sm {

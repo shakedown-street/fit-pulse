@@ -1,6 +1,8 @@
+from django_filters import rest_framework as filters
+from exercises.filters import ProgressFilter
 from exercises.models import Exercise, Progress
-from exercises.serializers import ExerciseSerializer, ProgressSerializer
 from exercises.permissions import ExercisePermission, ProgressPermission
+from exercises.serializers import ExerciseSerializer, ProgressSerializer
 from rest_framework import viewsets
 
 
@@ -19,6 +21,8 @@ class ProgressViewSet(viewsets.ModelViewSet):
     queryset = Progress.objects.all()
     serializer_class = ProgressSerializer
     permission_classes = (ProgressPermission,)
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_class = ProgressFilter
 
     def get_queryset(self):
         qs = self.queryset

@@ -2,7 +2,15 @@ import React from 'react';
 import { RouteObject } from 'react-router-dom';
 import { AppLayout } from './AppLayout';
 import { LoginRoute, useAuth } from './auth';
-import { Exercise, ExerciseForm, ExerciseFormData, ExerciseTable, ProgressForm, ProgressFormData } from './exercises';
+import {
+  Exercise,
+  ExerciseForm,
+  ExerciseFormData,
+  ExerciseTable,
+  Progress,
+  ProgressForm,
+  ProgressFormData,
+} from './exercises';
 import { ListResponse, http } from './http';
 import { Button, Container, RadixDialog } from './ui';
 
@@ -44,8 +52,16 @@ const Home = () => {
   }
 
   function submitProgressForm(data: ProgressFormData) {
-    http.post('/api/progress/', data).then(() => {
+    http.post<Progress>('/api/progress/', data).then((progress) => {
       setProgressDialogOpen(false);
+      // update exercise since the progress_count has changed
+      setExercises((exercises) => {
+        const exercise = exercises.find((e) => e.id === progress.data.exercise.id);
+        if (exercise) {
+          return exercises.map((e) => (e.id === exercise.id ? progress.data.exercise : e));
+        }
+        return exercises;
+      });
     });
   }
 

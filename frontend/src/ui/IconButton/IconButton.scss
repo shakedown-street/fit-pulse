@@ -1,0 +1,160 @@
+@import '~/scss/mixins';
+@import '~/scss/variables';
+
+$colors: (
+  'primary',
+  'gray',
+  'red',
+  'pink',
+  'grape',
+  'violet',
+  'indigo',
+  'blue',
+  'cyan',
+  'teal',
+  'green',
+  'lime',
+  'yellow',
+  'orange'
+);
+
+@mixin icon-button-size($size, $icon-size) {
+  height: $size;
+  line-height: $size;
+  max-height: $size;
+  max-width: $size;
+  min-height: $size;
+  min-width: $size;
+  width: $size;
+
+  .material-icons,
+  .material-symbols,
+  .material-symbols-outlined {
+    font-size: $icon-size;
+  }
+}
+
+.IconButton {
+  @include font-bold;
+  @include radius-sm;
+  @include transition-fast;
+  display: inline-block;
+  padding: 0;
+  text-align: center;
+
+  &:disabled {
+    background-color: $oc-gray-0 !important;
+    border-color: $oc-gray-0 !important;
+    color: $oc-gray-5 !important;
+    cursor: not-allowed;
+  }
+
+  .material-icons,
+  .material-symbols,
+  .material-symbols-outlined {
+    display: block;
+  }
+
+  &.IconButton--rounded {
+    border-radius: 100%;
+  }
+
+  &.IconButton--size--xs {
+    @include icon-button-size(1.5rem, 1rem);
+  }
+
+  &.IconButton--size--sm {
+    @include icon-button-size(1.75rem, 1.125rem);
+  }
+
+  &.IconButton--size--md {
+    @include icon-button-size(2rem, 1.25rem);
+  }
+
+  &.IconButton--size--lg {
+    @include icon-button-size(2.5rem, 1.5rem);
+  }
+
+  &.IconButton--size--xl {
+    @include icon-button-size(3rem, 1.75rem);
+  }
+
+  &.IconButton--variant--default {
+    @each $name, $values in $colors {
+      &.IconButton--color--#{$name} {
+        color: oc-get-color($name, '9');
+
+        &:not(:disabled) {
+          &:hover {
+            background-color: oc-get-color($name, '0');
+          }
+
+          &:active {
+            background-color: oc-get-color($name, '1');
+          }
+        }
+      }
+    }
+  }
+
+  &.IconButton--variant--outlined {
+    @each $name, $values in $colors {
+      &.IconButton--color--#{$name} {
+        border: 1px solid oc-get-color($name, '9');
+        color: oc-get-color($name, '9');
+
+        &:not(:disabled) {
+          &:hover {
+            background-color: oc-get-color($name, '0');
+          }
+
+          &:active {
+            background-color: oc-get-color($name, '1');
+          }
+        }
+      }
+    }
+  }
+
+  &.IconButton--variant--ghost {
+    @each $name, $values in $colors {
+      &.IconButton--color--#{$name} {
+        border: 1px solid oc-get-color($name, '9');
+        color: oc-get-color($name, '9');
+
+        &:not(:disabled) {
+          &:hover {
+            background-color: oc-get-color($name, '9');
+            color: white;
+          }
+
+          &:active {
+            @include shadow-sm;
+            background-color: oc-get-color($name, '9');
+            color: white;
+          }
+        }
+      }
+    }
+  }
+
+  &.IconButton--variant--raised {
+    @include shadow-xs;
+
+    &:not(:disabled) {
+      &:hover {
+        @include shadow-sm;
+      }
+      &:active {
+        @include shadow-md;
+      }
+    }
+
+    @each $name, $values in $colors {
+      &.IconButton--color--#{$name} {
+        background-color: oc-get-color($name, '9');
+        color: white;
+      }
+    }
+  }
+}

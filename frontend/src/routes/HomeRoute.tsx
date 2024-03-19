@@ -1,20 +1,11 @@
 import React from 'react';
-import { RouteObject } from 'react-router-dom';
-import { AppLayout } from './AppLayout';
-import { LoginRoute, useAuth } from './auth';
-import {
-  Exercise,
-  ExerciseForm,
-  ExerciseFormData,
-  ExerciseTable,
-  Progress,
-  ProgressForm,
-  ProgressFormData,
-} from './exercises';
-import { ListResponse, http } from './http';
-import { Button, Container, RadixDialog } from './ui';
+import { useAuth } from '~/auth';
+import { ExerciseForm, ExerciseFormData, ExerciseTable, ProgressForm, ProgressFormData } from '~/exercises';
+import { ListResponse, http } from '~/http';
+import { Exercise, Progress } from '~/types';
+import { Button, Container, RadixDialog } from '~/ui';
 
-const Home = () => {
+export const HomeRoute = () => {
   const [exercises, setExercises] = React.useState<Exercise[]>([]);
   const [exerciseDialogOpen, setExerciseDialogOpen] = React.useState(false);
   const [exerciseDialogInstance, setExerciseDialogInstance] = React.useState<Exercise | undefined>();
@@ -155,20 +146,3 @@ const Home = () => {
     </>
   );
 };
-
-export const routes: RouteObject[] = [
-  {
-    path: '/',
-    element: <AppLayout />,
-    children: [
-      {
-        path: '/',
-        element: <Home />,
-      },
-      {
-        path: '/login',
-        element: <LoginRoute />,
-      },
-    ],
-  },
-];

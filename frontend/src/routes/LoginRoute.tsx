@@ -1,5 +1,5 @@
+import { LoginForm } from '~/auth';
 import { Card, Container } from '~/ui';
-import { LoginForm } from './LoginForm';
 
 export const LoginRoute = () => {
   return (

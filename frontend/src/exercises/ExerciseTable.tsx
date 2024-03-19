@@ -15,13 +15,15 @@ export const ExerciseTable = ({ exercises, onDelete, onUpdate }: ExerciseTablePr
       <colgroup>
         <col />
         <col />
+        <col />
         <col style={{ width: '100px' }} />
       </colgroup>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th className="text-center">Action</th>
+          <th className="text-left">Name</th>
+          <th className="text-left">Type</th>
+          <th>Days Tracked</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody>
@@ -31,6 +33,7 @@ export const ExerciseTable = ({ exercises, onDelete, onUpdate }: ExerciseTablePr
             <td>
               <div className="text-capitalize">{exercise.value_type}</div>
             </td>
+            <td className="text-center">{exercise.progress_count}</td>
             <td className="text-center">
               <DropdownMenu.Root>
                 <DropdownMenu.Trigger asChild>

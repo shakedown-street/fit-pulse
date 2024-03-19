@@ -30,7 +30,7 @@ export const ExerciseForm = ({ instance, onSubmit }: ExerciseFormProps) => {
         </label>
         <select
           className="Input Input--fluid"
-          disabled={!!instance}
+          disabled={instance && instance.progress_count > 0}
           id="value_type"
           {...exerciseForm.register('value_type', { required: true })}
         >
@@ -39,8 +39,8 @@ export const ExerciseForm = ({ instance, onSubmit }: ExerciseFormProps) => {
           <option value="time">Time</option>
           <option value="bpm">BPM</option>
         </select>
+        <p className="hint mt-2">Type cannot be changed after progress has been tracked.</p>
       </div>
-      {instance && <p className="hint">Exercise type cannot be changed once it has been created.</p>}
       <Button color="primary" disabled={!exerciseForm.formState.isValid} fluid type="submit" variant="raised">
         {instance ? 'Update' : 'Create'}
       </Button>

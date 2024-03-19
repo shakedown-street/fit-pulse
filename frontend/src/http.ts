@@ -24,3 +24,10 @@ export function parseCookie(cookieString: string, name: string) {
   }
   return cookieValue;
 }
+
+export type ListResponse<T> = {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: T[];
+};

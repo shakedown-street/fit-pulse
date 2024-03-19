@@ -8,6 +8,13 @@ class ExerciseSerializer(serializers.ModelSerializer):
         read_only_fields = ("user",)
         fields = "__all__"
 
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data["progress_count"] = instance.user_progress_count(
+            self.context["request"].user
+        )
+        return data
+
     def validate(self, data):
         data["user"] = self.context["request"].user
         return data
@@ -21,7 +28,10 @@ class ProgressSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
-        data["exercise"] = ExerciseSerializer(instance.exercise).data
+        data["exercise"] = ExerciseSerializer(
+            instance.exercise,
+            context=self.context,
+        ).data
         return data
 
     def validate(self, data):

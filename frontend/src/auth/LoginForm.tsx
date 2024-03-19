@@ -4,33 +4,35 @@ import { Button, Input } from '~/ui';
 import { useAuth } from './AuthContext';
 import './LoginForm.scss';
 
+export type LoginFormData = {
+  username: string;
+  password: string;
+};
+
 export const LoginForm = () => {
   const navigate = useNavigate();
-  const loginForm = useForm({
-    mode: 'onBlur',
-  });
+  const loginForm = useForm<LoginFormData>();
   const { login, setUser } = useAuth();
 
-  const onSubmit = (data: any) => {
+  function onSubmit(data: LoginFormData) {
     login(data)
       .then((user) => {
         setUser(user.data);
         navigate('/');
       })
       .catch((error) => {
-        console.log(error);
         if (error.response?.data.non_field_errors) {
-          loginForm.setError('root.serverError', {
+          loginForm.setError('root', {
             message: error.response.data.non_field_errors[0],
           });
         } else {
-          loginForm.setError('root.serverError', {
+          loginForm.setError('root', {
             message: 'An unknown error occurred',
           });
         }
         loginForm.resetField('password');
       });
-  };
+  }
 
   return (
     <form className="LoginForm" onSubmit={loginForm.handleSubmit(onSubmit)}>
@@ -42,10 +44,8 @@ export const LoginForm = () => {
         {...loginForm.register('password', { required: true })}
         type="password"
       />
-      {loginForm.formState.errors.root?.serverError && (
-        <p className="error">{loginForm.formState.errors.root.serverError.message}</p>
-      )}
-      <Button disabled={!loginForm.formState.isValid} fluid type="submit">
+      {loginForm.formState.errors.root && <p className="error">{loginForm.formState.errors.root.message}</p>}
+      <Button color="primary" disabled={!loginForm.formState.isValid} fluid type="submit" variant="raised">
         Login
       </Button>
     </form>

@@ -1,3 +1,5 @@
+import os
+
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -5,7 +7,8 @@ from progress_tracker.mixins import BaseMixin
 
 
 def user_image_upload_to(user, filename):
-    return f"users/{user.id}/image{filename}"
+    _, filename_ext = os.path.splitext(filename)
+    return f"users/{user.id}/image{filename_ext}"
 
 
 class User(AbstractUser, BaseMixin):

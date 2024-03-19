@@ -368,17 +368,22 @@ $oc-orange-9: map-get($oc-orange-list, '9');
 $oc-color-spectrum: 9;
 
 $oc-color-list: (
-  $oc-gray-list: 'gray',
-  $oc-red-list: 'red',
-  $oc-pink-list: 'pink',
-  $oc-grape-list: 'grape',
-  $oc-violet-list: 'violet',
-  $oc-indigo-list: 'indigo',
-  $oc-blue-list: 'blue',
-  $oc-cyan-list: 'cyan',
-  $oc-teal-list: 'teal',
-  $oc-green-list: 'green',
-  $oc-lime-list: 'lime',
-  $oc-yellow-list: 'yellow',
-  $oc-orange-list: 'orange',
+  'primary': $oc-violet-list,
+  'gray': $oc-gray-list,
+  'red': $oc-red-list,
+  'pink': $oc-pink-list,
+  'grape': $oc-grape-list,
+  'violet': $oc-violet-list,
+  'indigo': $oc-indigo-list,
+  'blue': $oc-blue-list,
+  'cyan': $oc-cyan-list,
+  'teal': $oc-teal-list,
+  'green': $oc-green-list,
+  'lime': $oc-lime-list,
+  'yellow': $oc-yellow-list,
+  'orange': $oc-orange-list,
 );
+
+@function oc-get-color($color-name, $index: '5') {
+  @return map-get(map-get($oc-color-list, $color-name), $index);
+}

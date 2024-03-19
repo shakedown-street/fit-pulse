@@ -19,7 +19,7 @@
     }
     &:focus,
     &:active {
-      border-color: $primary-9;
+      border-color: oc-get-color('primary', '9');
     }
     &:invalid {
       background-color: $oc-red-0;

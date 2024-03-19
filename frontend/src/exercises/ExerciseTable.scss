@@ -1,0 +1,33 @@
+@import '~/scss/mixins';
+@import '~/scss/variables';
+
+.ExerciseTable {
+  @include radius-sm;
+  @include shadow-xs;
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+
+  thead {
+    tr {
+      background-color: $oc-gray-1;
+      border-bottom: 1px solid $border;
+
+      th {
+        @include font-medium;
+        font-size: 0.875rem;
+        padding: 1rem;
+        text-align: left;
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      td {
+        border-bottom: 1px solid $border;
+        padding: 1rem;
+      }
+    }
+  }
+}

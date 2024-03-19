@@ -17,8 +17,13 @@ class ProgressSerializer(serializers.ModelSerializer):
     class Meta:
         model = Progress
         fields = "__all__"
+        read_only_fields = ("user",)
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
         data["exercise"] = ExerciseSerializer(instance.exercise).data
+        return data
+
+    def validate(self, data):
+        data["user"] = self.context["request"].user
         return data

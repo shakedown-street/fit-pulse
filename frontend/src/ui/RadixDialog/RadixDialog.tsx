@@ -12,6 +12,7 @@ export type RadixDialogProps = {
   onOpenChange?: (open: boolean) => void;
   overlay?: boolean;
   portal?: boolean;
+  style?: React.CSSProperties;
   trigger?: React.ReactNode;
   triggerAsChild?: boolean;
 };
@@ -25,6 +26,7 @@ export const RadixDialog = ({
   onOpenChange,
   overlay = true,
   portal = true,
+  style,
   trigger,
   triggerAsChild = true,
 }: RadixDialogProps) => {
@@ -46,6 +48,7 @@ export const RadixDialog = ({
           },
           className,
         )}
+        style={style}
       >
         {close && (
           <Dialog.Close

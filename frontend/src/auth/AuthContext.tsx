@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 import React from 'react';
 import { http } from '~/http';
-import { User } from './User';
+import { User } from '~/types';
 
 export type LoginRequestData = {
   username: string;

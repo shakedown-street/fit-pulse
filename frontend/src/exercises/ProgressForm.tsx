@@ -1,8 +1,8 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { ListResponse, http } from '~/http';
+import { Exercise } from '~/types';
 import { Button, Input } from '~/ui';
-import { Exercise } from './Exercise';
 import './ProgressForm.scss';
 
 export type ProgressFormProps = {

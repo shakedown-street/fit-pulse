@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
+import { Exercise } from '~/types';
 import { Button, Input } from '~/ui';
-import { Exercise } from './Exercise';
 import './ExerciseForm.scss';
 
 export type ExerciseFormProps = {

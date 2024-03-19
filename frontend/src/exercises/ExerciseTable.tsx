@@ -1,6 +1,6 @@
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
+import { Exercise } from '~/types';
 import { IconButton } from '~/ui';
-import { Exercise } from './Exercise';
 import './ExerciseTable.scss';
 
 export type ExerciseTableProps = {

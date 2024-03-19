@@ -24,9 +24,15 @@ from rest_framework import routers
 from accounts.views import (
     UserViewSet,
 )
+from exercises.views import (
+    ExerciseViewSet,
+    ProgressViewSet,
+)
 
 router = routers.DefaultRouter()
 router.register("users", UserViewSet)
+router.register("exercises", ExerciseViewSet)
+router.register("progress", ProgressViewSet)
 
 
 urlpatterns = [

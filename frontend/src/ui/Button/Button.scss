@@ -1,0 +1,33 @@
+@import '~/scss/mixins';
+@import '~/scss/variables';
+
+.Button {
+  @include font-medium;
+  @include radius-sm;
+  @include shadow-sm;
+  @include transition-fast;
+  background-color: $primary-9;
+  border: 1px solid $primary-9;
+  color: white;
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  text-align: center;
+  text-decoration: none !important;
+
+  &:disabled {
+    background-color: $oc-gray-0;
+    border-color: $oc-gray-0;
+    color: $oc-gray-5;
+    cursor: not-allowed;
+  }
+
+  &:not(:disabled) {
+    &:active {
+      @include shadow-md;
+    }
+  }
+
+  &.Button--fluid {
+    width: 100%;
+  }
+}

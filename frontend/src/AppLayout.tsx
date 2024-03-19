@@ -1,0 +1,43 @@
+import { Link, Outlet, useNavigate } from 'react-router-dom';
+import './AppLayout.scss';
+import { useAuth } from './auth';
+import { Button, Container } from './ui';
+
+export const AppLayout = () => {
+  const navigate = useNavigate();
+  const { user, logout, setUser } = useAuth();
+
+  function handleLogout() {
+    logout().then(() => {
+      setUser(undefined);
+      navigate('/login');
+    });
+  }
+
+  return (
+    <>
+      <nav className="shadow-md">
+        <Container>
+          <div className="flex align-center gap-4 py-2">
+            <Link to="/">
+              <h1>Progress Tracker</h1>
+            </Link>
+            <div className="flex-1"></div>
+            <div className="flex align-center gap-4">
+              {user ? (
+                <Button onClick={handleLogout}>Logout</Button>
+              ) : (
+                <Link to="/login">
+                  <Button>Login</Button>
+                </Link>
+              )}
+            </div>
+          </div>
+        </Container>
+      </nav>
+      <main>
+        <Outlet />
+      </main>
+    </>
+  );
+};

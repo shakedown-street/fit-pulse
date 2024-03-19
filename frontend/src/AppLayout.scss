@@ -1,0 +1,38 @@
+@import './scss/mixins';
+@import './scss/variables';
+@import './scss/defaults';
+@import './scss/typography';
+@import './scss/utils';
+
+body {
+  @include scrollbar;
+}
+
+a {
+  color: $primary-9;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid $border;
+  margin: 1rem 0;
+}
+
+.centerPage {
+  max-width: 20rem;
+  margin: 3rem auto 1rem;
+}
+
+.material-icons,
+.material-symbols,
+.material-symbols-outlined {
+  user-select: none;
+}
+
+.material-symbols-outlined {
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24;
+}

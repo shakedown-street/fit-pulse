@@ -22,6 +22,9 @@ from django.urls import include, path
 from rest_framework import routers
 
 from accounts.views import (
+    LoginAPIView,
+    LogoutAPIView,
+    SessionAPIView,
     UserViewSet,
 )
 from exercises.views import (
@@ -39,6 +42,9 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/", include(router.urls)),
     path("api/auth/", include("rest_framework.urls")),
+    path("api/login/", LoginAPIView.as_view(), name="login"),
+    path("api/logout/", LogoutAPIView.as_view(), name="logout"),
+    path("api/session/", SessionAPIView.as_view(), name="session"),
 ]
 
 if settings.DEBUG:

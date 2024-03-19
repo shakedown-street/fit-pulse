@@ -1,33 +1,146 @@
 @import '~/scss/mixins';
 @import '~/scss/variables';
 
+$colors: (
+  'primary',
+  'gray',
+  'red',
+  'pink',
+  'grape',
+  'violet',
+  'indigo',
+  'blue',
+  'cyan',
+  'teal',
+  'green',
+  'lime',
+  'yellow',
+  'orange'
+);
+
 .Button {
   @include font-medium;
   @include radius-sm;
-  @include shadow-sm;
   @include transition-fast;
-  background-color: $primary-9;
-  border: 1px solid $primary-9;
-  color: white;
   display: inline-block;
-  padding: 0.5rem 1rem;
   text-align: center;
-  text-decoration: none !important;
 
   &:disabled {
-    background-color: $oc-gray-0;
-    border-color: $oc-gray-0;
-    color: $oc-gray-5;
+    background-color: $oc-gray-0 !important;
+    border-color: $oc-gray-0 !important;
+    color: $oc-gray-5 !important;
     cursor: not-allowed;
-  }
-
-  &:not(:disabled) {
-    &:active {
-      @include shadow-md;
-    }
   }
 
   &.Button--fluid {
     width: 100%;
+  }
+
+  &.Button--rounded {
+    border-radius: 2rem;
+  }
+
+  &.Button--size--xs {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+  }
+
+  &.Button--size--sm {
+    font-size: 0.875rem;
+    padding: 0.375rem 0.75rem;
+  }
+
+  &.Button--size--md {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+  }
+
+  &.Button--size--lg {
+    font-size: 1.125rem;
+    padding: 0.625rem 1.25rem;
+  }
+
+  &.Button--size--xl {
+    font-size: 1.25rem;
+    padding: 0.75rem 1.5rem;
+  }
+
+  &.Button--variant--text {
+    @each $name, $values in $colors {
+      &.Button--color--#{$name} {
+        color: oc-get-color($name, '9');
+
+        &:not(:disabled) {
+          &:hover {
+            background-color: oc-get-color($name, '0');
+          }
+
+          &:active {
+            background-color: oc-get-color($name, '1');
+          }
+        }
+      }
+    }
+  }
+
+  &.Button--variant--outlined {
+    @each $name, $values in $colors {
+      &.Button--color--#{$name} {
+        border: 1px solid oc-get-color($name, '9');
+        color: oc-get-color($name, '9');
+
+        &:not(:disabled) {
+          &:hover {
+            background-color: oc-get-color($name, '0');
+          }
+
+          &:active {
+            background-color: oc-get-color($name, '1');
+          }
+        }
+      }
+    }
+  }
+
+  &.Button--variant--ghost {
+    @each $name, $values in $colors {
+      &.Button--color--#{$name} {
+        border: 1px solid oc-get-color($name, '9');
+        color: oc-get-color($name, '9');
+
+        &:not(:disabled) {
+          &:hover {
+            background-color: oc-get-color($name, '9');
+            color: white;
+          }
+
+          &:active {
+            @include shadow-sm;
+            background-color: oc-get-color($name, '9');
+            color: white;
+          }
+        }
+      }
+    }
+  }
+
+  &.Button--variant--raised {
+    @include shadow-xs;
+
+    &:not(:disabled) {
+      &:hover {
+        @include shadow-sm;
+      }
+      &:active {
+        @include shadow-md;
+      }
+    }
+
+    @each $name, $values in $colors {
+      &.Button--color--#{$name} {
+        background-color: oc-get-color($name, '9');
+        color: white;
+      }
+    }
   }
 }

@@ -25,10 +25,14 @@ export const AppLayout = () => {
             <div className="flex-1"></div>
             <div className="flex align-center gap-4">
               {user ? (
-                <Button onClick={handleLogout}>Logout</Button>
+                <Button color="primary" onClick={handleLogout} size="sm" variant="ghost">
+                  Logout
+                </Button>
               ) : (
                 <Link to="/login">
-                  <Button>Login</Button>
+                  <Button color="primary" size="sm" variant="ghost">
+                    Login
+                  </Button>
                 </Link>
               )}
             </div>

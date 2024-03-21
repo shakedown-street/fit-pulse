@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { PerformanceTable } from '~/exercises';
+import { PerformanceForm, PerformanceFormData, PerformanceTable } from '~/exercises';
 import { ListResponse, http } from '~/http';
 import { Exercise, Performance } from '~/types';
 import { Button, Container, RadixDialog } from '~/ui';
@@ -9,6 +9,7 @@ export const ExerciseDetailRoute = () => {
   const [exercise, setExercise] = React.useState<Exercise>();
   const [performances, setPerformances] = React.useState<Performance[]>([]);
   const [deletePerformanceDialogOpen, setDeletePerformanceDialogOpen] = React.useState(false);
+  const [performanceDialogOpen, setPerformanceDialogOpen] = React.useState(false);
   const [performanceDialogInstance, setPerformanceDialogInstance] = React.useState<Performance | undefined>();
 
   const { id } = useParams();
@@ -27,6 +28,22 @@ export const ExerciseDetailRoute = () => {
         setPerformances(performances.data.results);
       });
   }, [id]);
+
+  function submitPerformanceForm(data: PerformanceFormData, instance?: Performance) {
+    if (instance) {
+      http.patch<Performance>(`/api/performances/${instance.id}/`, data).then((performance) => {
+        setPerformances((performances) =>
+          performances.map((p) => (p.id === performance.data.id ? performance.data : p)),
+        );
+        setPerformanceDialogOpen(false);
+      });
+    } else {
+      http.post<Performance>('/api/performances/', data).then((performance) => {
+        setPerformances((performances) => [performance.data, ...performances]);
+        setPerformanceDialogOpen(false);
+      });
+    }
+  }
 
   function confirmDeletePerformance() {
     if (!performanceDialogInstance) {
@@ -55,10 +72,29 @@ export const ExerciseDetailRoute = () => {
             setPerformanceDialogInstance(performance);
             setDeletePerformanceDialogOpen(true);
           }}
-          onUpdate={(performance) => {}}
+          onUpdate={(performance) => {
+            setPerformanceDialogInstance(performance);
+            setPerformanceDialogOpen(true);
+          }}
           performances={performances}
         />
       </Container>
+      <RadixDialog
+        className="p-4"
+        open={performanceDialogOpen}
+        onOpenChange={(open) => {
+          if (!open) {
+            setPerformanceDialogInstance(undefined);
+          }
+          setPerformanceDialogOpen(open);
+        }}
+        style={{
+          width: '320px',
+        }}
+      >
+        <h2 className="mb-2">{performanceDialogInstance ? 'Update' : 'Create'} Performance</h2>
+        <PerformanceForm instance={performanceDialogInstance} onSubmit={submitPerformanceForm} />
+      </RadixDialog>
       <RadixDialog
         className="p-4"
         open={deletePerformanceDialogOpen}

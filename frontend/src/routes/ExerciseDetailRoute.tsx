@@ -74,7 +74,7 @@ export const ExerciseDetailRoute = () => {
               }}
               variant="raised"
             >
-              Create Performance
+              Log Performance
             </Button>
           </div>
           <h3 className="mb-4">Performance Log</h3>
@@ -105,7 +105,7 @@ export const ExerciseDetailRoute = () => {
           width: '320px',
         }}
       >
-        <h2 className="mb-2">{performanceDialogInstance ? 'Edit' : 'Create'} Performance</h2>
+        <h2 className="mb-2">{performanceDialogInstance ? 'Edit' : 'Log'} Performance</h2>
         <PerformanceForm exercise={exercise} instance={performanceDialogInstance} onSubmit={submitPerformanceForm} />
       </RadixDialog>
       <RadixDialog

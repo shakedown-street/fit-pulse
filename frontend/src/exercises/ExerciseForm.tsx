@@ -27,7 +27,7 @@ export const ExerciseForm = ({ instance, onSubmit }: ExerciseFormProps) => {
       <Select
         disabled={instance && instance.performance_count > 0}
         fluid
-        hint="Type cannot be changed after performances have been created."
+        hint="Type cannot be changed after performances have been logged."
         id="value_type"
         label="Type"
         {...exerciseForm.register('value_type', { required: true })}

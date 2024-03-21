@@ -117,7 +117,7 @@ export const ExerciseListRoute = () => {
           width: '320px',
         }}
       >
-        <h2 className="mb-2">Create Performance</h2>
+        <h2 className="mb-2">Log Performance</h2>
         <PerformanceForm exercise={exerciseDialogInstance} onSubmit={submitPerformanceForm} />
       </RadixDialog>
       <RadixDialog

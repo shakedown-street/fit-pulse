@@ -69,7 +69,7 @@ export const ExerciseTable = ({ exercises, onDelete, onCreatePerformance, onUpda
                       <div className="DropdownMenu__icon">
                         <span className="material-symbols-outlined">monitoring</span>
                       </div>
-                      Create Performance
+                      Log Performance
                     </DropdownMenu.Item>
                     <DropdownMenu.Item className="DropdownMenu__item" onClick={() => onDelete(exercise)}>
                       <div className="DropdownMenu__icon">

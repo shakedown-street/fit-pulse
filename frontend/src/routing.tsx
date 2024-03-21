@@ -1,6 +1,21 @@
-import { RouteObject } from 'react-router-dom';
+import { Navigate, RouteObject } from 'react-router-dom';
 import { AppLayout } from './AppLayout';
 import { ExerciseDetailRoute, ExerciseListRoute, HomeRoute, LoginRoute } from './routes';
+import { useAuth } from './auth';
+
+export type ProtectedRouteProps = {
+  children: React.ReactNode;
+};
+
+export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
+  const { user } = useAuth();
+
+  if (!user) {
+    return <Navigate to="/login" />;
+  }
+
+  return <>{children}</>;
+};
 
 export const routes: RouteObject[] = [
   {
@@ -12,16 +27,24 @@ export const routes: RouteObject[] = [
         element: <HomeRoute />,
       },
       {
+        path: '/login',
+        element: <LoginRoute />,
+      },
+      {
         path: '/exercises',
-        element: <ExerciseListRoute />,
+        element: (
+          <ProtectedRoute>
+            <ExerciseListRoute />
+          </ProtectedRoute>
+        ),
       },
       {
         path: '/exercises/:id',
-        element: <ExerciseDetailRoute />,
-      },
-      {
-        path: '/login',
-        element: <LoginRoute />,
+        element: (
+          <ProtectedRoute>
+            <ExerciseDetailRoute />
+          </ProtectedRoute>
+        ),
       },
     ],
   },

@@ -1,7 +1,6 @@
-from django.db import models
 from django.contrib.auth import get_user_model
-
-from progress_tracker.mixins import BaseMixin
+from django.db import models
+from fit_pulse.mixins import BaseMixin
 
 User = get_user_model()
 
@@ -24,19 +23,17 @@ class Exercise(BaseMixin):
     def __str__(self):
         return self.name
 
-    def user_progress_count(self, user):
-        return Progress.objects.filter(exercise=self, user=user).count()
+    def user_performance_count(self, user):
+        return Performance.objects.filter(exercise=self, user=user).count()
 
 
-class Progress(BaseMixin):
+class Performance(BaseMixin):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
     value = models.FloatField()
     date = models.DateField()
 
     class Meta:
-        verbose_name = "progress"
-        verbose_name_plural = "progress"
         ordering = (
             "-date",
             "exercise__name",

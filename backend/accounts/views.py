@@ -1,8 +1,9 @@
-from accounts.permissions import UserPermission
-from accounts.serializers import AuthenticationSerializer, UserSerializer
 from django.contrib.auth import get_user_model, login, logout
 from rest_framework import permissions, status, views, viewsets
 from rest_framework.response import Response
+
+from accounts.permissions import UserPermission
+from accounts.serializers import AuthenticationSerializer, UserSerializer
 
 User = get_user_model()
 

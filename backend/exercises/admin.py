@@ -1,5 +1,6 @@
 from django.contrib import admin
-from exercises.models import Exercise, Progress
+
+from exercises.models import Exercise, Performance
 
 
 @admin.register(Exercise)
@@ -10,8 +11,8 @@ class ExerciseAdmin(admin.ModelAdmin):
     )
 
 
-@admin.register(Progress)
-class ProgressAdmin(admin.ModelAdmin):
+@admin.register(Performance)
+class PerformanceAdmin(admin.ModelAdmin):
     list_display = (
         "exercise",
         "user",

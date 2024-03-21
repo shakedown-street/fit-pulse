@@ -9,7 +9,7 @@ class ExercisePermission(permissions.BasePermission):
         return obj.user == request.user
 
 
-class ProgressPermission(permissions.BasePermission):
+class PerformancePermission(permissions.BasePermission):
     def has_permission(self, request, view):
         return request.user.is_authenticated
 

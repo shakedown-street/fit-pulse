@@ -1,5 +1,5 @@
 """
-URL configuration for progress_tracker project.
+URL configuration for fit_pulse project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.2/topics/http/urls/
@@ -29,13 +29,13 @@ from accounts.views import (
 )
 from exercises.views import (
     ExerciseViewSet,
-    ProgressViewSet,
+    PerformanceViewSet,
 )
 
 router = routers.DefaultRouter()
 router.register("users", UserViewSet)
 router.register("exercises", ExerciseViewSet)
-router.register("progress", ProgressViewSet)
+router.register("performances", PerformanceViewSet)
 
 
 urlpatterns = [

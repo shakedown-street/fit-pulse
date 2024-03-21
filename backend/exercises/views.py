@@ -1,9 +1,10 @@
 from django_filters import rest_framework as filters
-from exercises.filters import ProgressFilter
-from exercises.models import Exercise, Progress
-from exercises.permissions import ExercisePermission, ProgressPermission
-from exercises.serializers import ExerciseSerializer, ProgressSerializer
 from rest_framework import viewsets
+
+from exercises.filters import PerformanceFilter
+from exercises.models import Exercise, Performance
+from exercises.permissions import ExercisePermission, PerformancePermission
+from exercises.serializers import ExerciseSerializer, PerformanceSerializer
 
 
 class ExerciseViewSet(viewsets.ModelViewSet):
@@ -17,12 +18,12 @@ class ExerciseViewSet(viewsets.ModelViewSet):
         return qs
 
 
-class ProgressViewSet(viewsets.ModelViewSet):
-    queryset = Progress.objects.all()
-    serializer_class = ProgressSerializer
-    permission_classes = (ProgressPermission,)
+class PerformanceViewSet(viewsets.ModelViewSet):
+    queryset = Performance.objects.all()
+    serializer_class = PerformanceSerializer
+    permission_classes = (PerformancePermission,)
     filter_backends = (filters.DjangoFilterBackend,)
-    filterset_class = ProgressFilter
+    filterset_class = PerformanceFilter
 
     def get_queryset(self):
         qs = self.queryset

@@ -1,5 +1,6 @@
-from exercises.models import Exercise, Progress
 from rest_framework import serializers
+
+from exercises.models import Exercise, Performance
 
 
 class ExerciseSerializer(serializers.ModelSerializer):
@@ -10,7 +11,7 @@ class ExerciseSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
-        data["progress_count"] = instance.user_progress_count(
+        data["performance_count"] = instance.user_performance_count(
             self.context["request"].user
         )
         return data
@@ -20,9 +21,9 @@ class ExerciseSerializer(serializers.ModelSerializer):
         return data
 
 
-class ProgressSerializer(serializers.ModelSerializer):
+class PerformanceSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Progress
+        model = Performance
         fields = "__all__"
         read_only_fields = ("user",)
 

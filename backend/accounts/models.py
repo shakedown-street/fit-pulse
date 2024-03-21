@@ -3,7 +3,7 @@ import os
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from progress_tracker.mixins import BaseMixin
+from fit_pulse.mixins import BaseMixin
 
 
 def user_image_upload_to(user, filename):

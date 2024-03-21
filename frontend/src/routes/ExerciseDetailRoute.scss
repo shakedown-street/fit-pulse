@@ -1,0 +1,20 @@
+@import '~/scss/mixins';
+
+.ExerciseDetailRoute {
+  &__header {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+}
+
+@include breakpoint('sm') {
+  .ExerciseDetailRoute {
+    &__header {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+  }
+}

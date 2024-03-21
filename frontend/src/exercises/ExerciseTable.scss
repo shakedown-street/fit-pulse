@@ -15,8 +15,8 @@
 
       th {
         @include font-medium;
-        font-size: 0.875rem;
-        padding: 1rem;
+        font-size: 0.75rem;
+        padding: 0.75rem 0.5rem;
       }
     }
   }
@@ -25,7 +25,8 @@
     tr {
       td {
         border-bottom: 1px solid $border;
-        padding: 1rem;
+        font-size: 0.875rem;
+        padding: 0.5rem;
       }
     }
   }

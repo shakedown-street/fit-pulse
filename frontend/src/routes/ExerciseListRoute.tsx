@@ -3,6 +3,7 @@ import { ExerciseForm, ExerciseFormData, ExerciseTable, PerformanceForm, Perform
 import { ListResponse, http } from '~/http';
 import { Exercise, Performance } from '~/types';
 import { Button, Container, RadixDialog } from '~/ui';
+import './ExerciseListRoute.scss';
 
 export const ExerciseListRoute = () => {
   const [exercises, setExercises] = React.useState<Exercise[]>([]);
@@ -55,95 +56,97 @@ export const ExerciseListRoute = () => {
 
   return (
     <>
-      <Container>
-        <div className="my-8 flex align-center justify-between gap-4">
-          <h1>Exercises</h1>
-          <Button
-            color="primary"
-            onClick={() => {
-              setExerciseDialogInstance(undefined);
-              setExerciseDialogOpen(true);
-            }}
-            variant="ghost"
-          >
-            Create Exercise
-          </Button>
-        </div>
-        <ExerciseTable
-          exercises={exercises}
-          onCreatePerformance={(exercise) => {
-            setExerciseDialogInstance(exercise);
-            setPerformanceDialogOpen(true);
-          }}
-          onDelete={(exercise) => {
-            setExerciseDialogInstance(exercise);
-            setDeleteExerciseDialogOpen(true);
-          }}
-          onUpdate={(exercise) => {
-            setExerciseDialogInstance(exercise);
-            setExerciseDialogOpen(true);
-          }}
-        />
-        <RadixDialog
-          className="p-4"
-          open={exerciseDialogOpen}
-          onOpenChange={(open) => {
-            if (!open) {
-              setExerciseDialogInstance(undefined);
-            }
-            setExerciseDialogOpen(open);
-          }}
-          style={{
-            width: '320px',
-          }}
-        >
-          <h2 className="mb-2">{exerciseDialogInstance ? 'Edit' : 'Create'} Exercise</h2>
-          <ExerciseForm instance={exerciseDialogInstance} onSubmit={submitExerciseForm} />
-        </RadixDialog>
-        <RadixDialog
-          className="p-4"
-          open={performanceDialogOpen}
-          onOpenChange={(open) => {
-            if (!open) {
-              setExerciseDialogInstance(undefined);
-            }
-            setPerformanceDialogOpen(open);
-          }}
-          style={{
-            width: '320px',
-          }}
-        >
-          <h2 className="mb-2">Create Performance</h2>
-          <PerformanceForm exercise={exerciseDialogInstance} onSubmit={submitPerformanceForm} />
-        </RadixDialog>
-        <RadixDialog
-          className="p-4"
-          open={deleteExerciseDialogOpen}
-          onOpenChange={(open) => {
-            if (!open) {
-              setExerciseDialogInstance(undefined);
-            }
-            setDeleteExerciseDialogOpen(open);
-          }}
-        >
-          <h2 className="mb-2">Delete Exercise</h2>
-          <p>Are you sure you want to delete this exercise?</p>
-          <div className="flex justify-end gap-2 mt-4">
+      <div className="ExerciseListRoute">
+        <Container>
+          <div className="ExerciseListRoute__header">
+            <h2>Exercises</h2>
             <Button
+              color="primary"
               onClick={() => {
                 setExerciseDialogInstance(undefined);
-                setDeleteExerciseDialogOpen(false);
+                setExerciseDialogOpen(true);
               }}
               variant="ghost"
             >
-              Cancel
-            </Button>
-            <Button color="red" onClick={confirmDeleteExercise} variant="ghost">
-              Delete
+              Create Exercise
             </Button>
           </div>
-        </RadixDialog>
-      </Container>
+          <ExerciseTable
+            exercises={exercises}
+            onCreatePerformance={(exercise) => {
+              setExerciseDialogInstance(exercise);
+              setPerformanceDialogOpen(true);
+            }}
+            onDelete={(exercise) => {
+              setExerciseDialogInstance(exercise);
+              setDeleteExerciseDialogOpen(true);
+            }}
+            onUpdate={(exercise) => {
+              setExerciseDialogInstance(exercise);
+              setExerciseDialogOpen(true);
+            }}
+          />
+        </Container>
+      </div>
+      <RadixDialog
+        className="p-4"
+        open={exerciseDialogOpen}
+        onOpenChange={(open) => {
+          if (!open) {
+            setExerciseDialogInstance(undefined);
+          }
+          setExerciseDialogOpen(open);
+        }}
+        style={{
+          width: '320px',
+        }}
+      >
+        <h2 className="mb-2">{exerciseDialogInstance ? 'Edit' : 'Create'} Exercise</h2>
+        <ExerciseForm instance={exerciseDialogInstance} onSubmit={submitExerciseForm} />
+      </RadixDialog>
+      <RadixDialog
+        className="p-4"
+        open={performanceDialogOpen}
+        onOpenChange={(open) => {
+          if (!open) {
+            setExerciseDialogInstance(undefined);
+          }
+          setPerformanceDialogOpen(open);
+        }}
+        style={{
+          width: '320px',
+        }}
+      >
+        <h2 className="mb-2">Create Performance</h2>
+        <PerformanceForm exercise={exerciseDialogInstance} onSubmit={submitPerformanceForm} />
+      </RadixDialog>
+      <RadixDialog
+        className="p-4"
+        open={deleteExerciseDialogOpen}
+        onOpenChange={(open) => {
+          if (!open) {
+            setExerciseDialogInstance(undefined);
+          }
+          setDeleteExerciseDialogOpen(open);
+        }}
+      >
+        <h2 className="mb-2">Delete Exercise</h2>
+        <p>Are you sure you want to delete this exercise?</p>
+        <div className="flex justify-end gap-2 mt-4">
+          <Button
+            onClick={() => {
+              setExerciseDialogInstance(undefined);
+              setDeleteExerciseDialogOpen(false);
+            }}
+            variant="ghost"
+          >
+            Cancel
+          </Button>
+          <Button color="red" onClick={confirmDeleteExercise} variant="ghost">
+            Delete
+          </Button>
+        </div>
+      </RadixDialog>
     </>
   );
 };

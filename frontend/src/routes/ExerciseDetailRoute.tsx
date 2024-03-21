@@ -4,6 +4,7 @@ import { PerformanceForm, PerformanceFormData, PerformanceTable } from '~/exerci
 import { ListResponse, http } from '~/http';
 import { Exercise, Performance } from '~/types';
 import { Button, Container, RadixDialog } from '~/ui';
+import './ExerciseDetailRoute.scss';
 
 export const ExerciseDetailRoute = () => {
   const [exercise, setExercise] = React.useState<Exercise>();
@@ -61,34 +62,36 @@ export const ExerciseDetailRoute = () => {
 
   return (
     <>
-      <Container>
-        <div className="my-8 flex align-center justify-between gap-4">
-          <h1>{exercise.name}</h1>
-          <Button
-            color="primary"
-            onClick={() => {
-              setPerformanceDialogInstance(undefined);
+      <div className="ExerciseDetailRoute">
+        <Container>
+          <div className="ExerciseDetailRoute__header">
+            <h2>{exercise.name}</h2>
+            <Button
+              color="primary"
+              onClick={() => {
+                setPerformanceDialogInstance(undefined);
+                setPerformanceDialogOpen(true);
+              }}
+              variant="ghost"
+            >
+              Create Performance
+            </Button>
+          </div>
+          <h3 className="mb-4">Performance Log</h3>
+          <PerformanceTable
+            exercise={exercise}
+            onDelete={(performance) => {
+              setPerformanceDialogInstance(performance);
+              setDeletePerformanceDialogOpen(true);
+            }}
+            onUpdate={(performance) => {
+              setPerformanceDialogInstance(performance);
               setPerformanceDialogOpen(true);
             }}
-            variant="ghost"
-          >
-            Create Performance
-          </Button>
-        </div>
-        <h2 className="mb-4">Performance Log</h2>
-        <PerformanceTable
-          exercise={exercise}
-          onDelete={(performance) => {
-            setPerformanceDialogInstance(performance);
-            setDeletePerformanceDialogOpen(true);
-          }}
-          onUpdate={(performance) => {
-            setPerformanceDialogInstance(performance);
-            setPerformanceDialogOpen(true);
-          }}
-          performances={performances}
-        />
-      </Container>
+            performances={performances}
+          />
+        </Container>
+      </div>
       <RadixDialog
         className="p-4"
         open={performanceDialogOpen}

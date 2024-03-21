@@ -20,14 +20,14 @@ export const ExerciseTable = ({ exercises, onDelete, onCreatePerformance, onUpda
       <colgroup>
         <col />
         <col />
-        <col />
+        {/* <col /> */}
         <col style={{ width: '100px' }} />
       </colgroup>
       <thead>
         <tr>
           <th className="text-left">Name</th>
           <th className="text-left">Type</th>
-          <th>Performances</th>
+          {/* <th>Performances</th> */}
           <th>Action</th>
         </tr>
       </thead>
@@ -40,7 +40,7 @@ export const ExerciseTable = ({ exercises, onDelete, onCreatePerformance, onUpda
             <td>
               <div className="text-capitalize">{exercise.value_type}</div>
             </td>
-            <td className="text-center">{exercise.performance_count}</td>
+            {/* <td className="text-center">{exercise.performance_count}</td> */}
             <td className="text-center">
               <DropdownMenu.Root>
                 <DropdownMenu.Trigger asChild>

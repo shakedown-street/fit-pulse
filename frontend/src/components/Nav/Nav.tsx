@@ -21,11 +21,13 @@ export const Nav = () => {
           <Link to="/">
             <h1>FitPulse</h1>
           </Link>
-          <Link to="/exercises">
-            <Button color="primary" size="sm">
-              Exercises
-            </Button>
-          </Link>
+          {user && (
+            <Link to="/exercises">
+              <Button color="primary" size="sm">
+                Exercises
+              </Button>
+            </Link>
+          )}
           <div className="Nav__spacer"></div>
           {user ? (
             <Button color="primary" onClick={handleLogout} size="sm" variant="ghost">

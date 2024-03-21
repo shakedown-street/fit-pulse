@@ -3,30 +3,42 @@ import { useForm } from 'react-hook-form';
 import { ListResponse, http } from '~/http';
 import { Exercise } from '~/types';
 import { Button, Input } from '~/ui';
-import './ProgressForm.scss';
+import './PerformanceForm.scss';
+import { format } from 'date-fns';
 
-export type ProgressFormProps = {
-  onSubmit: (data: ProgressFormData) => void;
+export type PerformanceFormProps = {
+  exercise?: Exercise;
+  onSubmit: (data: PerformanceFormData) => void;
 };
 
-export type ProgressFormData = {
+export type PerformanceFormData = {
   exercise: string;
   date: string;
   value: number;
 };
 
-export const ProgressForm = ({ onSubmit }: ProgressFormProps) => {
+export const PerformanceForm = ({ exercise, onSubmit }: PerformanceFormProps) => {
   const [exercises, setExercises] = React.useState<Exercise[]>([]);
 
-  const progressForm = useForm<ProgressFormData>();
+  const performanceForm = useForm<PerformanceFormData>({
+    defaultValues: {
+      date: format(new Date(), 'yyyy-MM-dd'),
+    },
+  });
 
-  const selectedExercise = exercises.find((exercise) => exercise.id === progressForm.watch('exercise'));
+  const selectedExercise = exercises.find((exercise) => exercise.id === performanceForm.watch('exercise'));
 
   React.useEffect(() => {
     http.get<ListResponse<Exercise>>('/api/exercises/').then((exercises) => {
       setExercises(exercises.data.results);
     });
   }, []);
+
+  React.useEffect(() => {
+    if (exercise) {
+      performanceForm.setValue('exercise', exercise.id);
+    }
+  }, [exercises]);
 
   function getExerciseValueLabel(exercise: Exercise) {
     switch (exercise.value_type) {
@@ -42,13 +54,17 @@ export const ProgressForm = ({ onSubmit }: ProgressFormProps) => {
   }
 
   return (
-    <form className="ProgressForm" onSubmit={progressForm.handleSubmit(onSubmit)}>
-      <Input fluid id="date" label="Date" type="date" {...progressForm.register('date', { required: true })} />
+    <form className="PerformanceForm" onSubmit={performanceForm.handleSubmit(onSubmit)}>
+      <Input fluid id="date" label="Date" type="date" {...performanceForm.register('date', { required: true })} />
       <div className="Input__container Input__container--fluid">
         <label className="Input__label" htmlFor="exercise">
           Exercise
         </label>
-        <select className="Input Input--fluid" id="exercise" {...progressForm.register('exercise', { required: true })}>
+        <select
+          className="Input Input--fluid"
+          id="exercise"
+          {...performanceForm.register('exercise', { required: true })}
+        >
           <option value=""></option>
           {exercises.map((exercise) => (
             <option key={exercise.id} value={exercise.id}>
@@ -64,10 +80,10 @@ export const ProgressForm = ({ onSubmit }: ProgressFormProps) => {
           label={getExerciseValueLabel(selectedExercise)}
           step="1"
           type="number"
-          {...progressForm.register('value', { required: true })}
+          {...performanceForm.register('value', { required: true })}
         />
       )}
-      <Button color="primary" disabled={!progressForm.formState.isValid} fluid type="submit" variant="raised">
+      <Button color="primary" disabled={!performanceForm.formState.isValid} fluid type="submit" variant="raised">
         Submit
       </Button>
     </form>

@@ -1,3 +1,4 @@
 export * from './ExerciseForm';
 export * from './ExerciseTable';
-export * from './ProgressForm';
+export * from './PerformanceForm';
+export * from './PerformanceTable';

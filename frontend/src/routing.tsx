@@ -1,6 +1,6 @@
 import { RouteObject } from 'react-router-dom';
 import { AppLayout } from './AppLayout';
-import { HomeRoute, LoginRoute } from './routes';
+import { ExerciseDetailRoute, ExerciseListRoute, HomeRoute, LoginRoute } from './routes';
 
 export const routes: RouteObject[] = [
   {
@@ -10,6 +10,14 @@ export const routes: RouteObject[] = [
       {
         path: '/',
         element: <HomeRoute />,
+      },
+      {
+        path: '/exercises',
+        element: <ExerciseListRoute />,
+      },
+      {
+        path: '/exercises/:id',
+        element: <ExerciseDetailRoute />,
       },
       {
         path: '/login',

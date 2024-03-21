@@ -20,7 +20,12 @@ export const AppLayout = () => {
         <Container>
           <div className="flex align-center gap-4 py-2">
             <Link to="/">
-              <h1>Progress Tracker</h1>
+              <h1>FitPulse</h1>
+            </Link>
+            <Link to="/exercises">
+              <Button color="primary" size="sm">
+                Exercises
+              </Button>
             </Link>
             <div className="flex-1"></div>
             <div className="flex align-center gap-4">

@@ -39,10 +39,13 @@ class PerformanceSerializer(serializers.ModelSerializer):
 
     def get_improvement_percent(self, instance):
         previous_performance = (
-            Performance.objects.filter(
-                user=instance.user, exercise=instance.exercise, date__lt=instance.date
+            Performance.objects.exclude(id=instance.id)
+            .filter(
+                user=instance.user,
+                exercise=instance.exercise,
+                date__lte=instance.date,
             )
-            .order_by("-date")
+            .order_by("-date", "-created_at")
             .first()
         )
 

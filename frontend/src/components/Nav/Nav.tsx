@@ -30,12 +30,12 @@ export const Nav = () => {
           )}
           <div className="Nav__spacer"></div>
           {user ? (
-            <Button color="primary" onClick={handleLogout} size="sm" variant="ghost">
+            <Button color="primary" onClick={handleLogout} size="sm">
               Logout
             </Button>
           ) : (
             <Link to="/login">
-              <Button color="primary" size="sm" variant="ghost">
+              <Button color="primary" size="sm">
                 Login
               </Button>
             </Link>

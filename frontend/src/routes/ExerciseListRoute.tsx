@@ -66,7 +66,7 @@ export const ExerciseListRoute = () => {
                 setExerciseDialogInstance(undefined);
                 setExerciseDialogOpen(true);
               }}
-              variant="ghost"
+              variant="raised"
             >
               Create Exercise
             </Button>
@@ -138,11 +138,11 @@ export const ExerciseListRoute = () => {
               setExerciseDialogInstance(undefined);
               setDeleteExerciseDialogOpen(false);
             }}
-            variant="ghost"
+            variant="outlined"
           >
             Cancel
           </Button>
-          <Button color="red" onClick={confirmDeleteExercise} variant="ghost">
+          <Button color="red" onClick={confirmDeleteExercise} variant="raised">
             Delete
           </Button>
         </div>

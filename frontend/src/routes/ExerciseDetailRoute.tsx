@@ -72,7 +72,7 @@ export const ExerciseDetailRoute = () => {
                 setPerformanceDialogInstance(undefined);
                 setPerformanceDialogOpen(true);
               }}
-              variant="ghost"
+              variant="raised"
             >
               Create Performance
             </Button>
@@ -126,11 +126,11 @@ export const ExerciseDetailRoute = () => {
               setPerformanceDialogInstance(undefined);
               setDeletePerformanceDialogOpen(false);
             }}
-            variant="ghost"
+            variant="outlined"
           >
             Cancel
           </Button>
-          <Button color="red" onClick={confirmDeletePerformance} variant="ghost">
+          <Button color="red" onClick={confirmDeletePerformance} variant="raised">
             Delete
           </Button>
         </div>

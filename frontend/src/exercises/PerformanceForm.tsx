@@ -85,7 +85,7 @@ export const PerformanceForm = ({ exercise, instance, onSubmit }: PerformanceFor
         />
       )}
       <Button color="primary" disabled={!performanceForm.formState.isValid} fluid type="submit" variant="raised">
-        Submit
+        Save
       </Button>
     </form>
   );

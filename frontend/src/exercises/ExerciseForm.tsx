@@ -38,7 +38,7 @@ export const ExerciseForm = ({ instance, onSubmit }: ExerciseFormProps) => {
         <option value="bpm">BPM</option>
       </Select>
       <Button color="primary" disabled={!exerciseForm.formState.isValid} fluid type="submit" variant="raised">
-        {instance ? 'Update' : 'Create'}
+        Save
       </Button>
     </form>
   );

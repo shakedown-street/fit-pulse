@@ -1,14 +1,15 @@
+import { format } from 'date-fns';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { ListResponse, http } from '~/http';
-import { Exercise } from '~/types';
+import { Exercise, Performance } from '~/types';
 import { Button, Input, Select } from '~/ui';
 import './PerformanceForm.scss';
-import { format } from 'date-fns';
 
 export type PerformanceFormProps = {
   exercise?: Exercise;
-  onSubmit: (data: PerformanceFormData) => void;
+  instance?: Performance;
+  onSubmit: (data: PerformanceFormData, instance?: Performance) => void;
 };
 
 export type PerformanceFormData = {
@@ -17,12 +18,13 @@ export type PerformanceFormData = {
   value: number;
 };
 
-export const PerformanceForm = ({ exercise, onSubmit }: PerformanceFormProps) => {
+export const PerformanceForm = ({ exercise, instance, onSubmit }: PerformanceFormProps) => {
   const [exercises, setExercises] = React.useState<Exercise[]>([]);
 
   const performanceForm = useForm<PerformanceFormData>({
     defaultValues: {
-      date: format(new Date(), 'yyyy-MM-dd'),
+      date: instance ? format(instance.date, 'yyyy-MM-dd') : format(new Date(), 'yyyy-MM-dd'),
+      value: instance ? instance.value : undefined,
     },
   });
 
@@ -35,7 +37,9 @@ export const PerformanceForm = ({ exercise, onSubmit }: PerformanceFormProps) =>
   }, []);
 
   React.useEffect(() => {
-    if (exercise) {
+    if (instance) {
+      performanceForm.setValue('exercise', instance.exercise.id);
+    } else if (exercise) {
       performanceForm.setValue('exercise', exercise.id);
     }
   }, [exercises]);
@@ -54,9 +58,15 @@ export const PerformanceForm = ({ exercise, onSubmit }: PerformanceFormProps) =>
   }
 
   return (
-    <form className="PerformanceForm" onSubmit={performanceForm.handleSubmit(onSubmit)}>
+    <form className="PerformanceForm" onSubmit={performanceForm.handleSubmit((data) => onSubmit(data, instance))}>
       <Input fluid id="date" label="Date" type="date" {...performanceForm.register('date', { required: true })} />
-      <Select fluid id="exercise" label="Exercise" {...performanceForm.register('exercise', { required: true })}>
+      <Select
+        disabled={!!instance}
+        fluid
+        id="exercise"
+        label="Exercise"
+        {...performanceForm.register('exercise', { required: true })}
+      >
         <option value=""></option>
         {exercises.map((exercise) => (
           <option key={exercise.id} value={exercise.id}>

@@ -1,0 +1,17 @@
+@import '~/scss/mixins';
+@import '~/scss/variables';
+
+.Nav {
+  @include shadow-md;
+
+  &__content {
+    align-items: center;
+    display: flex;
+    gap: 1rem;
+    padding: 0.5rem 0;
+  }
+
+  &__spacer {
+    flex: 1;
+  }
+}

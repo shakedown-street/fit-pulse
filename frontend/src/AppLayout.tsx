@@ -1,52 +1,54 @@
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { Outlet } from 'react-router-dom';
 import './AppLayout.scss';
-import { useAuth } from './auth';
-import { Button, Container } from './ui';
+import { Nav } from './components';
+import { IconButton, RadixDialog, RadixTooltip } from './ui';
+import { PerformanceForm, PerformanceFormData } from './exercises';
+import { http } from './http';
 
 export const AppLayout = () => {
-  const navigate = useNavigate();
-  const { user, logout, setUser } = useAuth();
+  const [performanceDialogOpen, setPerformanceDialogOpen] = React.useState(false);
 
-  function handleLogout() {
-    logout().then(() => {
-      setUser(undefined);
-      navigate('/login');
+  function submitPerformanceForm(data: PerformanceFormData) {
+    http.post<Performance>('/api/performances/', data).then((performance) => {
+      setPerformanceDialogOpen(false);
     });
   }
 
   return (
     <>
-      <nav className="shadow-md">
-        <Container>
-          <div className="flex align-center gap-4 py-2">
-            <Link to="/">
-              <h1>FitPulse</h1>
-            </Link>
-            <Link to="/exercises">
-              <Button color="primary" size="sm">
-                Exercises
-              </Button>
-            </Link>
-            <div className="flex-1"></div>
-            <div className="flex align-center gap-4">
-              {user ? (
-                <Button color="primary" onClick={handleLogout} size="sm" variant="ghost">
-                  Logout
-                </Button>
-              ) : (
-                <Link to="/login">
-                  <Button color="primary" size="sm" variant="ghost">
-                    Login
-                  </Button>
-                </Link>
-              )}
-            </div>
-          </div>
-        </Container>
-      </nav>
+      <Nav />
       <main>
         <Outlet />
       </main>
+      <RadixTooltip
+        side="left"
+        sideOffset={8}
+        trigger={
+          <IconButton
+            className="main__fab"
+            color="primary"
+            onClick={() => setPerformanceDialogOpen(true)}
+            size="xl"
+            variant="ghost"
+          >
+            <span className="material-symbols-outlined">add</span>
+          </IconButton>
+        }
+      >
+        Create Performance
+      </RadixTooltip>
+      <RadixDialog
+        className="p-4"
+        open={performanceDialogOpen}
+        onOpenChange={setPerformanceDialogOpen}
+        style={{
+          width: '320px',
+        }}
+      >
+        <h2 className="mb-2">Create Performance</h2>
+        <PerformanceForm onSubmit={submitPerformanceForm} />
+      </RadixDialog>
     </>
   );
 };

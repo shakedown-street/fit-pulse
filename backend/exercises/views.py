@@ -27,5 +27,5 @@ class PerformanceViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         qs = self.queryset
-        qs = qs.filter(exercise__user=self.request.user)
+        qs = qs.filter(user=self.request.user)
         return qs

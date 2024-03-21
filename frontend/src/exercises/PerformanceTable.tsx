@@ -1,5 +1,6 @@
 import { Exercise, Performance } from '~/types';
 import './ExerciseTable.scss';
+import { format } from 'date-fns';
 
 export type PerformanceTableProps = {
   exercise: Exercise;
@@ -43,7 +44,7 @@ export const PerformanceTable = ({ exercise, performances }: PerformanceTablePro
 
           return (
             <tr key={performance.id}>
-              <td>{performance.date}</td>
+              <td>{format(new Date(performance.date), 'MMM dd, yyyy')}</td>
               <td>
                 <div className="text-capitalize">{performance.value}</div>
               </td>

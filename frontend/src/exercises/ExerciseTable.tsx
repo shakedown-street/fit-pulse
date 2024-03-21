@@ -57,7 +57,7 @@ export const ExerciseTable = ({ exercises, onDelete, onCreatePerformance, onUpda
                       <div className="DropdownMenu__icon">
                         <span className="material-symbols-outlined">visibility</span>
                       </div>
-                      View Details
+                      View
                     </DropdownMenu.Item>
                     <DropdownMenu.Item className="DropdownMenu__item" onClick={() => onUpdate(exercise)}>
                       <div className="DropdownMenu__icon">

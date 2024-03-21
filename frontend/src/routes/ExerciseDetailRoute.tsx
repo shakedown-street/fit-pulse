@@ -34,7 +34,7 @@ export const ExerciseDetailRoute = () => {
     <>
       <Container>
         <h1>{exercise.name}</h1>
-        <h2>All Performances</h2>
+        <h2>Performance Log</h2>
         <PerformanceTable exercise={exercise} performances={performances} />
       </Container>
     </>

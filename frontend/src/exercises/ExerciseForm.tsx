@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { Exercise } from '~/types';
-import { Button, Input } from '~/ui';
+import { Button, Input, Select } from '~/ui';
 import './ExerciseForm.scss';
 
 export type ExerciseFormProps = {
@@ -24,23 +24,19 @@ export const ExerciseForm = ({ instance, onSubmit }: ExerciseFormProps) => {
   return (
     <form className="ExerciseForm" onSubmit={exerciseForm.handleSubmit((data) => onSubmit(data, instance))}>
       <Input fluid id="name" label="Name" {...exerciseForm.register('name', { required: true })} />
-      <div className="Input__container Input__container--fluid">
-        <label className="Input__label" htmlFor="value_type">
-          Type
-        </label>
-        <select
-          className="Input Input--fluid"
-          disabled={instance && instance.performance_count > 0}
-          id="value_type"
-          {...exerciseForm.register('value_type', { required: true })}
-        >
-          <option value="weight">Weight</option>
-          <option value="reps">Reps</option>
-          <option value="time">Time</option>
-          <option value="bpm">BPM</option>
-        </select>
-        <p className="hint mt-2">Type cannot be changed after performances have been created.</p>
-      </div>
+      <Select
+        disabled={instance && instance.performance_count > 0}
+        fluid
+        hint="Type cannot be changed after performances have been created."
+        id="value_type"
+        label="Type"
+        {...exerciseForm.register('value_type', { required: true })}
+      >
+        <option value="weight">Weight</option>
+        <option value="reps">Reps</option>
+        <option value="time">Time</option>
+        <option value="bpm">BPM</option>
+      </Select>
       <Button color="primary" disabled={!exerciseForm.formState.isValid} fluid type="submit" variant="raised">
         {instance ? 'Update' : 'Create'}
       </Button>

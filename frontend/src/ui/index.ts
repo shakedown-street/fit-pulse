@@ -5,3 +5,4 @@ export * from './IconButton/IconButton';
 export * from './Input/Input';
 export * from './RadixDialog/RadixDialog';
 export * from './RadixTooltip/RadixTooltip';
+export * from './Select/Select';

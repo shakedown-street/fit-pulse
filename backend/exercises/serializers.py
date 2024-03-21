@@ -22,6 +22,8 @@ class ExerciseSerializer(serializers.ModelSerializer):
 
 
 class PerformanceSerializer(serializers.ModelSerializer):
+    improvement_percent = serializers.SerializerMethodField()
+
     class Meta:
         model = Performance
         fields = "__all__"
@@ -34,6 +36,22 @@ class PerformanceSerializer(serializers.ModelSerializer):
             context=self.context,
         ).data
         return data
+
+    def get_improvement_percent(self, instance):
+        previous_performance = (
+            Performance.objects.filter(
+                user=instance.user, exercise=instance.exercise, date__lt=instance.date
+            )
+            .order_by("-date")
+            .first()
+        )
+
+        if previous_performance:
+            improvement = instance.value - previous_performance.value
+            percent = (improvement / previous_performance.value) * 100
+            return percent
+        else:
+            return 0
 
     def validate(self, data):
         data["user"] = self.context["request"].user

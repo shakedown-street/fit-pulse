@@ -8,4 +8,5 @@ export type Performance = {
   date: string;
   value: number;
   user: string;
+  improvement_percent: number;
 };

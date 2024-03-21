@@ -59,9 +59,8 @@ export const PerformanceForm = ({ exercise, instance, onSubmit }: PerformanceFor
 
   return (
     <form className="PerformanceForm" onSubmit={performanceForm.handleSubmit((data) => onSubmit(data, instance))}>
-      <Input fluid id="date" label="Date" type="date" {...performanceForm.register('date', { required: true })} />
       <Select
-        disabled={!!instance}
+        disabled={!!instance || !!exercise}
         fluid
         id="exercise"
         label="Exercise"
@@ -74,6 +73,7 @@ export const PerformanceForm = ({ exercise, instance, onSubmit }: PerformanceFor
           </option>
         ))}
       </Select>
+      <Input fluid id="date" label="Date" type="date" {...performanceForm.register('date', { required: true })} />
       {selectedExercise && (
         <Input
           fluid

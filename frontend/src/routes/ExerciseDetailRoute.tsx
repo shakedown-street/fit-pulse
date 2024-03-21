@@ -62,8 +62,18 @@ export const ExerciseDetailRoute = () => {
   return (
     <>
       <Container>
-        <div className="my-8">
+        <div className="my-8 flex align-center justify-between gap-4">
           <h1>{exercise.name}</h1>
+          <Button
+            color="primary"
+            onClick={() => {
+              setPerformanceDialogInstance(undefined);
+              setPerformanceDialogOpen(true);
+            }}
+            variant="ghost"
+          >
+            Create Performance
+          </Button>
         </div>
         <h2 className="mb-4">Performance Log</h2>
         <PerformanceTable
@@ -93,7 +103,7 @@ export const ExerciseDetailRoute = () => {
         }}
       >
         <h2 className="mb-2">{performanceDialogInstance ? 'Edit' : 'Create'} Performance</h2>
-        <PerformanceForm instance={performanceDialogInstance} onSubmit={submitPerformanceForm} />
+        <PerformanceForm exercise={exercise} instance={performanceDialogInstance} onSubmit={submitPerformanceForm} />
       </RadixDialog>
       <RadixDialog
         className="p-4"

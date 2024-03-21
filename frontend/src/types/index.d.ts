@@ -1,3 +1,3 @@
 export * from './Exercise';
-export * from './Progress';
+export * from './Performance';
 export * from './User';

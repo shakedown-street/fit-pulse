@@ -5,5 +5,5 @@ export type Exercise = {
   name: string;
   value_type: 'weight' | 'reps' | 'time' | 'bpm';
   user: string;
-  progress_count: number;
+  performance_count: number;
 };

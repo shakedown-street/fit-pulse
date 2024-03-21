@@ -1,6 +1,6 @@
 import { Exercise } from './Exercise';
 
-export type Progress = {
+export type Performance = {
   id: string;
   created_at: string;
   updated_at: string;

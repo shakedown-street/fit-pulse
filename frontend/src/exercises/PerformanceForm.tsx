@@ -2,7 +2,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { ListResponse, http } from '~/http';
 import { Exercise } from '~/types';
-import { Button, Input } from '~/ui';
+import { Button, Input, Select } from '~/ui';
 import './PerformanceForm.scss';
 import { format } from 'date-fns';
 
@@ -56,23 +56,14 @@ export const PerformanceForm = ({ exercise, onSubmit }: PerformanceFormProps) =>
   return (
     <form className="PerformanceForm" onSubmit={performanceForm.handleSubmit(onSubmit)}>
       <Input fluid id="date" label="Date" type="date" {...performanceForm.register('date', { required: true })} />
-      <div className="Input__container Input__container--fluid">
-        <label className="Input__label" htmlFor="exercise">
-          Exercise
-        </label>
-        <select
-          className="Input Input--fluid"
-          id="exercise"
-          {...performanceForm.register('exercise', { required: true })}
-        >
-          <option value=""></option>
-          {exercises.map((exercise) => (
-            <option key={exercise.id} value={exercise.id}>
-              {exercise.name}
-            </option>
-          ))}
-        </select>
-      </div>
+      <Select fluid id="exercise" label="Exercise" {...performanceForm.register('exercise', { required: true })}>
+        <option value=""></option>
+        {exercises.map((exercise) => (
+          <option key={exercise.id} value={exercise.id}>
+            {exercise.name}
+          </option>
+        ))}
+      </Select>
       {selectedExercise && (
         <Input
           fluid

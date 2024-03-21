@@ -4,7 +4,9 @@ export const HomeRoute = () => {
   return (
     <>
       <Container>
-        <h1>Home</h1>
+        <div className="my-8">
+          <h1>Home</h1>
+        </div>
       </Container>
     </>
   );

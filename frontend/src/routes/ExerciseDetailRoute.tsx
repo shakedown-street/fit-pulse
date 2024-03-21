@@ -33,9 +33,11 @@ export const ExerciseDetailRoute = () => {
   return (
     <>
       <Container>
-        <h1>{exercise.name}</h1>
-        <h2>Performance Log</h2>
-        <PerformanceTable exercise={exercise} performances={performances} />
+        <div className="my-8">
+          <h1>{exercise.name}</h1>
+        </div>
+        <h2 className="mb-4">Performance Log</h2>
+        <PerformanceTable exercise={exercise} onDelete={() => {}} onUpdate={() => {}} performances={performances} />
       </Container>
     </>
   );

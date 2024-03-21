@@ -56,20 +56,18 @@ export const ExerciseListRoute = () => {
   return (
     <>
       <Container>
-        <div className="my-8 flex align-center gap-4">
+        <div className="my-8 flex align-center justify-between gap-4">
           <h1>Exercises</h1>
-          <div className="flex gap-2">
-            <Button
-              color="primary"
-              onClick={() => {
-                setExerciseDialogInstance(undefined);
-                setExerciseDialogOpen(true);
-              }}
-              variant="ghost"
-            >
-              Create Exercise
-            </Button>
-          </div>
+          <Button
+            color="primary"
+            onClick={() => {
+              setExerciseDialogInstance(undefined);
+              setExerciseDialogOpen(true);
+            }}
+            variant="ghost"
+          >
+            Create Exercise
+          </Button>
         </div>
         <ExerciseTable
           exercises={exercises}

@@ -37,6 +37,15 @@ class UserSerializer(serializers.ModelSerializer):
         )
         exclude = ("password",)
 
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data["full_name"] = instance.get_full_name()
+        if instance.image and self.context.get("request"):
+            data["image"] = self.context.get("request").build_absolute_uri(
+                instance.image.url
+            )
+        return data
+
 
 class UserCreateSerializer(serializers.Serializer):
     username = serializers.CharField(label="Username", max_length=150)

@@ -62,7 +62,7 @@ class SessionAPIView(views.APIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def get(self, request, *args, **kwargs):
-        user = UserSerializer(request.user).data
+        user = UserSerializer(request.user, context={"request": request}).data
         return Response(user)
 
 

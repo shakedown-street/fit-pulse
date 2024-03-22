@@ -3,16 +3,26 @@ import React from 'react';
 import { http } from '~/http';
 import { User } from '~/types';
 
-export type LoginRequestData = {
+export type LoginRequest = {
   username: string;
   password: string;
+};
+
+export type SignUpRequest = {
+  username: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+  password1: string;
+  password2: string;
 };
 
 export type AuthContextType = {
   user: User | undefined;
   setUser: React.Dispatch<React.SetStateAction<User | undefined>>;
   getUser: () => Promise<AxiosResponse<User, any>>;
-  login: (data: LoginRequestData) => Promise<AxiosResponse<User, any>>;
+  login: (data: LoginRequest) => Promise<AxiosResponse<User, any>>;
+  signUp: (data: SignUpRequest) => Promise<AxiosResponse<User, any>>;
   logout: () => Promise<AxiosResponse<any, any>>;
 };
 
@@ -38,12 +48,16 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     return http.get<User>('/api/session/');
   }
 
-  function login(data: LoginRequestData) {
+  function login(data: LoginRequest) {
     return http.post<User>('/api/login/', data);
   }
 
   function logout() {
     return http.post('/api/logout/');
+  }
+
+  function signUp(data: SignUpRequest) {
+    return http.post<User>('/api/users/', data);
   }
 
   if (userLoading) {
@@ -58,6 +72,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         getUser,
         login,
         logout,
+        signUp,
       }}
     >
       {children}

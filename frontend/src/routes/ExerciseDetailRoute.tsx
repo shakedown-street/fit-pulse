@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { PerformanceForm, PerformanceFormData, PerformanceTable } from '~/exercises';
+import { PerformanceChart, PerformanceForm, PerformanceFormData, PerformanceTable } from '~/exercises';
 import { ListResponse, http } from '~/http';
 import { Exercise, Performance } from '~/types';
 import { Button, Container, RadixDialog } from '~/ui';
@@ -77,7 +77,8 @@ export const ExerciseDetailRoute = () => {
               Log Performance
             </Button>
           </div>
-          <h3 className="mb-4">Performance Log</h3>
+          <PerformanceChart performances={performances} />
+          <h3 className="my-8">Performance Log</h3>
           <PerformanceTable
             exercise={exercise}
             onDelete={(performance) => {

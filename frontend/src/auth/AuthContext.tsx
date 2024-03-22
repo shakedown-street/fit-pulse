@@ -3,11 +3,6 @@ import React from 'react';
 import { http } from '~/http';
 import { User } from '~/types';
 
-export type LoginRequest = {
-  username: string;
-  password: string;
-};
-
 export type SignUpRequest = {
   username: string;
   email: string;
@@ -15,13 +10,26 @@ export type SignUpRequest = {
   password2: string;
 };
 
+export type LoginRequest = {
+  username: string;
+  password: string;
+};
+
+export type PasswordChangeRequest = {
+  current_password: string;
+  new_password1: string;
+  new_password2: string;
+};
+
 export type AuthContextType = {
   user: User | undefined;
   setUser: React.Dispatch<React.SetStateAction<User | undefined>>;
-  getUser: () => Promise<AxiosResponse<User, any>>;
-  login: (data: LoginRequest) => Promise<AxiosResponse<User, any>>;
+  getSession: () => Promise<AxiosResponse<User, any>>;
+  patchUser: (data: Partial<User>) => Promise<AxiosResponse<User, any>>;
   signUp: (data: SignUpRequest) => Promise<AxiosResponse<User, any>>;
+  login: (data: LoginRequest) => Promise<AxiosResponse<User, any>>;
   logout: () => Promise<AxiosResponse<any, any>>;
+  passwordChange: (data: PasswordChangeRequest) => Promise<AxiosResponse<any, any>>;
 };
 
 export const AuthContext = React.createContext<AuthContextType | undefined>(undefined);
@@ -36,14 +44,28 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   React.useEffect(() => {
     setUserLoading(true);
-    getUser()
+    getSession()
       .then((user) => setUser(user.data))
       .catch(() => setUser(undefined))
       .finally(() => setUserLoading(false));
   }, []);
 
-  function getUser() {
+  function getSession() {
     return http.get<User>('/api/session/');
+  }
+
+  function patchUser(data: Partial<User>) {
+    if (!user) {
+      throw new Error('User is undefined');
+    }
+    return http.patch<User>(`/api/users/${user.id}/`, data).then((user) => {
+      setUser(user.data);
+      return user;
+    });
+  }
+
+  function signUp(data: SignUpRequest) {
+    return http.post<User>('/api/users/', data);
   }
 
   function login(data: LoginRequest) {
@@ -54,8 +76,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     return http.post('/api/logout/');
   }
 
-  function signUp(data: SignUpRequest) {
-    return http.post<User>('/api/users/', data);
+  function passwordChange(data: PasswordChangeRequest) {
+    return http.post('/api/password-change/', data);
   }
 
   if (userLoading) {
@@ -67,10 +89,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       value={{
         user,
         setUser,
-        getUser,
+        getSession,
+        patchUser,
+        signUp,
         login,
         logout,
-        signUp,
+        passwordChange,
       }}
     >
       {children}

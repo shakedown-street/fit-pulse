@@ -7,6 +7,7 @@ from exercises.models import Exercise, Performance
 class ExerciseAdmin(admin.ModelAdmin):
     list_display = (
         "name",
+        "user",
         "value_type",
     )
 

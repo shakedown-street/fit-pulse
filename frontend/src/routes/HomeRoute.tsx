@@ -6,8 +6,7 @@ export const HomeRoute = () => {
     <>
       <Container>
         <div className="my-8">
-          <h1>Fit Pulse</h1>
-          <h4 className="my-4">Welcome to FitPulse</h4>
+          <h2 className="my-4">Welcome to FitPulse</h2>
           <p style={{ maxWidth: '768px' }}>
             To get started, <Link to="/login">login</Link> and navigate to the <Link to="/exercises">exercises</Link>{' '}
             page. From there you can add exercises you want to begin tracking your improvement on. Once you have added

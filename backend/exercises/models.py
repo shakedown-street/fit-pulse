@@ -36,7 +36,7 @@ class Performance(BaseMixin):
     class Meta:
         ordering = (
             "-date",
-            "-updated_at",
+            "-created_at",
             "exercise__name",
         )
 

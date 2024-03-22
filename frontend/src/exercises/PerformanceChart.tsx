@@ -15,7 +15,7 @@ export const PerformanceChart = ({ performances }: PerformanceChartProps) => {
       if (dateComparison !== 0) {
         return dateComparison;
       }
-      return a.updated_at.localeCompare(b.updated_at);
+      return a.created_at.localeCompare(b.created_at);
     })
     .map((p) => {
       return {

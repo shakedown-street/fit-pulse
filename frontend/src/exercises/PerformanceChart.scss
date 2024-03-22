@@ -1,0 +1,21 @@
+@import '~/scss/mixins';
+@import '~/scss/variables';
+
+.PerformanceChartTooltip {
+  @include radius-sm;
+  @include shadow-sm;
+  background-color: white;
+  padding: 0.5rem;
+
+  &__label {
+    @include font-medium;
+    color: $oc-gray-7;
+    font-size: 12px;
+  }
+
+  &__value {
+    @include font-bold;
+    color: $oc-gray-9;
+    font-size: 14px;
+  }
+}

@@ -1,13 +1,39 @@
 import { format } from 'date-fns';
-import { Area, AreaChart, CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import { Performance } from '~/types';
+import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Exercise, Performance } from '~/types';
 import { parseDateString } from '~/utils/parseDateString';
+import './PerformanceChart.scss';
 
 export type PerformanceChartProps = {
+  exercise: Exercise;
   performances: Performance[];
 };
 
-export const PerformanceChart = ({ performances }: PerformanceChartProps) => {
+export const PerformanceChartTooltip = ({ active, payload, label, exercise }: any) => {
+  function getValueLabel() {
+    switch (exercise.value_type) {
+      case 'weight':
+        return 'Weight (lbs)';
+      case 'reps':
+        return 'Reps';
+      case 'time':
+        return 'Time (seconds)';
+      case 'bpm':
+        return 'BPM';
+    }
+  }
+
+  if (active && payload && payload.length) {
+    return (
+      <div className="PerformanceChartTooltip">
+        <p className="PerformanceChartTooltip__label">{label}</p>
+        <p className="PerformanceChartTooltip__value">{`${getValueLabel()}: ${payload[0].value}`}</p>
+      </div>
+    );
+  }
+};
+
+export const PerformanceChart = ({ exercise, performances }: PerformanceChartProps) => {
   const data = performances
     .slice()
     .sort((a, b) => {
@@ -19,7 +45,7 @@ export const PerformanceChart = ({ performances }: PerformanceChartProps) => {
     })
     .map((p) => {
       return {
-        date: format(parseDateString(p.date, 'yyyy-MM-dd'), 'MM/dd'),
+        date: format(parseDateString(p.date, 'yyyy-MM-dd'), 'MM/dd/yy'),
         value: p.value,
       };
     });
@@ -45,7 +71,7 @@ export const PerformanceChart = ({ performances }: PerformanceChartProps) => {
         <CartesianGrid stroke="#212529" strokeDasharray="3 3" />
         <XAxis dataKey="date" hide />
         <YAxis width={48} />
-        <Tooltip />
+        <Tooltip content={<PerformanceChartTooltip exercise={exercise} />} />
       </AreaChart>
     </ResponsiveContainer>
   );

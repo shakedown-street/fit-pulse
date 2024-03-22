@@ -77,7 +77,7 @@ export const ExerciseDetailRoute = () => {
               Log Performance
             </Button>
           </div>
-          <PerformanceChart performances={performances} />
+          <PerformanceChart exercise={exercise} performances={performances} />
           <h3 className="my-8">Performance Log</h3>
           <PerformanceTable
             exercise={exercise}

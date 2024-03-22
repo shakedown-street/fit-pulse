@@ -52,8 +52,6 @@ export const SignUpForm = () => {
         {...signUpForm.register('email', { required: true })}
       />
       {signUpForm.formState.errors.email && <p className="error">{signUpForm.formState.errors.email.message}</p>}
-      <Input fluid id="first_name" label="First Name" {...signUpForm.register('first_name', { required: true })} />
-      <Input fluid id="last_name" label="Last Name" {...signUpForm.register('last_name', { required: true })} />
       <Input
         fluid
         id="password1"

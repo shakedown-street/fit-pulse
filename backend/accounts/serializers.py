@@ -36,8 +36,6 @@ class UserSerializer(serializers.ModelSerializer):
 class UserCreateSerializer(serializers.Serializer):
     username = serializers.CharField(label="Username", max_length=150)
     email = serializers.EmailField(label="Email")
-    first_name = serializers.CharField(label="First name", max_length=30)
-    last_name = serializers.CharField(label="Last name", max_length=150)
     password1 = PasswordField(label="Password")
     password2 = PasswordField(label="Password (again)")
 
@@ -63,8 +61,6 @@ class UserCreateSerializer(serializers.Serializer):
         user = User.objects.create_user(
             username=validated_data["username"],
             email=validated_data["email"],
-            first_name=validated_data["first_name"],
-            last_name=validated_data["last_name"],
             password=validated_data["password1"],
         )
         return user

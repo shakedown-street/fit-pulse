@@ -2,6 +2,7 @@ import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { format } from 'date-fns';
 import { Exercise, Performance } from '~/types';
 import { IconButton } from '~/ui';
+import { parseDateString } from '~/utils/parseDateString';
 import './ExerciseTable.scss';
 
 export type PerformanceTableProps = {
@@ -32,7 +33,7 @@ export const PerformanceTable = ({ exercise, onDelete, onUpdate, performances }:
         {performances.map((performance) => {
           return (
             <tr key={performance.id}>
-              <td>{format(new Date(performance.date), 'MMM dd, yyyy')}</td>
+              <td>{format(parseDateString(performance.date, 'yyyy-MM-dd'), 'MMM dd, yyyy')}</td>
               <td>
                 <div className="text-capitalize">{performance.value}</div>
               </td>

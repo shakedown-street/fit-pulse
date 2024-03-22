@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { ListResponse, http } from '~/http';
 import { Exercise, Performance } from '~/types';
 import { Button, Input, Select } from '~/ui';
+import { parseDateString } from '~/utils/parseDateString';
 import './PerformanceForm.scss';
 
 export type PerformanceFormProps = {
@@ -23,7 +24,9 @@ export const PerformanceForm = ({ exercise, instance, onSubmit }: PerformanceFor
 
   const performanceForm = useForm<PerformanceFormData>({
     defaultValues: {
-      date: instance ? format(instance.date, 'yyyy-MM-dd') : format(new Date(), 'yyyy-MM-dd'),
+      date: instance
+        ? format(parseDateString(instance.date, 'yyyy-MM-dd'), 'yyyy-MM-dd')
+        : format(new Date(), 'yyyy-MM-dd'),
       value: instance ? instance.value : undefined,
     },
   });

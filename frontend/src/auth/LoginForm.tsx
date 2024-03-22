@@ -1,20 +1,15 @@
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { Button, Input } from '~/ui';
-import { useAuth } from './AuthContext';
+import { LoginRequest, useAuth } from './AuthContext';
 import './LoginForm.scss';
-
-export type LoginFormData = {
-  username: string;
-  password: string;
-};
 
 export const LoginForm = () => {
   const navigate = useNavigate();
-  const loginForm = useForm<LoginFormData>();
+  const loginForm = useForm<LoginRequest>();
   const { login, setUser } = useAuth();
 
-  function onSubmit(data: LoginFormData) {
+  function onSubmit(data: LoginRequest) {
     login(data)
       .then((user) => {
         setUser(user.data);

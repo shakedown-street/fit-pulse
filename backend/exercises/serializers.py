@@ -44,9 +44,9 @@ class PerformanceSerializer(serializers.ModelSerializer):
                 user=instance.user,
                 exercise=instance.exercise,
                 date__lte=instance.date,
-                created_at__lte=instance.created_at,
+                updated_at__lte=instance.updated_at,
             )
-            .order_by("-date", "-created_at")
+            .order_by("-date", "-updated_at")
             .first()
         )
 

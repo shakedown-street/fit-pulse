@@ -1,0 +1,63 @@
+@import '~/scss/mixins';
+@import '~/scss/variables';
+
+@mixin avatar-size($name, $size, $font-size) {
+  &.Avatar--size--#{$name} {
+    height: $size;
+    width: $size;
+
+    .Avatar__fallback {
+      font-size: $font-size;
+    }
+  }
+}
+
+.Avatar {
+  align-items: center;
+  border-radius: 100%;
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  overflow: hidden;
+  user-select: none;
+  vertical-align: middle;
+  height: 48px;
+  width: 48px;
+
+  &--size--xs {
+    @include avatar-size(xs, 20px, 10px);
+  }
+  &--size--sm {
+    @include avatar-size(sm, 24px, 12px);
+  }
+  &--size--md {
+    @include avatar-size(md, 32px, 14px);
+  }
+  &--size--lg {
+    @include avatar-size(lg, 48px, 16px);
+  }
+  &--size--xl {
+    @include avatar-size(xl, 64px, 18px);
+  }
+
+  &__img {
+    border-radius: inherit;
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+  }
+
+  &__fallback {
+    @include font-medium;
+    align-items: center;
+    background-color: $oc-gray-9;
+    color: white;
+    display: flex;
+    font-size: 1rem;
+    justify-content: center;
+    line-height: 1;
+    text-transform: uppercase;
+    height: 100%;
+    width: 100%;
+  }
+}

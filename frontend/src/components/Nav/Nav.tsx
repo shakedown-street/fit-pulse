@@ -46,7 +46,7 @@ export const Nav = () => {
                       </div>
                       Profile
                     </DropdownMenu.Item>
-                    <DropdownMenu.Item className="DropdownMenu__item" onClick={() => logout()}>
+                    <DropdownMenu.Item className="DropdownMenu__item" onClick={() => handleLogout()}>
                       <div className="DropdownMenu__icon">
                         <span className="material-symbols-outlined">logout</span>
                       </div>

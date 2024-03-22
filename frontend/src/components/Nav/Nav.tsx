@@ -1,6 +1,7 @@
+import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '~/auth';
-import { Button, Container } from '~/ui';
+import { Button, Container, IconButton } from '~/ui';
 import './Nav.scss';
 
 export const Nav = () => {
@@ -31,14 +32,29 @@ export const Nav = () => {
           <div className="Nav__spacer"></div>
           {user ? (
             <>
-              <Link to="/profile">
-                <Button color="primary" size="sm">
-                  Profile
-                </Button>
-              </Link>
-              <Button color="primary" onClick={handleLogout} size="sm">
-                Logout
-              </Button>
+              <DropdownMenu.Root>
+                <DropdownMenu.Trigger asChild>
+                  <IconButton>
+                    <span className="material-symbols-outlined">menu</span>
+                  </IconButton>
+                </DropdownMenu.Trigger>
+                <DropdownMenu.Portal>
+                  <DropdownMenu.Content align="end" className="DropdownMenu__content">
+                    <DropdownMenu.Item className="DropdownMenu__item" onClick={() => navigate('/profile')}>
+                      <div className="DropdownMenu__icon">
+                        <span className="material-symbols-outlined">person</span>
+                      </div>
+                      Profile
+                    </DropdownMenu.Item>
+                    <DropdownMenu.Item className="DropdownMenu__item" onClick={() => logout()}>
+                      <div className="DropdownMenu__icon">
+                        <span className="material-symbols-outlined">logout</span>
+                      </div>
+                      Logout
+                    </DropdownMenu.Item>
+                  </DropdownMenu.Content>
+                </DropdownMenu.Portal>
+              </DropdownMenu.Root>
             </>
           ) : (
             <>

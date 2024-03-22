@@ -1,8 +1,17 @@
 from django.contrib.auth import authenticate, get_user_model
-from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 
 User = get_user_model()
+
+
+class PasswordField(serializers.CharField):
+    def __init__(self, **kwargs):
+        kwargs.setdefault("style", {})
+        kwargs["style"] = {"input_type": "password"}
+        kwargs["trim_whitespace"] = False
+        kwargs["write_only"] = True
+        super().__init__(**kwargs)
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -24,30 +33,59 @@ class UserSerializer(serializers.ModelSerializer):
         exclude = ("password",)
 
 
+class UserCreateSerializer(serializers.Serializer):
+    username = serializers.CharField(label="Username", max_length=150)
+    email = serializers.EmailField(label="Email")
+    first_name = serializers.CharField(label="First name", max_length=30)
+    last_name = serializers.CharField(label="Last name", max_length=150)
+    password1 = PasswordField(label="Password")
+    password2 = PasswordField(label="Password (again)")
+
+    def validate_username(self, value):
+        if User.objects.filter(username=value).exists():
+            raise serializers.ValidationError(
+                "A user with that username already exists."
+            )
+        return value
+
+    def validate_email(self, value):
+        if User.objects.filter(email=value).exists():
+            raise serializers.ValidationError("A user with that email already exists.")
+        return value
+
+    def validate(self, data):
+        if data["password1"] != data["password2"]:
+            raise serializers.ValidationError("The two password fields didn't match.")
+        validate_password(data["password1"])
+        return data
+
+    def create(self, validated_data):
+        user = User.objects.create_user(
+            username=validated_data["username"],
+            email=validated_data["email"],
+            first_name=validated_data["first_name"],
+            last_name=validated_data["last_name"],
+            password=validated_data["password1"],
+        )
+        return user
+
+
 class AuthenticationSerializer(serializers.Serializer):
-    username = serializers.CharField(label=_("username"), write_only=True)
-    password = serializers.CharField(
-        label=_("password"),
-        style={"input_type": "password"},
-        trim_whitespace=False,
-        write_only=True,
-    )
+    username = serializers.CharField(label="Username", write_only=True)
+    password = PasswordField(label="Password")
 
     def validate(self, data):
         username = data.get("username")
         password = data.get("password")
-
-        if not username or not password:
-            msg = _("Must include 'username' and 'password'.")
-            raise serializers.ValidationError(msg, code="authorization")
 
         user = authenticate(
             request=self.context.get("request"), username=username, password=password
         )
 
         if not user:
-            msg = _("Unable to log in with provided credentials.")
-            raise serializers.ValidationError(msg, code="authorization")
+            raise serializers.ValidationError(
+                "Unable to log in with provided credentials.", code="authorization"
+            )
 
         data["user"] = user
         return data

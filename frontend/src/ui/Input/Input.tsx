@@ -4,11 +4,12 @@ import './Input.scss';
 
 export type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   fluid?: boolean;
+  invalid?: boolean;
   label?: string;
 };
 
 export const Input = React.forwardRef(
-  ({ className, fluid, id, label, ...rest }: InputProps, ref: React.ForwardedRef<HTMLInputElement>) => {
+  ({ className, fluid, id, invalid, label, ...rest }: InputProps, ref: React.ForwardedRef<HTMLInputElement>) => {
     return (
       <div
         className={clsx('Input__container', {
@@ -25,6 +26,7 @@ export const Input = React.forwardRef(
             'Input',
             {
               'Input--fluid': fluid,
+              'Input--invalid': invalid,
             },
             className,
           )}

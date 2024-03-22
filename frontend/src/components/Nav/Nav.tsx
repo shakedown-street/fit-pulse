@@ -34,11 +34,18 @@ export const Nav = () => {
               Logout
             </Button>
           ) : (
-            <Link to="/login">
-              <Button color="primary" size="sm">
-                Login
-              </Button>
-            </Link>
+            <>
+              <Link to="/signup">
+                <Button color="primary" size="sm">
+                  Sign Up
+                </Button>
+              </Link>
+              <Link to="/login">
+                <Button color="primary" size="sm" variant="raised">
+                  Login
+                </Button>
+              </Link>
+            </>
           )}
         </div>
       </Container>

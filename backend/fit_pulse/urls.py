@@ -15,22 +15,19 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
+from accounts.views import (
+    LoginAPIView,
+    LogoutAPIView,
+    PasswordChangeAPIView,
+    SessionAPIView,
+    UserViewSet,
+)
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
+from exercises.views import ExerciseViewSet, PerformanceViewSet
 from rest_framework import routers
-
-from accounts.views import (
-    LoginAPIView,
-    LogoutAPIView,
-    SessionAPIView,
-    UserViewSet,
-)
-from exercises.views import (
-    ExerciseViewSet,
-    PerformanceViewSet,
-)
 
 router = routers.DefaultRouter()
 router.register("users", UserViewSet)
@@ -45,6 +42,9 @@ urlpatterns = [
     path("api/login/", LoginAPIView.as_view(), name="login"),
     path("api/logout/", LogoutAPIView.as_view(), name="logout"),
     path("api/session/", SessionAPIView.as_view(), name="session"),
+    path(
+        "api/password-change/", PasswordChangeAPIView.as_view(), name="password-change"
+    ),
 ]
 
 if settings.DEBUG:

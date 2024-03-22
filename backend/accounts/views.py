@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from accounts.permissions import UserPermission
 from accounts.serializers import (
     AuthenticationSerializer,
+    PasswordChangeSerializer,
     UserCreateSerializer,
     UserSerializer,
 )
@@ -63,3 +64,16 @@ class SessionAPIView(views.APIView):
     def get(self, request, *args, **kwargs):
         user = UserSerializer(request.user).data
         return Response(user)
+
+
+class PasswordChangeAPIView(views.APIView):
+    serializer_class = PasswordChangeSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(
+            data=request.data, context={"request": request}
+        )
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)

@@ -1,8 +1,7 @@
 import clsx from 'clsx';
 import React from 'react';
 import { PasswordChangeForm, ProfileForm } from '~/auth';
-import { Card, Container } from '~/ui';
-import './ProfileRoute.scss';
+import { Card, Container, TabItem, Tabs } from '~/ui';
 
 export const ProfileRoute = () => {
   const [activeTab, setActiveTab] = React.useState<'profile' | 'password'>('profile');
@@ -12,24 +11,14 @@ export const ProfileRoute = () => {
       <Container>
         <div className="centerPage">
           <Card className="p-0" fluid>
-            <div className="Tabs">
-              <button
-                className={clsx('TabItem', {
-                  'TabItem--active': activeTab === 'profile',
-                })}
-                onClick={() => setActiveTab('profile')}
-              >
+            <Tabs fluid>
+              <TabItem active={activeTab === 'profile'} onClick={() => setActiveTab('profile')}>
                 Profile
-              </button>
-              <button
-                className={clsx('TabItem', {
-                  'TabItem--active': activeTab === 'password',
-                })}
-                onClick={() => setActiveTab('password')}
-              >
+              </TabItem>
+              <TabItem active={activeTab === 'password'} onClick={() => setActiveTab('password')}>
                 Password
-              </button>
-            </div>
+              </TabItem>
+            </Tabs>
             <div className="p-6">
               {activeTab === 'profile' && <ProfileForm />}
               {activeTab === 'password' && <PasswordChangeForm />}

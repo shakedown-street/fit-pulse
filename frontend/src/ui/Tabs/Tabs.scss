@@ -1,0 +1,10 @@
+.Tabs {
+  align-items: center;
+  display: flex;
+
+  &.Tabs--fluid {
+    .TabItem {
+      width: 100%;
+    }
+  }
+}

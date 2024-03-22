@@ -7,3 +7,5 @@ export * from './Input/Input';
 export * from './RadixDialog/RadixDialog';
 export * from './RadixTooltip/RadixTooltip';
 export * from './Select/Select';
+export * from './Tabs/TabItem';
+export * from './Tabs/Tabs';

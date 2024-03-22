@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import os
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -20,12 +22,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-sxpd7(07uaqjgri#8!i!8x_kx7k=gq7%1bs#jj4)i^xp3+%8h#"
+SECRET_KEY = os.environ.get(
+    "SECRET_KEY", "django-insecure-sxpd7(07uaqjgri#8!i!8x_kx7k=gq7%1bs#jj4)i^xp3+%8h#"
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DEBUG", "True") == "True"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "localhost").split(",")
 
 
 # Application definition
@@ -144,6 +148,17 @@ CSRF_TRUSTED_ORIGINS = [
     "http://localhost:5173",
 ]
 
+CSRF_TRUSTED_ORIGINS = os.environ.get(
+    "CSRF_TRUSTED_ORIGINS",
+    "http://localhost:5173",
+).split(",")
+
+
+# Email
+# https://docs.djangoproject.com/en/4.2/ref/settings/#email-backend
+
+EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
+
 
 ####################################
 #        3RD PARTY SETTINGS        #
@@ -153,9 +168,10 @@ CSRF_TRUSTED_ORIGINS = [
 # django-cors-headers
 # https://pypi.org/project/django-cors-headers/
 
-CORS_ALLOWED_ORIGINS = [
+CORS_ALLOWED_ORIGINS = os.environ.get(
+    "CORS_ALLOWED_ORIGINS",
     "http://localhost:5173",
-]
+).split(",")
 CORS_ALLOW_CREDENTIALS = True
 
 
@@ -169,3 +185,8 @@ REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 20,
 }
+
+# sendgrid
+# https://pypi.org/project/sendgrid-django/
+
+SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY", "")

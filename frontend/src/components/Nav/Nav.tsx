@@ -1,7 +1,7 @@
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '~/auth';
-import { Button, Container, IconButton } from '~/ui';
+import { Avatar, Button, Container } from '~/ui';
 import './Nav.scss';
 
 export const Nav = () => {
@@ -34,12 +34,10 @@ export const Nav = () => {
             <>
               <DropdownMenu.Root>
                 <DropdownMenu.Trigger asChild>
-                  <IconButton>
-                    <span className="material-symbols-outlined">menu</span>
-                  </IconButton>
+                  <Avatar user={user} />
                 </DropdownMenu.Trigger>
                 <DropdownMenu.Portal>
-                  <DropdownMenu.Content align="end" className="DropdownMenu__content">
+                  <DropdownMenu.Content align="end" className="DropdownMenu__content" sideOffset={4}>
                     <DropdownMenu.Item className="DropdownMenu__item" onClick={() => navigate('/profile')}>
                       <div className="DropdownMenu__icon">
                         <span className="material-symbols-outlined">person</span>

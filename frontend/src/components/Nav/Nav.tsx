@@ -30,9 +30,16 @@ export const Nav = () => {
           )}
           <div className="Nav__spacer"></div>
           {user ? (
-            <Button color="primary" onClick={handleLogout} size="sm">
-              Logout
-            </Button>
+            <>
+              <Link to="/profile">
+                <Button color="primary" size="sm">
+                  Profile
+                </Button>
+              </Link>
+              <Button color="primary" onClick={handleLogout} size="sm">
+                Logout
+              </Button>
+            </>
           ) : (
             <>
               <Link to="/signup">

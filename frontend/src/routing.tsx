@@ -1,7 +1,7 @@
 import { Navigate, RouteObject } from 'react-router-dom';
 import { AppLayout } from './AppLayout';
 import { useAuth } from './auth';
-import { ExerciseDetailRoute, ExerciseListRoute, HomeRoute, LoginRoute, SignUpRoute } from './routes';
+import { ExerciseDetailRoute, ExerciseListRoute, HomeRoute, LoginRoute, ProfileRoute, SignUpRoute } from './routes';
 
 export type ProtectedRouteProps = {
   children: React.ReactNode;
@@ -33,6 +33,14 @@ export const routes: RouteObject[] = [
       {
         path: '/signup',
         element: <SignUpRoute />,
+      },
+      {
+        path: '/profile',
+        element: (
+          <ProtectedRoute>
+            <ProfileRoute />
+          </ProtectedRoute>
+        ),
       },
       {
         path: '/exercises',

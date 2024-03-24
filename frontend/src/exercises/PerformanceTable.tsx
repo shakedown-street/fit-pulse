@@ -17,15 +17,21 @@ export const PerformanceTable = ({ exercise, onDelete, onUpdate, performances }:
     <table className="ExerciseTable">
       <colgroup>
         <col />
-        <col />
-        <col />
+        {exercise.metrics.slice().map((_, idx) => {
+          return <col key={idx} />;
+        })}
         <col width={'100px'} />
       </colgroup>
       <thead>
         <tr>
           <th className="text-left">Date</th>
-          <th className="text-left text-capitalize">{exercise.value_type}</th>
-          <th className="text-left">Improvement</th>
+          {exercise.metrics.map((metric) => {
+            return (
+              <th className="text-left" key={metric.id}>
+                {metric.name}
+              </th>
+            );
+          })}
           <th>Action</th>
         </tr>
       </thead>
@@ -34,23 +40,23 @@ export const PerformanceTable = ({ exercise, onDelete, onUpdate, performances }:
           return (
             <tr key={performance.id}>
               <td>{format(parseDateString(performance.date, 'yyyy-MM-dd'), 'MMM dd, yyyy')}</td>
-              <td>
-                <div className="text-capitalize">{performance.value}</div>
-              </td>
-              <td>
-                <div className="flex align-center gap-2">
-                  {performance.improvement_percent > 0 && (
-                    <span className="material-symbols-outlined text-green">trending_up</span>
-                  )}
-                  {performance.improvement_percent < 0 && (
-                    <span className="material-symbols-outlined text-red">trending_down</span>
-                  )}
-                  {performance.improvement_percent === 0 && <span className="material-symbols-outlined">remove</span>}
-                  {performance.improvement_percent !== 0 && (
-                    <>{Math.abs(performance.improvement_percent).toFixed(2)}%</>
-                  )}
-                </div>
-              </td>
+              {performance.metrics.map((metric) => {
+                return (
+                  <td key={metric.id}>
+                    <div className="flex align-center gap-2">
+                      {metric.value}
+                      {metric.improvement_percent > 0 && (
+                        <span className="material-symbols-outlined text-green">trending_up</span>
+                      )}
+                      {metric.improvement_percent < 0 && (
+                        <span className="material-symbols-outlined text-red">trending_down</span>
+                      )}
+                      {metric.improvement_percent === 0 && <span className="material-symbols-outlined">remove</span>}
+                      {metric.improvement_percent !== 0 && <>{Math.abs(metric.improvement_percent).toFixed(2)}%</>}
+                    </div>
+                  </td>
+                );
+              })}
               <td className="text-center">
                 <DropdownMenu.Root>
                   <DropdownMenu.Trigger asChild>

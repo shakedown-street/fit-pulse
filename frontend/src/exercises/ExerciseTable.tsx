@@ -1,6 +1,5 @@
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Exercise } from '~/types';
 import { IconButton } from '~/ui';
 import './ExerciseTable.scss';
@@ -20,14 +19,12 @@ export const ExerciseTable = ({ exercises, onDelete, onCreatePerformance, onUpda
       <colgroup>
         <col />
         <col />
-        {/* <col /> */}
         <col style={{ width: '100px' }} />
       </colgroup>
       <thead>
         <tr>
           <th className="text-left">Name</th>
-          <th className="text-left">Type</th>
-          {/* <th>Performances</th> */}
+          <th className="text-left">Metrics</th>
           <th>Action</th>
         </tr>
       </thead>
@@ -37,10 +34,7 @@ export const ExerciseTable = ({ exercises, onDelete, onCreatePerformance, onUpda
             <td>
               <Link to={`/exercises/${exercise.id}`}>{exercise.name}</Link>
             </td>
-            <td>
-              <div className="text-capitalize">{exercise.value_type}</div>
-            </td>
-            {/* <td className="text-center">{exercise.performance_count}</td> */}
+            <td>{exercise.metrics.map((metric) => metric.name).join(', ')}</td>
             <td className="text-center">
               <DropdownMenu.Root>
                 <DropdownMenu.Trigger asChild>

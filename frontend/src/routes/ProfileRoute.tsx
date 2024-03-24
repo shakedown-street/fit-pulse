@@ -1,4 +1,3 @@
-import clsx from 'clsx';
 import React from 'react';
 import { PasswordChangeForm, ProfileForm } from '~/auth';
 import { Card, Container, TabItem, Tabs } from '~/ui';

@@ -1,6 +1,12 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { PerformanceChart, PerformanceForm, PerformanceFormData, PerformanceTable } from '~/exercises';
+import {
+  PerformanceChart,
+  PerformanceForm,
+  PerformanceFormData,
+  PerformanceMetricData,
+  PerformanceTable,
+} from '~/exercises';
 import { ListResponse, http } from '~/http';
 import { Exercise, Performance } from '~/types';
 import { Button, Container, RadixDialog } from '~/ui';
@@ -30,16 +36,25 @@ export const ExerciseDetailRoute = () => {
       });
   }, [id]);
 
-  function submitPerformanceForm(data: PerformanceFormData, instance?: Performance) {
+  function submitPerformanceForm(
+    data: PerformanceFormData,
+    performanceMetrics: PerformanceMetricData[],
+    instance?: Performance,
+  ) {
+    const payload = {
+      ...data,
+      metrics: performanceMetrics,
+    };
+
     if (instance) {
-      http.patch<Performance>(`/api/performances/${instance.id}/`, data).then((performance) => {
+      http.patch<Performance>(`/api/performances/${instance.id}/`, payload).then((performance) => {
         setPerformances((performances) =>
           performances.map((p) => (p.id === performance.data.id ? performance.data : p)),
         );
         setPerformanceDialogOpen(false);
       });
     } else {
-      http.post<Performance>('/api/performances/', data).then((performance) => {
+      http.post<Performance>('/api/performances/', payload).then((performance) => {
         setPerformances((performances) => [performance.data, ...performances]);
         setPerformanceDialogOpen(false);
       });
@@ -77,7 +92,7 @@ export const ExerciseDetailRoute = () => {
               Log Performance
             </Button>
           </div>
-          <PerformanceChart exercise={exercise} performances={performances} />
+          <PerformanceChart performances={performances} />
           <h3 className="my-8">Performance Log</h3>
           <PerformanceTable
             exercise={exercise}

@@ -1,5 +1,12 @@
 import React from 'react';
-import { ExerciseForm, ExerciseFormData, ExerciseTable, PerformanceForm, PerformanceFormData } from '~/exercises';
+import {
+  ExerciseForm,
+  ExerciseFormData,
+  ExerciseTable,
+  PerformanceForm,
+  PerformanceFormData,
+  PerformanceMetricData,
+} from '~/exercises';
 import { ListResponse, http } from '~/http';
 import { Exercise, Performance } from '~/types';
 import { Button, Container, RadixDialog } from '~/ui';
@@ -40,18 +47,15 @@ export const ExerciseListRoute = () => {
     });
   }
 
-  function submitPerformanceForm(data: PerformanceFormData) {
-    http.post<Performance>('/api/performances/', data).then((performance) => {
-      setPerformanceDialogOpen(false);
-      // update exercise since the performance_count has changed
-      setExercises((exercises) => {
-        const exercise = exercises.find((e) => e.id === performance.data.exercise.id);
-        if (exercise) {
-          return exercises.map((e) => (e.id === exercise.id ? performance.data.exercise : e));
-        }
-        return exercises;
+  function submitPerformanceForm(data: PerformanceFormData, performanceMetrics: PerformanceMetricData[]) {
+    http
+      .post<Performance>('/api/performances/', {
+        ...data,
+        metrics: performanceMetrics,
+      })
+      .then(() => {
+        setPerformanceDialogOpen(false);
       });
-    });
   }
 
   return (

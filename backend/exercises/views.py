@@ -2,9 +2,18 @@ from django_filters import rest_framework as filters
 from rest_framework import viewsets
 
 from exercises.filters import PerformanceFilter
-from exercises.models import Exercise, Performance
+from exercises.models import Exercise, Metric, Performance
 from exercises.permissions import ExercisePermission, PerformancePermission
-from exercises.serializers import ExerciseSerializer, PerformanceSerializer
+from exercises.serializers import (
+    ExerciseSerializer,
+    MetricSerializer,
+    PerformanceSerializer,
+)
+
+
+class MetricViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Metric.objects.all()
+    serializer_class = MetricSerializer
 
 
 class ExerciseViewSet(viewsets.ModelViewSet):

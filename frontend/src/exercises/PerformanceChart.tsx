@@ -74,7 +74,7 @@ export const PerformanceChart = ({ performances }: PerformanceChartProps) => {
       >
         <defs>
           {metricNames.map((name, idx) => (
-            <linearGradient key={idx} id={`color${name}`} x1="0" y1="0" x2="0" y2="1">
+            <linearGradient key={idx} id={`color${name.replace(/\s+/g, '')}`} x1="0" y1="0" x2="0" y2="1">
               <stop offset="5%" stopColor={metricColors[idx]} stopOpacity={0.8} />
               <stop offset="95%" stopColor={metricColors[idx]} stopOpacity={0.2} />
             </linearGradient>
@@ -86,7 +86,7 @@ export const PerformanceChart = ({ performances }: PerformanceChartProps) => {
             dataKey={name}
             stroke={metricColors[idx]}
             fillOpacity={1}
-            fill={`url(#color${name})`}
+            fill={`url(#color${name.replace(/\s+/g, '')})`}
             type="monotone"
           />
         ))}

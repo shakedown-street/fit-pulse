@@ -20,7 +20,7 @@ export const ExerciseListRoute = () => {
   const [deleteExerciseDialogOpen, setDeleteExerciseDialogOpen] = React.useState(false);
 
   React.useEffect(() => {
-    http.get<ListResponse<Exercise>>('/api/exercises').then((exercises) => setExercises(exercises.data.results));
+    http.get<ListResponse<Exercise>>('/api/exercises/').then((exercises) => setExercises(exercises.data.results));
   }, []);
 
   function submitExerciseForm(data: ExerciseFormData, instance?: Exercise) {
@@ -41,7 +41,7 @@ export const ExerciseListRoute = () => {
     if (!exerciseDialogInstance) {
       return;
     }
-    http.delete(`/api/exercises/${exerciseDialogInstance.id}`).then(() => {
+    http.delete(`/api/exercises/${exerciseDialogInstance.id}/`).then(() => {
       setExercises((exercises) => exercises.filter((e) => e.id !== exerciseDialogInstance.id));
       setDeleteExerciseDialogOpen(false);
     });

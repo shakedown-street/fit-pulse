@@ -22,7 +22,7 @@ export const ExerciseDetailRoute = () => {
   const { id } = useParams();
 
   React.useEffect(() => {
-    http.get<Exercise>(`/api/exercises/${id}`).then((exercise) => {
+    http.get<Exercise>(`/api/exercises/${id}/`).then((exercise) => {
       setExercise(exercise.data);
     });
     http
@@ -65,7 +65,7 @@ export const ExerciseDetailRoute = () => {
     if (!performanceDialogInstance) {
       return;
     }
-    http.delete(`/api/performances/${performanceDialogInstance.id}`).then(() => {
+    http.delete(`/api/performances/${performanceDialogInstance.id}/`).then(() => {
       setPerformances((performances) => performances.filter((p) => p.id !== performanceDialogInstance.id));
       setDeletePerformanceDialogOpen(false);
     });

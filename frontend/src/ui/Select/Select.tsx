@@ -4,7 +4,7 @@ import '../Input/Input.scss';
 
 export type SelectProps = React.SelectHTMLAttributes<HTMLSelectElement> & {
   fluid?: boolean;
-  hint?: string;
+  hint?: React.ReactNode;
   label?: string;
 };
 

@@ -1,7 +1,7 @@
+import clsx from 'clsx';
+import React from 'react';
 import { User } from '~/types';
 import './Avatar.scss';
-import React from 'react';
-import clsx from 'clsx';
 
 export type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 

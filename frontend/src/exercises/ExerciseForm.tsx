@@ -57,7 +57,7 @@ export const ExerciseForm = ({ instance, onSubmit }: ExerciseFormProps) => {
         id="metrics"
         label="Metrics"
         multiple
-        {...exerciseForm.register('metrics')}
+        {...exerciseForm.register('metrics', { required: true })}
       >
         {metrics.map((metric) => (
           <option key={metric.id} value={metric.id}>

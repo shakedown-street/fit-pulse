@@ -7,6 +7,8 @@ import { Button, Input, Select } from '~/ui';
 import { parseDateString } from '~/utils/parseDateString';
 import './PerformanceForm.scss';
 
+// TODO: metric values initialize as 0, and cannot be empty, so there is a leading 0 in the input field
+
 export type PerformanceFormProps = {
   exercise?: Exercise;
   instance?: Performance;
@@ -115,6 +117,9 @@ export const PerformanceForm = ({ exercise, instance, onSubmit }: PerformanceFor
               value={performanceMetrics.find((m) => m.metric === metric.id)?.value || 0}
               onChange={(e) => {
                 const value = parseFloat(e.target.value);
+                if (isNaN(value)) {
+                  return;
+                }
                 setPerformanceMetrics((metrics) => {
                   const index = metrics.findIndex((m) => m.metric === metric.id);
                   if (index === -1) {

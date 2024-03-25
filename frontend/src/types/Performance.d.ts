@@ -1,15 +1,5 @@
 import { Exercise } from './Exercise';
-import { Metric } from './Metric';
-
-export type PerformanceMetric = {
-  id: string;
-  improvement_percent: number;
-  created_at: string;
-  updated_at: string;
-  value: number;
-  performance: string;
-  metric: Metric;
-};
+import { PerformanceMetric } from './PerformanceMetric';
 
 export type Performance = {
   id: string;

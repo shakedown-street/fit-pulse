@@ -1,3 +1,5 @@
+import { Diet } from './Diet';
+
 export type User = {
   id: string;
   last_login: string | null;
@@ -16,4 +18,5 @@ export type User = {
   is_verified: boolean;
   groups: string[];
   user_permissions: string[];
+  diet: Diet;
 };

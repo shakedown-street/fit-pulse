@@ -1,0 +1,33 @@
+@import '~/scss/mixins';
+@import '~/scss/variables';
+
+.FoodTable {
+  @include radius-sm;
+  @include shadow-xs;
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+
+  thead {
+    tr {
+      background-color: $oc-gray-1;
+      border-bottom: 1px solid $border;
+
+      th {
+        @include font-medium;
+        font-size: 0.75rem;
+        padding: 0.75rem 0.5rem;
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      td {
+        border-bottom: 1px solid $border;
+        font-size: 0.875rem;
+        padding: 0.5rem;
+      }
+    }
+  }
+}

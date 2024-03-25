@@ -19,6 +19,21 @@
   }
 }
 
+.cursor {
+  &-pointer {
+    cursor: pointer;
+  }
+  &-not-allowed {
+    cursor: not-allowed;
+  }
+  &-zoom-in {
+    cursor: zoom-in;
+  }
+  &-zoom-out {
+    cursor: zoom-out;
+  }
+}
+
 .position {
   &-absolute {
     position: absolute;

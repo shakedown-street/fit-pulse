@@ -1,3 +1,4 @@
+from diet.serializers import DietSerializer
 from django.contrib.auth import authenticate, get_user_model, update_session_auth_hash
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
@@ -20,6 +21,11 @@ class PasswordField(serializers.CharField):
 
 
 class UserSerializer(serializers.ModelSerializer):
+    calories = serializers.IntegerField(required=False, write_only=True)
+    carbs = serializers.IntegerField(required=False, write_only=True)
+    proteins = serializers.IntegerField(required=False, write_only=True)
+    fats = serializers.IntegerField(required=False, write_only=True)
+
     class Meta:
         model = User
         read_only_fields = (
@@ -44,7 +50,30 @@ class UserSerializer(serializers.ModelSerializer):
             data["image"] = self.context.get("request").build_absolute_uri(
                 instance.image.url
             )
+        if instance.diet:
+            data["diet"] = DietSerializer(instance.diet).data
         return data
+
+    def update(self, instance, validated_data):
+        instance = super().update(instance, validated_data)
+
+        if "calories" in validated_data:
+            instance.diet.calories = validated_data["calories"]
+            instance.diet.save()
+
+        if "carbs" in validated_data:
+            instance.diet.carbs = validated_data["carbs"]
+            instance.diet.save()
+
+        if "proteins" in validated_data:
+            instance.diet.proteins = validated_data["proteins"]
+            instance.diet.save()
+
+        if "fats" in validated_data:
+            instance.diet.fats = validated_data["fats"]
+            instance.diet.save()
+
+        return instance
 
 
 class UserCreateSerializer(serializers.Serializer):

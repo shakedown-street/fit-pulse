@@ -1,7 +1,16 @@
 import { Navigate, RouteObject } from 'react-router-dom';
 import { AppLayout } from './AppLayout';
 import { useAuth } from './auth';
-import { ExerciseDetailRoute, ExerciseListRoute, HomeRoute, LoginRoute, ProfileRoute, SignUpRoute } from './routes';
+import {
+  DietRoute,
+  ExerciseDetailRoute,
+  ExerciseListRoute,
+  FoodListRoute,
+  HomeRoute,
+  LoginRoute,
+  ProfileRoute,
+  SignUpRoute,
+} from './routes';
 
 export type ProtectedRouteProps = {
   children: React.ReactNode;
@@ -39,6 +48,22 @@ export const routes: RouteObject[] = [
         element: (
           <ProtectedRoute>
             <ProfileRoute />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/diet',
+        element: (
+          <ProtectedRoute>
+            <DietRoute />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/diet/foods',
+        element: (
+          <ProtectedRoute>
+            <FoodListRoute />
           </ProtectedRoute>
         ),
       },

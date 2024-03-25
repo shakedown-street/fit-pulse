@@ -23,11 +23,18 @@ export const Nav = () => {
             <h1>FitPulse</h1>
           </Link>
           {user && (
-            <Link to="/exercises">
-              <Button color="primary" size="sm">
-                Exercises
-              </Button>
-            </Link>
+            <>
+              <Link to="/diet">
+                <Button color="primary" size="sm">
+                  Diet
+                </Button>
+              </Link>
+              <Link to="/exercises">
+                <Button color="primary" size="sm">
+                  Exercise
+                </Button>
+              </Link>
+            </>
           )}
           <div className="Nav__spacer"></div>
           {user ? (

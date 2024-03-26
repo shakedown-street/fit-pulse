@@ -21,10 +21,10 @@ export const DietRoute = () => {
 
   const macroTotals = foodLogs.reduce(
     (totals, log) => ({
-      calories: totals.calories + log.food.calories * log.servings,
-      carbs: totals.carbs + log.food.carbs * log.servings,
-      proteins: totals.proteins + log.food.proteins * log.servings,
-      fats: totals.fats + log.food.fats * log.servings,
+      calories: totals.calories + Math.floor(log.food.calories * log.servings),
+      carbs: totals.carbs + Math.floor(log.food.carbs * log.servings),
+      proteins: totals.proteins + Math.floor(log.food.proteins * log.servings),
+      fats: totals.fats + Math.floor(log.food.fats * log.servings),
     }),
     { calories: 0, carbs: 0, proteins: 0, fats: 0 },
   );

@@ -14,13 +14,13 @@ export const FoodLogTable = ({ foodLogs, onDelete, onUpdate }: FoodLogTableProps
     <table className="FoodLogTable">
       <colgroup>
         <col />
-        <col />
-        <col width="100px" />
+        <col width="80px" />
+        <col width="80px" />
       </colgroup>
       <thead>
         <tr>
           <th className="text-left">Food</th>
-          <th className="text-left">Servings</th>
+          <th className="text-center">Servings</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -28,7 +28,7 @@ export const FoodLogTable = ({ foodLogs, onDelete, onUpdate }: FoodLogTableProps
         {foodLogs.map((log) => (
           <tr key={log.id}>
             <td>{log.food.name}</td>
-            <td>{log.servings}</td>
+            <td className="text-center">{log.servings}</td>
             <td className="text-center">
               <DropdownMenu.Root>
                 <DropdownMenu.Trigger asChild>

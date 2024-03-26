@@ -67,6 +67,7 @@ export const FoodLogForm = ({ readOnlyDate, instance, onSubmit }: FoodLogFormPro
         fluid
         id="servings"
         label="Servings"
+        step="0.01"
         type="number"
         {...foodLogForm.register('servings', { required: true })}
       />

@@ -1,11 +1,10 @@
+import { format } from 'date-fns';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { ListResponse, http } from '~/http';
 import { Food, FoodLog } from '~/types';
 import { Button, Input, Select } from '~/ui';
 import './FoodLogForm.scss';
-import { format } from 'date-fns';
-import { parseDateString } from '~/utils/parseDateString';
 
 export type FoodLogFormProps = {
   readOnlyDate?: string;
@@ -24,11 +23,7 @@ export const FoodLogForm = ({ readOnlyDate, instance, onSubmit }: FoodLogFormPro
 
   const foodLogForm = useForm<FoodLogFormData>({
     defaultValues: {
-      date: instance
-        ? format(parseDateString(instance.date, 'yyyy-MM-dd'), 'yyyy-MM-dd')
-        : readOnlyDate
-          ? format(parseDateString(readOnlyDate, 'yyyy-MM-dd'), 'yyyy-MM-dd')
-          : format(new Date(), 'yyyy-MM-dd'),
+      date: instance ? instance.date : readOnlyDate ? readOnlyDate : format(new Date(), 'yyyy-MM-dd'),
       servings: instance ? instance.servings : 1,
     },
   });

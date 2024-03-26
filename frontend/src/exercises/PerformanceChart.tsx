@@ -1,7 +1,6 @@
-import { format } from 'date-fns';
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { Performance } from '~/types';
-import { parseDateString } from '~/utils/parseDateString';
+import { formatDateString } from '~/utils/dateString';
 import './PerformanceChart.scss';
 
 export type PerformanceChartProps = {
@@ -42,7 +41,7 @@ export const PerformanceChart = ({ performances }: PerformanceChartProps) => {
         {} as { [key: string]: number },
       );
       return {
-        date: format(parseDateString(p.date, 'yyyy-MM-dd'), 'MM/dd/yy'),
+        date: formatDateString(p.date, 'yyyy-MM-dd', 'MM/dd/yy'),
         ...metrics,
       };
     });

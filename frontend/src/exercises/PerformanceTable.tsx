@@ -1,8 +1,7 @@
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
-import { format } from 'date-fns';
 import { Exercise, Performance } from '~/types';
 import { IconButton } from '~/ui';
-import { parseDateString } from '~/utils/parseDateString';
+import { formatDateString } from '~/utils/dateString';
 import './ExerciseTable.scss';
 
 export type PerformanceTableProps = {
@@ -39,7 +38,7 @@ export const PerformanceTable = ({ exercise, onDelete, onUpdate, performances }:
         {performances.map((performance) => {
           return (
             <tr key={performance.id}>
-              <td>{format(parseDateString(performance.date, 'yyyy-MM-dd'), 'MMM dd, yyyy')}</td>
+              <td>{formatDateString(performance.date, 'yyyy-MM-dd', 'MMM dd, yyyy')}</td>
               {performance.metrics.map((metric) => {
                 return (
                   <td key={metric.id}>

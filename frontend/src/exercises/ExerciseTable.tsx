@@ -18,8 +18,8 @@ export const ExerciseTable = ({ exercises, onDelete, onCreatePerformance, onUpda
     <table className="ExerciseTable">
       <colgroup>
         <col />
-        <col />
-        <col style={{ width: '100px' }} />
+        <col width="175px" />
+        <col width="80px" />
       </colgroup>
       <thead>
         <tr>

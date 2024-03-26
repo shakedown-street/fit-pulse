@@ -19,7 +19,7 @@ export const PerformanceTable = ({ exercise, onDelete, onUpdate, performances }:
         {exercise.metrics.slice().map((_, idx) => {
           return <col key={idx} />;
         })}
-        <col width={'100px'} />
+        <col width="80px" />
       </colgroup>
       <thead>
         <tr>
@@ -42,16 +42,22 @@ export const PerformanceTable = ({ exercise, onDelete, onUpdate, performances }:
               {performance.metrics.map((metric) => {
                 return (
                   <td key={metric.id}>
-                    <div className="flex align-center gap-2">
+                    <div className="flex align-center gap-1">
                       {metric.value}
-                      {metric.improvement_percent > 0 && (
-                        <span className="material-symbols-outlined text-green">trending_up</span>
-                      )}
-                      {metric.improvement_percent < 0 && (
-                        <span className="material-symbols-outlined text-red">trending_down</span>
-                      )}
-                      {metric.improvement_percent === 0 && <span className="material-symbols-outlined">remove</span>}
-                      {metric.improvement_percent !== 0 && <>{Math.abs(metric.improvement_percent).toFixed(2)}%</>}
+                      <div className="flex align-center gap-1">
+                        {metric.improvement_percent > 0 && (
+                          <span className="material-symbols-outlined text-green text-size-sm">trending_up</span>
+                        )}
+                        {metric.improvement_percent < 0 && (
+                          <span className="material-symbols-outlined text-red text-size-sm">trending_down</span>
+                        )}
+                        {metric.improvement_percent === 0 && (
+                          <span className="material-symbols-outlined text-size-sm">remove</span>
+                        )}
+                        {metric.improvement_percent !== 0 && (
+                          <span className="text-size-xxs">{Math.abs(metric.improvement_percent).toFixed(2)}%</span>
+                        )}
+                      </div>
                     </div>
                   </td>
                 );

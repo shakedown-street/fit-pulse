@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  ExerciseForm,
-  ExerciseFormData,
-  ExerciseTable,
-  PerformanceForm,
-  PerformanceFormData,
-  PerformanceMetricData,
-} from '~/exercises';
+import { ExerciseForm, ExerciseFormData, ExerciseTable, PerformanceForm, PerformanceFormData } from '~/exercises';
 import { ListResponse, http } from '~/http';
 import { Exercise, Performance } from '~/types';
 import { Button, Container, RadixDialog } from '~/ui';
@@ -47,10 +40,17 @@ export const ExerciseListRoute = () => {
     });
   }
 
-  function submitPerformanceForm(data: PerformanceFormData, performanceMetrics: PerformanceMetricData[]) {
+  function submitPerformanceForm(data: PerformanceFormData) {
+    const { metrics, ...rest } = data;
+
+    const performanceMetrics = Object.entries(metrics).map(([key, value]) => ({
+      metric: key,
+      value,
+    }));
+
     http
       .post<Performance>('/api/performances/', {
-        ...data,
+        ...rest,
         metrics: performanceMetrics,
       })
       .then(() => {

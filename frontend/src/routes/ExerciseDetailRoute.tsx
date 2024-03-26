@@ -1,12 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import {
-  PerformanceChart,
-  PerformanceForm,
-  PerformanceFormData,
-  PerformanceMetricData,
-  PerformanceTable,
-} from '~/exercises';
+import { PerformanceChart, PerformanceForm, PerformanceFormData, PerformanceTable } from '~/exercises';
 import { ListResponse, http } from '~/http';
 import { Exercise, Performance } from '~/types';
 import { Button, Container, RadixDialog } from '~/ui';
@@ -36,14 +30,17 @@ export const ExerciseDetailRoute = () => {
       });
   }, [id]);
 
-  function submitPerformanceForm(
-    data: PerformanceFormData,
-    performanceMetrics: PerformanceMetricData[],
-    instance?: Performance,
-  ) {
+  function submitPerformanceForm(data: PerformanceFormData, instance?: Performance) {
+    const { metrics, ...rest } = data;
+
+    const metricsData = Object.entries(data.metrics).map(([key, value]) => ({
+      metric: key,
+      value,
+    }));
+
     const payload = {
-      ...data,
-      metrics: performanceMetrics,
+      ...rest,
+      metrics: metricsData,
     };
 
     if (instance) {

@@ -6,31 +6,27 @@ import { Exercise, Performance } from '~/types';
 import { Button, Input, Select } from '~/ui';
 import './PerformanceForm.scss';
 
-// TODO: metric values initialize as 0, and cannot be empty, so there is a leading 0 in the input field
-
 export type PerformanceFormProps = {
   exercise?: Exercise;
   instance?: Performance;
-  onSubmit: (data: PerformanceFormData, metrics: PerformanceMetricData[], instance?: Performance) => void;
+  onSubmit: (data: PerformanceFormData, instance?: Performance) => void;
 };
 
 export type PerformanceFormData = {
   exercise: string;
   date: string;
-};
-
-export type PerformanceMetricData = {
-  metric: string;
-  value: number;
+  metrics: any;
 };
 
 export const PerformanceForm = ({ exercise, instance, onSubmit }: PerformanceFormProps) => {
   const [exercises, setExercises] = React.useState<Exercise[]>([]);
-  const [performanceMetrics, setPerformanceMetrics] = React.useState<PerformanceMetricData[]>([]);
 
   const performanceForm = useForm<PerformanceFormData>({
     defaultValues: {
       date: instance ? instance.date : format(new Date(), 'yyyy-MM-dd'),
+      metrics: instance
+        ? instance.metrics.reduce((acc, metric) => ({ ...acc, [metric.metric.id]: metric.value }), {})
+        : {},
     },
   });
 
@@ -47,36 +43,8 @@ export const PerformanceForm = ({ exercise, instance, onSubmit }: PerformanceFor
     });
   }, []);
 
-  React.useEffect(() => {
-    if (!instance && selectedExercise) {
-      setPerformanceMetrics(
-        selectedExercise.metrics.map((metric) => ({
-          metric: metric.id,
-          value: 0,
-        })),
-      );
-    } else if (instance) {
-      setPerformanceMetrics(
-        instance.metrics.map((metric) => ({
-          metric: metric.metric.id,
-          value: metric.value,
-        })),
-      );
-    }
-  }, [instance, selectedExercise]);
-
-  function metricsValid() {
-    return selectedExercise?.metrics.every((metric) => {
-      const value = performanceMetrics.find((pm) => pm.metric === metric.id)?.value;
-      return value !== undefined && value >= 0;
-    });
-  }
-
   return (
-    <form
-      className="PerformanceForm"
-      onSubmit={performanceForm.handleSubmit((data) => onSubmit(data, performanceMetrics, instance))}
-    >
+    <form className="PerformanceForm" onSubmit={performanceForm.handleSubmit((data) => onSubmit(data, instance))}>
       {!!instance || !!exercise ? (
         <>
           <div>
@@ -101,41 +69,19 @@ export const PerformanceForm = ({ exercise, instance, onSubmit }: PerformanceFor
         </Select>
       )}
       <Input fluid id="date" label="Date" type="date" {...performanceForm.register('date', { required: true })} />
-      {selectedExercise && (
-        <>
-          {selectedExercise.metrics.map((metric) => (
-            <Input
-              key={metric.id}
-              fluid
-              id={metric.id}
-              label={metric.name}
-              min="0"
-              type="number"
-              value={performanceMetrics.find((m) => m.metric === metric.id)?.value || 0}
-              onChange={(e) => {
-                const value = parseFloat(e.target.value);
-                if (isNaN(value)) {
-                  return;
-                }
-                setPerformanceMetrics((metrics) => {
-                  const index = metrics.findIndex((m) => m.metric === metric.id);
-                  if (index === -1) {
-                    return [...metrics, { metric: metric.id, value }];
-                  }
-                  return metrics.map((m, idx) => (idx === index ? { metric: metric.id, value } : m));
-                });
-              }}
-            />
-          ))}
-        </>
-      )}
-      <Button
-        color="primary"
-        disabled={!performanceForm.formState.isValid || !metricsValid()}
-        fluid
-        type="submit"
-        variant="raised"
-      >
+      {selectedExercise?.metrics.map((metric) => {
+        return (
+          <Input
+            key={metric.id}
+            fluid
+            id={metric.name}
+            label={metric.name}
+            type="number"
+            {...performanceForm.register(`metrics.${metric.id}`, { required: true })}
+          />
+        );
+      })}
+      <Button color="primary" disabled={!performanceForm.formState.isValid} fluid type="submit" variant="raised">
         Save
       </Button>
     </form>

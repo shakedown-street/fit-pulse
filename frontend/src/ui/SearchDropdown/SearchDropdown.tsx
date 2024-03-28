@@ -72,7 +72,7 @@ export const SearchDropdown = ({ endpoint, onChange, paramater, renderMatch, tri
   }
 
   return (
-    <RadixPopover className="p-4" open={popoverOpen} onOpenChange={setPopoverOpen} portal trigger={trigger}>
+    <RadixPopover className="p-4" open={popoverOpen} onOpenChange={setPopoverOpen} trigger={trigger}>
       <Input
         autoFocus
         fluid

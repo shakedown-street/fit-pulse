@@ -123,7 +123,7 @@ export const FoodListRoute = () => {
             }}
           />
           {getTotalPages() > 1 && (
-            <div className="flex justify-center mt-8">
+            <div className="flex justify-center my-8">
               <div className="Pagination">
                 <IconButton disabled={!hasPreviousPage} onClick={() => setPage(getPage() - 1)}>
                   <span className="material-symbols-outlined">chevron_left</span>

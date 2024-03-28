@@ -1,7 +1,9 @@
 import React from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { ListResponse, http } from '~/http';
 import { Food } from '~/types';
 import { Button, Container, Input, RadixDialog } from '~/ui';
+import { debounce } from '~/utils/debounce';
 import { FoodForm, FoodFormData, FoodTable } from '../../components';
 import './FoodListRoute.scss';
 
@@ -11,11 +13,32 @@ export const FoodListRoute = () => {
   const [foodDialogOpen, setFoodDialogOpen] = React.useState(false);
   const [deleteFoodDialogOpen, setDeleteFoodDialogOpen] = React.useState(false);
 
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const [searchInput, setSearchInput] = React.useState(searchParams.get('search') || '');
+
   React.useEffect(() => {
-    http.get<ListResponse<Food>>('/api/foods/').then((foods) => {
-      setFoods(foods.data.results);
-    });
-  }, []);
+    http
+      .get<ListResponse<Food>>('/api/foods/', {
+        params: searchParams,
+      })
+      .then((foods) => {
+        setFoods(foods.data.results);
+      });
+  }, [searchParams]);
+
+  const updateSearchParam = React.useCallback(
+    debounce((name: string, value: string) => {
+      searchParams.set(name, value);
+      setSearchParams(searchParams);
+    }, 300),
+    [searchParams, setSearchParams],
+  );
+
+  function handleSearchInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setSearchInput(e.target.value);
+    updateSearchParam('search', e.target.value);
+  }
 
   function submitFoodForm(data: FoodFormData, instance?: Food) {
     if (instance) {
@@ -62,7 +85,7 @@ export const FoodListRoute = () => {
             </Button>
           </div>
           <div className="FoodListRoute__filter">
-            <Input placeholder="Search foods" />
+            <Input onChange={handleSearchInputChange} placeholder="Search foods" value={searchInput} />
           </div>
           <FoodTable
             foods={foods}

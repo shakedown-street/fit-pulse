@@ -197,8 +197,10 @@ export const DietRoute = () => {
         className="p-6"
         open={deleteFoodLogDialogOpen}
         onOpenChange={(open) => {
-          setFoodLogDialogInstance(undefined);
-          setFoodLogDialogOpen(open);
+          if (!open) {
+            setFoodLogDialogInstance(undefined);
+          }
+          setDeleteFoodLogDialogOpen(open);
         }}
         style={{
           maxWidth: '480px',
@@ -210,7 +212,7 @@ export const DietRoute = () => {
           <Button
             onClick={() => {
               setFoodLogDialogInstance(undefined);
-              setFoodLogDialogOpen(false);
+              setDeleteFoodLogDialogOpen(false);
             }}
             variant="outlined"
           >

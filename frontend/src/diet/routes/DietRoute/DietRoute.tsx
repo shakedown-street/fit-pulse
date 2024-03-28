@@ -54,26 +54,25 @@ export const DietRoute = () => {
   }
 
   function submitFoodLogForm(data: FoodLogFormData, instance?: FoodLog) {
+    const { food, ...rest } = data;
+
+    const payload = {
+      food: food.id,
+      ...rest,
+    };
+
     if (instance) {
-      http
-        .patch<FoodLog>(`/api/food-logs/${instance.id}/`, {
-          ...data,
-        })
-        .then((foodLog) => {
-          setFoodLogs(foodLogs.map((log) => (log.id === foodLog.data.id ? foodLog.data : log)));
-          setFoodLogDialogInstance(undefined);
-          setFoodLogDialogOpen(false);
-        });
+      http.patch<FoodLog>(`/api/food-logs/${instance.id}/`, payload).then((foodLog) => {
+        setFoodLogs(foodLogs.map((log) => (log.id === foodLog.data.id ? foodLog.data : log)));
+        setFoodLogDialogInstance(undefined);
+        setFoodLogDialogOpen(false);
+      });
     } else {
-      http
-        .post<FoodLog>('/api/food-logs/', {
-          ...data,
-        })
-        .then((foodLog) => {
-          setFoodLogs([...foodLogs, foodLog.data]);
-          setFoodLogDialogInstance(undefined);
-          setFoodLogDialogOpen(false);
-        });
+      http.post<FoodLog>('/api/food-logs/', payload).then((foodLog) => {
+        setFoodLogs([...foodLogs, foodLog.data]);
+        setFoodLogDialogInstance(undefined);
+        setFoodLogDialogOpen(false);
+      });
     }
   }
 

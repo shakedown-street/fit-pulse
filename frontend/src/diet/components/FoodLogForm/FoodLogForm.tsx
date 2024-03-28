@@ -1,9 +1,9 @@
 import { format } from 'date-fns';
 import React from 'react';
-import { useForm } from 'react-hook-form';
-import { ListResponse, http } from '~/http';
+import { Controller, useForm } from 'react-hook-form';
+import { http } from '~/http';
 import { Food, FoodLog } from '~/types';
-import { Button, Input, Select } from '~/ui';
+import { Button, Input, SearchDropdown } from '~/ui';
 import './FoodLogForm.scss';
 
 export type FoodLogFormProps = {
@@ -13,14 +13,12 @@ export type FoodLogFormProps = {
 };
 
 export type FoodLogFormData = {
-  food: string;
+  food: Food;
   date: string;
   servings: number;
 };
 
 export const FoodLogForm = ({ readOnlyDate, instance, onSubmit }: FoodLogFormProps) => {
-  const [foods, setFoods] = React.useState<Food[]>([]);
-
   const foodLogForm = useForm<FoodLogFormData>({
     defaultValues: {
       date: instance ? instance.date : readOnlyDate ? readOnlyDate : format(new Date(), 'yyyy-MM-dd'),
@@ -29,16 +27,12 @@ export const FoodLogForm = ({ readOnlyDate, instance, onSubmit }: FoodLogFormPro
   });
 
   React.useEffect(() => {
-    http.get<ListResponse<Food>>('/api/foods/').then((foods) => {
-      setFoods(foods.data.results);
-    });
-  }, []);
-
-  React.useEffect(() => {
     if (instance) {
-      foodLogForm.setValue('food', instance.food.id);
+      http.get(`/api/foods/${instance.food.id}`).then((food) => {
+        foodLogForm.setValue('food', food.data);
+      });
     }
-  }, [foods]);
+  }, [instance]);
 
   return (
     <form className="FoodLogForm" onSubmit={foodLogForm.handleSubmit((data) => onSubmit(data, instance))}>
@@ -50,14 +44,21 @@ export const FoodLogForm = ({ readOnlyDate, instance, onSubmit }: FoodLogFormPro
         type="date"
         {...foodLogForm.register('date', { required: true })}
       />
-      <Select fluid id="food" label="Food" {...foodLogForm.register('food', { required: true })}>
-        <option></option>
-        {foods.map((food) => (
-          <option key={food.id} value={food.id}>
-            {food.name}
-          </option>
-        ))}
-      </Select>
+      <Controller
+        control={foodLogForm.control}
+        name="food"
+        render={({ field }) => (
+          <SearchDropdown
+            endpoint="/api/foods/"
+            onChange={(e) => {
+              field.onChange(e);
+            }}
+            paramater="search"
+            renderMatch={(match) => <>{match.name}</>}
+            trigger={<Input fluid label="Food" readOnly type="input" value={field.value?.name} />}
+          />
+        )}
+      />
       <Input
         fluid
         id="servings"

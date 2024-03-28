@@ -2,20 +2,21 @@ import React from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { ListResponse, http } from '~/http';
 import { Food } from '~/types';
-import { Button, Container, Input, RadixDialog } from '~/ui';
+import { Button, Container, IconButton, Input, RadixDialog } from '~/ui';
 import { debounce } from '~/utils/debounce';
 import { FoodForm, FoodFormData, FoodTable } from '../../components';
 import './FoodListRoute.scss';
 
 export const FoodListRoute = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [foods, setFoods] = React.useState<Food[]>([]);
+  const [searchInput, setSearchInput] = React.useState(searchParams.get('search') || '');
+  const [totalFoods, setTotalFoods] = React.useState(0);
+  const [hasPreviousPage, setHasPreviousPage] = React.useState(false);
+  const [hasNextPage, setHasNextPage] = React.useState(false);
   const [foodDialogInstance, setFoodDialogInstance] = React.useState<Food>();
   const [foodDialogOpen, setFoodDialogOpen] = React.useState(false);
   const [deleteFoodDialogOpen, setDeleteFoodDialogOpen] = React.useState(false);
-
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const [searchInput, setSearchInput] = React.useState(searchParams.get('search') || '');
 
   React.useEffect(() => {
     http
@@ -24,12 +25,22 @@ export const FoodListRoute = () => {
       })
       .then((foods) => {
         setFoods(foods.data.results);
+        setTotalFoods(foods.data.count);
+        setHasPreviousPage(!!foods.data.previous);
+        setHasNextPage(!!foods.data.next);
       });
   }, [searchParams]);
 
   const updateSearchParam = React.useCallback(
     debounce((name: string, value: string) => {
-      searchParams.set(name, value);
+      if (name !== 'page') {
+        searchParams.delete('page');
+      }
+      if (!value) {
+        searchParams.delete(name);
+      } else {
+        searchParams.set(name, value);
+      }
       setSearchParams(searchParams);
     }, 300),
     [searchParams, setSearchParams],
@@ -38,6 +49,19 @@ export const FoodListRoute = () => {
   function handleSearchInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     setSearchInput(e.target.value);
     updateSearchParam('search', e.target.value);
+  }
+
+  function getPage() {
+    return parseInt(searchParams.get('page') || '1', 10);
+  }
+
+  function setPage(page: number) {
+    searchParams.set('page', page.toString());
+    setSearchParams(searchParams);
+  }
+
+  function getTotalPages() {
+    return Math.ceil(totalFoods / 20);
   }
 
   function submitFoodForm(data: FoodFormData, instance?: Food) {
@@ -98,6 +122,21 @@ export const FoodListRoute = () => {
               setFoodDialogOpen(true);
             }}
           />
+          {getTotalPages() > 1 && (
+            <div className="flex justify-center mt-8">
+              <div className="Pagination">
+                <IconButton disabled={!hasPreviousPage} onClick={() => setPage(getPage() - 1)}>
+                  <span className="material-symbols-outlined">chevron_left</span>
+                </IconButton>
+                <p>
+                  {getPage()} of {getTotalPages()}
+                </p>
+                <IconButton disabled={!hasNextPage} onClick={() => setPage(getPage() + 1)}>
+                  <span className="material-symbols-outlined">chevron_right</span>
+                </IconButton>
+              </div>
+            </div>
+          )}
         </Container>
       </div>
       <RadixDialog

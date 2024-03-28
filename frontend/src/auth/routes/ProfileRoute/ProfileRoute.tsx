@@ -1,6 +1,6 @@
 import React from 'react';
-import { PasswordChangeForm, ProfileForm } from '~/auth';
 import { Card, Container, TabItem, Tabs } from '~/ui';
+import { PasswordChangeForm, ProfileForm } from '../../components';
 
 export const ProfileRoute = () => {
   const [activeTab, setActiveTab] = React.useState<'profile' | 'password'>('profile');

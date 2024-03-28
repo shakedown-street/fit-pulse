@@ -1,9 +1,9 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { PerformanceChart, PerformanceForm, PerformanceFormData, PerformanceTable } from '~/exercises';
 import { ListResponse, http } from '~/http';
 import { Exercise, Performance } from '~/types';
 import { Button, Container, RadixDialog } from '~/ui';
+import { PerformanceChart, PerformanceForm, PerformanceFormData, PerformanceTable } from '../../components';
 import './ExerciseDetailRoute.scss';
 
 export const ExerciseDetailRoute = () => {

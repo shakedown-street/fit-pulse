@@ -3,10 +3,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Cell, Pie, PieChart, Tooltip } from 'recharts';
 import { useAuth } from '~/auth';
-import { DietForm, DietFormData, FoodLogForm, FoodLogFormData, FoodLogTable } from '~/diet';
 import { ListResponse, http } from '~/http';
 import { FoodLog } from '~/types';
 import { Button, Card, Container, IconButton, Input, RadixDialog } from '~/ui';
+import { DietForm, DietFormData, FoodLogForm, FoodLogFormData, FoodLogTable } from '../../components';
 import './DietRoute.scss';
 
 export const DietRoute = () => {

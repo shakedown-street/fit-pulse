@@ -1,8 +1,8 @@
 import React from 'react';
-import { FoodForm, FoodFormData, FoodTable } from '~/diet';
 import { ListResponse, http } from '~/http';
 import { Food } from '~/types';
 import { Button, Container, Input, RadixDialog } from '~/ui';
+import { FoodForm, FoodFormData, FoodTable } from '../../components';
 import './FoodListRoute.scss';
 
 export const FoodListRoute = () => {

@@ -1,14 +1,14 @@
-import { LoginForm } from '~/auth';
 import { Card, Container } from '~/ui';
+import { SignUpForm } from '../../components';
 
-export const LoginRoute = () => {
+export const SignUpRoute = () => {
   return (
     <>
       <Container>
         <div className="centerPage">
           <Card>
-            <h2 className="text-center mb-4">Login</h2>
-            <LoginForm />
+            <h2 className="text-center mb-4">Sign Up</h2>
+            <SignUpForm />
           </Card>
         </div>
       </Container>

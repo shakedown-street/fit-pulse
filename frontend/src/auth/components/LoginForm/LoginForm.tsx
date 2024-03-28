@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { Button, Input } from '~/ui';
-import { LoginRequest, useAuth } from './AuthContext';
+import { LoginRequest, useAuth } from '../../context';
 import './LoginForm.scss';
 
 export const LoginForm = () => {

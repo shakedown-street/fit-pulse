@@ -2,7 +2,7 @@ import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { Exercise, Performance } from '~/types';
 import { IconButton } from '~/ui';
 import { formatDateString } from '~/utils/dateString';
-import './ExerciseTable.scss';
+import './PerformanceTable.scss';
 
 export type PerformanceTableProps = {
   exercise: Exercise;
@@ -13,7 +13,7 @@ export type PerformanceTableProps = {
 
 export const PerformanceTable = ({ exercise, onDelete, onUpdate, performances }: PerformanceTableProps) => {
   return (
-    <table className="ExerciseTable">
+    <table className="PerformanceTable">
       <colgroup>
         <col />
         {exercise.metrics.slice().map((_, idx) => {

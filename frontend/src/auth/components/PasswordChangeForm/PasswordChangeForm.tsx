@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { Button, Input } from '~/ui';
-import { PasswordChangeRequest, useAuth } from './AuthContext';
+import { PasswordChangeRequest, useAuth } from '../../context';
 import './PasswordChangeForm.scss';
 
 export const PasswordChangeForm = () => {

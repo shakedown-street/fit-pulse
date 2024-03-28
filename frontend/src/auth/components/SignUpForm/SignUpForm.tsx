@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { Button, Input } from '~/ui';
-import { SignUpRequest, useAuth } from './AuthContext';
+import { SignUpRequest, useAuth } from '../../context';
 import './SignUpForm.scss';
 
 export const SignUpForm = () => {

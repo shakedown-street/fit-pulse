@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { Button, Input } from '~/ui';
-import { useAuth } from './AuthContext';
+import { useAuth } from '../../context';
 import './ProfileForm.scss';
 
 export type ProfileFormData = {

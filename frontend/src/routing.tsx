@@ -1,16 +1,9 @@
 import { Navigate, RouteObject } from 'react-router-dom';
 import { AppLayout } from './AppLayout';
-import { useAuth } from './auth';
-import {
-  DietRoute,
-  ExerciseDetailRoute,
-  ExerciseListRoute,
-  FoodListRoute,
-  HomeRoute,
-  LoginRoute,
-  ProfileRoute,
-  SignUpRoute,
-} from './routes';
+import { LoginRoute, ProfileRoute, SignUpRoute, useAuth } from './auth';
+import { DietRoute, FoodListRoute } from './diet';
+import { ExerciseDetailRoute, ExerciseListRoute } from './exercises';
+import { HomeRoute } from './routes';
 
 export type ProtectedRouteProps = {
   children: React.ReactNode;

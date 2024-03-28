@@ -1,8 +1,8 @@
 import React from 'react';
-import { ExerciseForm, ExerciseFormData, ExerciseTable, PerformanceForm, PerformanceFormData } from '~/exercises';
 import { ListResponse, http } from '~/http';
 import { Exercise, Performance } from '~/types';
 import { Button, Container, RadixDialog } from '~/ui';
+import { ExerciseForm, ExerciseFormData, ExerciseTable, PerformanceForm, PerformanceFormData } from '../../components';
 import './ExerciseListRoute.scss';
 
 export const ExerciseListRoute = () => {

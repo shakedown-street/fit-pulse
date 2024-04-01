@@ -9,5 +9,4 @@ export type Performance = {
   date: string;
   exercise: Exercise;
   metrics: PerformanceMetric[];
-  improvement_percent: number;
 };

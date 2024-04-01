@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { ConfirmDialog } from '~/components';
 import { ListResponse, http } from '~/http';
 import { Food } from '~/types';
 import { Button, Container, IconButton, Input, RadixDialog } from '~/ui';
@@ -150,38 +151,28 @@ export const FoodListRoute = () => {
         <h2 className="mb-2">{foodDialogInstance ? 'Edit' : 'Create'} Food</h2>
         <FoodForm instance={foodDialogInstance} onSubmit={submitFoodForm} />
       </RadixDialog>
-      <RadixDialog
+      <ConfirmDialog
         className="p-6"
-        open={deleteFoodDialogOpen}
-        onOpenChange={(open) => {
+        confirmLabel="Delete"
+        danger
+        message="Deleting this food will remove it from the database and all food log entries associated with it."
+        onCancel={() => {
           setFoodDialogInstance(undefined);
+          setDeleteFoodDialogOpen(false);
+        }}
+        onConfirm={confirmDeleteFood}
+        onOpenChange={(open) => {
+          if (!open) {
+            setFoodDialogInstance(undefined);
+          }
           setDeleteFoodDialogOpen(open);
         }}
+        open={deleteFoodDialogOpen}
         style={{
           maxWidth: '480px',
         }}
-      >
-        <h2 className="mb-2">Delete Food</h2>
-        <h4 className="mb-2">{foodDialogInstance?.name}</h4>
-        <p className="mb-2">
-          Deleting this food will remove it from the database and all food log entries associated with it.
-        </p>
-        <p>This action cannot be undone!</p>
-        <div className="flex justify-end gap-2 mt-4">
-          <Button
-            onClick={() => {
-              setFoodDialogInstance(undefined);
-              setDeleteFoodDialogOpen(false);
-            }}
-            variant="outlined"
-          >
-            Cancel
-          </Button>
-          <Button color="red" onClick={confirmDeleteFood} variant="raised">
-            Delete
-          </Button>
-        </div>
-      </RadixDialog>
+        title="Delete Food"
+      />
     </>
   );
 };

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
+import { ConfirmDialog } from '~/components';
 import { ListResponse, http } from '~/http';
 import { Exercise, Performance } from '~/types';
 import { Button, Container, RadixDialog } from '~/ui';
@@ -121,8 +122,16 @@ export const ExerciseDetailRoute = () => {
         <h2 className="mb-2">{performanceDialogInstance ? 'Edit' : 'Log'} Performance</h2>
         <PerformanceForm exercise={exercise} instance={performanceDialogInstance} onSubmit={submitPerformanceForm} />
       </RadixDialog>
-      <RadixDialog
-        className="p-4"
+      <ConfirmDialog
+        className="p-6"
+        confirmLabel="Delete"
+        danger
+        message="Are you sure you want to delete this performance?"
+        onCancel={() => {
+          setPerformanceDialogInstance(undefined);
+          setDeletePerformanceDialogOpen(false);
+        }}
+        onConfirm={confirmDeletePerformance}
         open={deletePerformanceDialogOpen}
         onOpenChange={(open) => {
           if (!open) {
@@ -130,24 +139,8 @@ export const ExerciseDetailRoute = () => {
           }
           setDeletePerformanceDialogOpen(open);
         }}
-      >
-        <h2 className="mb-2">Delete Performance</h2>
-        <p>Are you sure you want to delete this performance?</p>
-        <div className="flex justify-end gap-2 mt-4">
-          <Button
-            onClick={() => {
-              setPerformanceDialogInstance(undefined);
-              setDeletePerformanceDialogOpen(false);
-            }}
-            variant="outlined"
-          >
-            Cancel
-          </Button>
-          <Button color="red" onClick={confirmDeletePerformance} variant="raised">
-            Delete
-          </Button>
-        </div>
-      </RadixDialog>
+        title="Delete Performance"
+      />
     </>
   );
 };

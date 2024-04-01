@@ -1,4 +1,5 @@
 import React from 'react';
+import { ConfirmDialog } from '~/components';
 import { ListResponse, http } from '~/http';
 import { Exercise, Performance } from '~/types';
 import { Button, Container, RadixDialog } from '~/ui';
@@ -124,8 +125,16 @@ export const ExerciseListRoute = () => {
         <h2 className="mb-2">Log Performance</h2>
         <PerformanceForm exercise={exerciseDialogInstance} onSubmit={submitPerformanceForm} />
       </RadixDialog>
-      <RadixDialog
-        className="p-4"
+      <ConfirmDialog
+        className="p-6"
+        confirmLabel="Delete"
+        danger
+        message="Are you sure you want to delete this exercise?"
+        onCancel={() => {
+          setExerciseDialogInstance(undefined);
+          setDeleteExerciseDialogOpen(false);
+        }}
+        onConfirm={confirmDeleteExercise}
         open={deleteExerciseDialogOpen}
         onOpenChange={(open) => {
           if (!open) {
@@ -133,24 +142,8 @@ export const ExerciseListRoute = () => {
           }
           setDeleteExerciseDialogOpen(open);
         }}
-      >
-        <h2 className="mb-2">Delete Exercise</h2>
-        <p>Are you sure you want to delete this exercise?</p>
-        <div className="flex justify-end gap-2 mt-4">
-          <Button
-            onClick={() => {
-              setExerciseDialogInstance(undefined);
-              setDeleteExerciseDialogOpen(false);
-            }}
-            variant="outlined"
-          >
-            Cancel
-          </Button>
-          <Button color="red" onClick={confirmDeleteExercise} variant="raised">
-            Delete
-          </Button>
-        </div>
-      </RadixDialog>
+        title="Delete Exercise"
+      />
     </>
   );
 };

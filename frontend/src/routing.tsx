@@ -5,15 +5,25 @@ import { DietRoute, FoodListRoute } from './diet';
 import { ExerciseDetailRoute, ExerciseListRoute } from './exercises';
 import { HomeRoute } from './routes';
 
-export type ProtectedRouteProps = {
+export type RouteGuard = {
   children: React.ReactNode;
 };
 
-export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
+export const ProtectedRoute = ({ children }: RouteGuard) => {
   const { user } = useAuth();
 
   if (!user) {
     return <Navigate to="/login" />;
+  }
+
+  return <>{children}</>;
+};
+
+export const PublicRoute = ({ children }: RouteGuard) => {
+  const { user } = useAuth();
+
+  if (user) {
+    return <Navigate to="/" />;
   }
 
   return <>{children}</>;
@@ -30,11 +40,19 @@ export const routes: RouteObject[] = [
       },
       {
         path: '/login',
-        element: <LoginRoute />,
+        element: (
+          <PublicRoute>
+            <LoginRoute />
+          </PublicRoute>
+        ),
       },
       {
         path: '/signup',
-        element: <SignUpRoute />,
+        element: (
+          <PublicRoute>
+            <SignUpRoute />
+          </PublicRoute>
+        ),
       },
       {
         path: '/profile',

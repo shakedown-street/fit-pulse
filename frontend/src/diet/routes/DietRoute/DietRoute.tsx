@@ -1,12 +1,21 @@
 import { format } from 'date-fns';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Cell, Pie, PieChart, Tooltip } from 'recharts';
 import { useAuth } from '~/auth';
+import { ConfirmDialog } from '~/components';
 import { ListResponse, http } from '~/http';
 import { FoodLog } from '~/types';
-import { Button, Card, Container, IconButton, Input, RadixDialog } from '~/ui';
-import { DietForm, DietFormData, FoodLogForm, FoodLogFormData, FoodLogTable } from '../../components';
+import { Button, Container, Input, RadixDialog } from '~/ui';
+import {
+  DietForm,
+  DietFormData,
+  DietTargetCard,
+  FoodLogForm,
+  FoodLogFormData,
+  FoodLogTable,
+  MacroChart,
+  MacroTotalsCard,
+} from '../../components';
 import './DietRoute.scss';
 
 export const DietRoute = () => {
@@ -31,8 +40,8 @@ export const DietRoute = () => {
 
   const chartData = ['calories', 'carbs', 'proteins', 'fats'].map((nutrient) => ({
     name: nutrient,
-    consumed: macroTotals[nutrient],
-    target: user?.diet[nutrient],
+    consumed: macroTotals[nutrient as keyof typeof macroTotals],
+    target: user?.diet[nutrient as keyof typeof macroTotals] || 0,
   }));
 
   React.useEffect(() => {
@@ -96,27 +105,7 @@ export const DietRoute = () => {
       <div className="DietRoute">
         <Container>
           <div className="DietRoute__header">
-            <Card className="DietRoute__targets" shadow="none">
-              <div className="DietRoute__targets__header">
-                <h3>Diet</h3>
-                <IconButton onClick={() => setDietDialogOpen(true)}>
-                  <span className="material-symbols-outlined">edit</span>
-                </IconButton>
-              </div>
-              <hr />
-              <p>
-                <b>Calories:</b> {user?.diet.calories}
-              </p>
-              <p>
-                <b>Carbs:</b> {user?.diet.carbs}g
-              </p>
-              <p>
-                <b>Proteins:</b> {user?.diet.proteins}g
-              </p>
-              <p>
-                <b>Fats:</b> {user?.diet.fats}g
-              </p>
-            </Card>
+            <DietTargetCard onUpdate={() => setDietDialogOpen(true)} user={user} />
             <Link to="/diet/foods">
               <Button color="primary" variant="raised">
                 Food Database
@@ -126,7 +115,7 @@ export const DietRoute = () => {
           <div className="DietRoute__foodLog">
             <div className="DietRoute__foodLog__header">
               <h3>Food Log</h3>
-              <Input type="date" value={selectedDate} onChange={(e) => setSelectedDate(e.target.value)} />
+              <Input onChange={(e) => setSelectedDate(e.target.value)} type="date" value={selectedDate} />
             </div>
             <Button
               color="primary"
@@ -151,26 +140,15 @@ export const DietRoute = () => {
             }}
           />
           <div className="DietRoute__macroCharts">
+            <MacroTotalsCard macroTotals={macroTotals} />
             {chartData.map((data, idx) => (
               <div key={idx}>
-                <h4 className="text-center text-capitalize mb-4">{data.name}</h4>
-                <PieChart width={100} height={100} key={data.name}>
-                  <Pie
-                    dataKey="value"
-                    data={[
-                      { name: 'Consumed', value: data.consumed },
-                      { name: 'Remaining', value: Math.max(0, data.target - data.consumed) },
-                    ]}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={25}
-                    outerRadius={50}
-                  >
-                    <Cell fill="#5f3dc4" />
-                    <Cell fill="#212529" />
-                  </Pie>
-                  <Tooltip />
-                </PieChart>
+                <h4 className="text-center text-capitalize mb-2">{data.name}</h4>
+                <MacroChart data={data} />
+                <div className="text-center mt-2">
+                  <p className="text-size-xs">Consumed: {data.consumed}</p>
+                  <p className="text-size-xs">Remaining: {data.target - data.consumed}</p>
+                </div>
               </div>
             ))}
           </div>
@@ -193,36 +171,28 @@ export const DietRoute = () => {
         <h2 className="mb-2">{foodLogDialogInstance ? 'Edit' : 'Add'} Food Log</h2>
         <FoodLogForm instance={foodLogDialogInstance} readOnlyDate={selectedDate} onSubmit={submitFoodLogForm} />
       </RadixDialog>
-      <RadixDialog
+      <ConfirmDialog
         className="p-6"
-        open={deleteFoodLogDialogOpen}
+        confirmLabel="Delete"
+        danger
+        message="Are you sure you want to delete this food log?"
+        onCancel={() => {
+          setFoodLogDialogInstance(undefined);
+          setDeleteFoodLogDialogOpen(false);
+        }}
+        onConfirm={confirmDeleteFood}
         onOpenChange={(open) => {
           if (!open) {
             setFoodLogDialogInstance(undefined);
           }
           setDeleteFoodLogDialogOpen(open);
         }}
+        open={deleteFoodLogDialogOpen}
         style={{
           maxWidth: '480px',
         }}
-      >
-        <h2 className="mb-2">Delete Food Log</h2>
-        <p>Are you sure you want to delete this food log?</p>
-        <div className="flex justify-end gap-2 mt-4">
-          <Button
-            onClick={() => {
-              setFoodLogDialogInstance(undefined);
-              setDeleteFoodLogDialogOpen(false);
-            }}
-            variant="outlined"
-          >
-            Cancel
-          </Button>
-          <Button color="red" onClick={confirmDeleteFood} variant="raised">
-            Delete
-          </Button>
-        </div>
-      </RadixDialog>
+        title="Delete Food Log"
+      />
     </>
   );
 };

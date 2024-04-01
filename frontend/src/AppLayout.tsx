@@ -5,7 +5,9 @@ import { Nav } from './components';
 export const AppLayout = () => {
   return (
     <>
-      <Nav />
+      <header>
+        <Nav />
+      </header>
       <main>
         <Outlet />
       </main>

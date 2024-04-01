@@ -21,6 +21,14 @@ class Diet(BaseMixin):
         verbose_name_plural = "Diets"
 
 
+class FoodDatabase(BaseMixin):
+    """
+    Allows users to share their foods with other users.
+    """
+
+    users = models.ManyToManyField(User, related_name="food_databases")
+
+
 class Food(BaseMixin):
     user = models.ForeignKey(User, related_name="foods", on_delete=models.CASCADE)
     name = models.CharField(max_length=256)

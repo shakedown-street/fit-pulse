@@ -20,9 +20,9 @@ class FoodSerializer(serializers.ModelSerializer):
         fields = "__all__"
         read_only_fields = ("user",)
 
-    def validate(self, data):
-        data["user"] = self.context["request"].user
-        return data
+    def create(self, validated_data):
+        user = self.context["request"].user
+        return super().create({**validated_data, "user": user})
 
 
 class FoodLogSerializer(serializers.ModelSerializer):
@@ -37,9 +37,16 @@ class FoodLogSerializer(serializers.ModelSerializer):
         return data
 
     def validate_food(self, value):
-        if value.user != self.context["request"].user:
-            raise serializers.ValidationError("You can only log your own foods.")
-        return value
+        food_databases = self.context["request"].user.food_databases.all()
+
+        if value.user == self.context["request"].user:
+            return value
+
+        for food_database in food_databases:
+            if value.user in food_database.users.all():
+                return value
+
+        raise serializers.ValidationError("You can only log your own foods.")
 
     def validate(self, data):
         data["user"] = self.context["request"].user

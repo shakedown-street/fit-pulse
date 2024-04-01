@@ -1,6 +1,12 @@
 from django.contrib import admin
 
-from diet.models import Diet, Food, FoodLog
+from diet.models import Diet, Food, FoodLog, FoodDatabase
+
+
+@admin.register(FoodDatabase)
+class FoodDatabaseAdmin(admin.ModelAdmin):
+    list_display = ("id",)
+    search_fields = ("id",)
 
 
 @admin.register(Diet)

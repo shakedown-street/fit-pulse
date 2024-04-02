@@ -16,11 +16,13 @@ export const FoodLogTable = ({ foodLogs, onDelete, onUpdate }: FoodLogTableProps
         <col />
         <col width="80px" />
         <col width="80px" />
+        <col width="80px" />
       </colgroup>
       <thead>
         <tr>
           <th className="text-left">Food</th>
-          <th className="text-center">Servings</th>
+          <th>Servings</th>
+          <th>Calories</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -33,6 +35,7 @@ export const FoodLogTable = ({ foodLogs, onDelete, onUpdate }: FoodLogTableProps
               </a>
             </td>
             <td className="text-center">{log.servings}</td>
+            <td className="text-center">{Math.floor(log.food.calories * log.servings)}</td>
             <td className="text-center">
               <DropdownMenu.Root>
                 <DropdownMenu.Trigger asChild>

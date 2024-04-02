@@ -11,8 +11,3 @@ User = get_user_model()
 def create_user_diet(sender, instance, created, **kwargs):
     if created:
         Diet.objects.create(user=instance)
-
-
-@receiver(post_save, sender=User)
-def save_user_diet(sender, instance, **kwargs):
-    instance.diet.save()

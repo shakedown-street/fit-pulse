@@ -45,9 +45,17 @@ class Food(BaseMixin):
 
 
 class FoodLog(BaseMixin):
+    MEAL_TYPE_CHOICES = (
+        ("breakfast", "Breakfast"),
+        ("lunch", "Lunch"),
+        ("dinner", "Dinner"),
+        ("snack", "Snack"),
+    )
+
     user = models.ForeignKey(User, related_name="food_logs", on_delete=models.CASCADE)
     food = models.ForeignKey(Food, related_name="logs", on_delete=models.CASCADE)
     date = models.DateField()
+    meal_type = models.CharField(choices=MEAL_TYPE_CHOICES, max_length=16, blank=True)
     servings = models.FloatField()
     notes = models.TextField(blank=True, null=True)
 

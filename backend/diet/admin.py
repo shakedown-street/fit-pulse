@@ -23,7 +23,7 @@ class FoodAdmin(admin.ModelAdmin):
 
 @admin.register(FoodLog)
 class FoodLogAdmin(admin.ModelAdmin):
-    list_display = ("food", "user", "date", "servings")
+    list_display = ("food", "user", "date", "meal_type", "servings")
     search_fields = (
         "user",
         "food",

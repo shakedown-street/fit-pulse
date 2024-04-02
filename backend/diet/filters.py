@@ -14,4 +14,8 @@ class FoodFilter(filters.FilterSet):
 class FoodLogFilter(filters.FilterSet):
     class Meta:
         model = FoodLog
-        fields = ("date",)
+        fields = (
+            "food",
+            "date",
+            "meal_type",
+        )

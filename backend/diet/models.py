@@ -32,10 +32,10 @@ class FoodDatabase(BaseMixin):
 class Food(BaseMixin):
     user = models.ForeignKey(User, related_name="foods", on_delete=models.CASCADE)
     name = models.CharField(max_length=256)
-    calories = models.PositiveIntegerField()
-    carbs = models.PositiveIntegerField()
-    proteins = models.PositiveIntegerField()
-    fats = models.PositiveIntegerField()
+    calories = models.PositiveIntegerField(default=0)
+    carbs = models.PositiveIntegerField(default=0)
+    proteins = models.PositiveIntegerField(default=0)
+    fats = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return f"{self.user.username} - {self.name}"

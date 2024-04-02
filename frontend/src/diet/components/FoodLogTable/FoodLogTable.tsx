@@ -1,7 +1,7 @@
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { FoodLog } from '~/types';
-import './FoodLogTable.scss';
 import { IconButton } from '~/ui';
+import './FoodLogTable.scss';
 
 export type FoodLogTableProps = {
   foodLogs: FoodLog[];
@@ -27,7 +27,11 @@ export const FoodLogTable = ({ foodLogs, onDelete, onUpdate }: FoodLogTableProps
       <tbody>
         {foodLogs.map((log) => (
           <tr key={log.id}>
-            <td>{log.food.name}</td>
+            <td>
+              <a className="cursor-pointer" onClick={() => onUpdate(log)}>
+                {log.food.name}
+              </a>
+            </td>
             <td className="text-center">{log.servings}</td>
             <td className="text-center">
               <DropdownMenu.Root>

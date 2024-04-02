@@ -10,10 +10,10 @@ export type FoodFormProps = {
 
 export type FoodFormData = {
   name: string;
-  calories: number;
-  carbs: number;
-  proteins: number;
-  fats: number;
+  calories?: number;
+  carbs?: number;
+  proteins?: number;
+  fats?: number;
 };
 
 export const FoodForm = ({ instance, onSubmit }: FoodFormProps) => {
@@ -27,25 +27,18 @@ export const FoodForm = ({ instance, onSubmit }: FoodFormProps) => {
     },
   });
 
+  function handleSubmit(data: FoodFormData) {
+    const filteredData = Object.fromEntries(Object.entries(data).filter(([_, value]) => value !== '')) as FoodFormData;
+    onSubmit(filteredData, instance);
+  }
+
   return (
-    <form className="FoodForm" onSubmit={foodForm.handleSubmit((data) => onSubmit(data, instance))}>
+    <form className="FoodForm" onSubmit={foodForm.handleSubmit((data) => handleSubmit(data))}>
       <Input fluid id="name" label="Name" {...foodForm.register('name', { required: true })} />
-      <Input
-        fluid
-        id="calories"
-        label="Calories"
-        type="number"
-        {...foodForm.register('calories', { required: true })}
-      />
-      <Input fluid id="carbs" label="Carbs" type="number" {...foodForm.register('carbs', { required: true })} />
-      <Input
-        fluid
-        id="proteins"
-        label="Proteins"
-        type="number"
-        {...foodForm.register('proteins', { required: true })}
-      />
-      <Input fluid id="fats" label="Fats" type="number" {...foodForm.register('fats', { required: true })} />
+      <Input fluid id="calories" label="Calories" type="number" {...foodForm.register('calories')} />
+      <Input fluid id="carbs" label="Carbs" type="number" {...foodForm.register('carbs')} />
+      <Input fluid id="proteins" label="Proteins" type="number" {...foodForm.register('proteins')} />
+      <Input fluid id="fats" label="Fats" type="number" {...foodForm.register('fats')} />
       <Button color="primary" disabled={!foodForm.formState.isValid} fluid type="submit" variant="raised">
         Save
       </Button>

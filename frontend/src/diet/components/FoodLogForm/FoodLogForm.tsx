@@ -3,7 +3,7 @@ import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { http } from '~/http';
 import { Food, FoodLog } from '~/types';
-import { Button, Input, SearchDropdown } from '~/ui';
+import { Button, Input, SearchDropdown, Select } from '~/ui';
 import './FoodLogForm.scss';
 
 export type FoodLogFormProps = {
@@ -15,6 +15,7 @@ export type FoodLogFormProps = {
 export type FoodLogFormData = {
   food: Food;
   date: string;
+  meal_type: 'breakfast' | 'lunch' | 'dinner' | 'snack' | '';
   servings: number;
 };
 
@@ -25,6 +26,9 @@ export const FoodLogForm = ({ readOnlyDate, instance, onSubmit }: FoodLogFormPro
       servings: instance ? instance.servings : 1,
     },
   });
+
+  const food = foodLogForm.watch('food');
+  const servings = foodLogForm.watch('servings');
 
   React.useEffect(() => {
     if (instance) {
@@ -59,6 +63,13 @@ export const FoodLogForm = ({ readOnlyDate, instance, onSubmit }: FoodLogFormPro
           />
         )}
       />
+      <Select fluid id="meal_type" label="Meal" {...foodLogForm.register('meal_type', { required: true })}>
+        <option value=""></option>
+        <option value="breakfast">Breakfast</option>
+        <option value="lunch">Lunch</option>
+        <option value="dinner">Dinner</option>
+        <option value="snack">Snack</option>
+      </Select>
       <Input
         fluid
         id="servings"
@@ -67,6 +78,22 @@ export const FoodLogForm = ({ readOnlyDate, instance, onSubmit }: FoodLogFormPro
         type="number"
         {...foodLogForm.register('servings', { required: true })}
       />
+      {food && servings && (
+        <div className="FoodLogForm__totals">
+          <p>
+            <b>Calories:</b> {food.calories * servings}
+          </p>
+          <p>
+            <b>Carbs:</b> {food.carbs * servings}g
+          </p>
+          <p>
+            <b>Proteins:</b> {food.proteins * servings}g
+          </p>
+          <p>
+            <b>Fats:</b> {food.fats * servings}g
+          </p>
+        </div>
+      )}
       <Button color="primary" disabled={!foodLogForm.formState.isValid} fluid type="submit" variant="raised">
         Save
       </Button>

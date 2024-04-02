@@ -161,43 +161,61 @@ export const DietRoute = () => {
             </TabItem>
           </Tabs>
           <Card className="mb-8" radius="none" shadow="sm">
-            <div className="DietRoute__meal__totals">
-              <p>
-                <strong>Calories:</strong> {mealData.calories}
-              </p>
-              <p>
-                <strong>Carbs:</strong> {mealData.carbs}g
-              </p>
-              <p>
-                <strong>Proteins:</strong> {mealData.proteins}g
-              </p>
-              <p>
-                <strong>Fats:</strong> {mealData.fats}g
-              </p>
-            </div>
-            <FoodLogTable
-              foodLogs={mealLogs}
-              onDelete={(foodLog) => {
-                setFoodLogDialogInstance(foodLog);
-                setDeleteFoodLogDialogOpen(true);
-              }}
-              onUpdate={(foodLog) => {
-                setFoodLogDialogInstance(foodLog);
-                setFoodLogDialogOpen(true);
-              }}
-            />
-            <div className="DietRoute__macroCharts">
-              {chartData.map((data, idx) => (
-                <div className="DietRoute__chart" key={idx}>
-                  <h4 className="mb-4 text-capitalize">{data.name}</h4>
-                  <MacroChart data={data} />
-                  <p className="mt-4 text-size-xs">Consumed: {data.consumed}</p>
-                  {selectedMealType === 'all' && (
-                    <p className="text-size-xs">Remaining: {data.target - data.consumed}</p>
-                  )}
+            {mealLogs.length === 0 ? (
+              <div className="DietRoute__foodLog__empty">
+                <p>No {selectedMealType !== 'all' && selectedMealType} food logs added yet.</p>
+                <Button
+                  color="primary"
+                  onClick={() => {
+                    setFoodLogDialogInstance(undefined);
+                    setFoodLogDialogOpen(true);
+                  }}
+                  variant="raised"
+                >
+                  Add Food Log
+                </Button>
+              </div>
+            ) : (
+              <>
+                <div className="DietRoute__meal__totals">
+                  <p>
+                    <strong>Calories:</strong> {mealData.calories}
+                  </p>
+                  <p>
+                    <strong>Carbs:</strong> {mealData.carbs}g
+                  </p>
+                  <p>
+                    <strong>Proteins:</strong> {mealData.proteins}g
+                  </p>
+                  <p>
+                    <strong>Fats:</strong> {mealData.fats}g
+                  </p>
                 </div>
-              ))}
-            </div>
+                <FoodLogTable
+                  foodLogs={mealLogs}
+                  onDelete={(foodLog) => {
+                    setFoodLogDialogInstance(foodLog);
+                    setDeleteFoodLogDialogOpen(true);
+                  }}
+                  onUpdate={(foodLog) => {
+                    setFoodLogDialogInstance(foodLog);
+                    setFoodLogDialogOpen(true);
+                  }}
+                />
+                <div className="DietRoute__macroCharts">
+                  {chartData.map((data, idx) => (
+                    <div className="DietRoute__chart" key={idx}>
+                      <h4 className="mb-4 text-capitalize">{data.name}</h4>
+                      <MacroChart data={data} />
+                      <p className="mt-4 text-size-xs">Consumed: {data.consumed}</p>
+                      {selectedMealType === 'all' && (
+                        <p className="text-size-xs">Remaining: {data.target - data.consumed}</p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
           </Card>
         </Container>
       </div>

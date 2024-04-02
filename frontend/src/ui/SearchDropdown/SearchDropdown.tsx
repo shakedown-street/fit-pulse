@@ -9,15 +9,23 @@ export type SearchDropdownProps = {
   endpoint: string;
   onChange: (value: any) => void;
   paramater: string;
+  renderEmpty?: () => React.ReactNode;
   renderMatch: (match: any) => React.ReactNode;
   trigger: React.ReactNode;
 };
 
-export const SearchDropdown = ({ endpoint, onChange, paramater, renderMatch, trigger }: SearchDropdownProps) => {
+export const SearchDropdown = ({
+  endpoint,
+  onChange,
+  paramater,
+  renderEmpty,
+  renderMatch,
+  trigger,
+}: SearchDropdownProps) => {
   const [popoverOpen, setPopoverOpen] = React.useState(false);
   const [searchValue, setSearchValue] = React.useState('');
   const [matches, setMatches] = React.useState<any[]>([]);
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
     if (popoverOpen && matches.length < 1) {
@@ -50,6 +58,9 @@ export const SearchDropdown = ({ endpoint, onChange, paramater, renderMatch, tri
     }
 
     if (matches.length < 1) {
+      if (renderEmpty) {
+        return renderEmpty();
+      }
       return null;
     }
 

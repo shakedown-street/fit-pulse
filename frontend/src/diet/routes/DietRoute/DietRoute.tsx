@@ -5,7 +5,7 @@ import { useAuth } from '~/auth';
 import { ConfirmDialog } from '~/components';
 import { ListResponse, http } from '~/http';
 import { FoodLog } from '~/types';
-import { Button, Container, Input, RadixDialog } from '~/ui';
+import { Button, Card, Container, Input, RadixDialog, TabItem, Tabs } from '~/ui';
 import {
   DietForm,
   DietFormData,
@@ -14,7 +14,6 @@ import {
   FoodLogFormData,
   FoodLogTable,
   MacroChart,
-  MacroTotalsCard,
 } from '../../components';
 import './DietRoute.scss';
 
@@ -25,10 +24,26 @@ export const DietRoute = () => {
   const [foodLogDialogInstance, setFoodLogDialogInstance] = React.useState<FoodLog>();
   const [foodLogDialogOpen, setFoodLogDialogOpen] = React.useState(false);
   const [deleteFoodLogDialogOpen, setDeleteFoodLogDialogOpen] = React.useState(false);
+  const [selectedMealType, setSelectedMealType] = React.useState('all');
 
   const { user, patchUser } = useAuth();
 
-  const macroTotals = foodLogs.reduce(
+  const mealLogs = foodLogs.filter((log) => {
+    if (selectedMealType === 'all') {
+      return true;
+    } else {
+      return log.meal_type === selectedMealType;
+    }
+  });
+
+  const mealData = {
+    calories: mealLogs.reduce((total, log) => total + log.food.calories * log.servings, 0),
+    carbs: mealLogs.reduce((total, log) => total + log.food.carbs * log.servings, 0),
+    proteins: mealLogs.reduce((total, log) => total + log.food.proteins * log.servings, 0),
+    fats: mealLogs.reduce((total, log) => total + log.food.fats * log.servings, 0),
+  };
+
+  const macroTotals = mealLogs.reduce(
     (totals, log) => ({
       calories: totals.calories + Math.floor(log.food.calories * log.servings),
       carbs: totals.carbs + Math.floor(log.food.carbs * log.servings),
@@ -128,30 +143,62 @@ export const DietRoute = () => {
               Add Food Log
             </Button>
           </div>
-          <FoodLogTable
-            foodLogs={foodLogs}
-            onDelete={(foodLog) => {
-              setFoodLogDialogInstance(foodLog);
-              setDeleteFoodLogDialogOpen(true);
-            }}
-            onUpdate={(foodLog) => {
-              setFoodLogDialogInstance(foodLog);
-              setFoodLogDialogOpen(true);
-            }}
-          />
-          <div className="DietRoute__macroCharts">
-            <MacroTotalsCard macroTotals={macroTotals} />
-            {chartData.map((data, idx) => (
-              <div key={idx}>
-                <h4 className="text-center text-capitalize mb-2">{data.name}</h4>
-                <MacroChart data={data} />
-                <div className="text-center mt-2">
-                  <p className="text-size-xs">Consumed: {data.consumed}</p>
-                  <p className="text-size-xs">Remaining: {data.target - data.consumed}</p>
+          <Tabs fluid>
+            <TabItem active={selectedMealType === 'all'} onClick={() => setSelectedMealType('all')}>
+              All
+            </TabItem>
+            <TabItem active={selectedMealType === 'breakfast'} onClick={() => setSelectedMealType('breakfast')}>
+              Breakfast
+            </TabItem>
+            <TabItem active={selectedMealType === 'lunch'} onClick={() => setSelectedMealType('lunch')}>
+              Lunch
+            </TabItem>
+            <TabItem active={selectedMealType === 'dinner'} onClick={() => setSelectedMealType('dinner')}>
+              Dinner
+            </TabItem>
+            <TabItem active={selectedMealType === 'snack'} onClick={() => setSelectedMealType('snack')}>
+              Snack
+            </TabItem>
+          </Tabs>
+          <Card className="mb-8" radius="none" shadow="sm">
+            <div className="DietRoute__meal__totals">
+              <p>
+                <strong>Calories:</strong> {mealData.calories}
+              </p>
+              <p>
+                <strong>Carbs:</strong> {mealData.carbs}g
+              </p>
+              <p>
+                <strong>Proteins:</strong> {mealData.proteins}g
+              </p>
+              <p>
+                <strong>Fats:</strong> {mealData.fats}g
+              </p>
+            </div>
+            <FoodLogTable
+              foodLogs={mealLogs}
+              onDelete={(foodLog) => {
+                setFoodLogDialogInstance(foodLog);
+                setDeleteFoodLogDialogOpen(true);
+              }}
+              onUpdate={(foodLog) => {
+                setFoodLogDialogInstance(foodLog);
+                setFoodLogDialogOpen(true);
+              }}
+            />
+            <div className="DietRoute__macroCharts">
+              {chartData.map((data, idx) => (
+                <div className="DietRoute__chart" key={idx}>
+                  <h4 className="mb-4 text-capitalize">{data.name}</h4>
+                  <MacroChart data={data} />
+                  <p className="mt-4 text-size-xs">Consumed: {data.consumed}</p>
+                  {selectedMealType === 'all' && (
+                    <p className="text-size-xs">Remaining: {data.target - data.consumed}</p>
+                  )}
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          </Card>
         </Container>
       </div>
       <RadixDialog className="p-6" open={dietDialogOpen} onOpenChange={setDietDialogOpen}>

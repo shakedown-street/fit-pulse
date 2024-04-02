@@ -26,6 +26,7 @@ export const FoodLogForm = ({ readOnlyDate, instance, onSubmit }: FoodLogFormPro
   const foodLogForm = useForm<FoodLogFormData>({
     defaultValues: {
       date: instance ? instance.date : readOnlyDate ? readOnlyDate : format(new Date(), 'yyyy-MM-dd'),
+      meal_type: instance ? instance.meal_type : '',
       servings: instance ? instance.servings : 1,
     },
   });

@@ -20,10 +20,10 @@ export const FoodForm = ({ instance, onSubmit }: FoodFormProps) => {
   const foodForm = useForm<FoodFormData>({
     defaultValues: {
       name: instance ? instance.name : '',
-      calories: instance ? instance.calories : 0,
-      carbs: instance ? instance.carbs : 0,
-      proteins: instance ? instance.proteins : 0,
-      fats: instance ? instance.fats : 0,
+      calories: instance ? instance.calories : undefined,
+      carbs: instance ? instance.carbs : undefined,
+      proteins: instance ? instance.proteins : undefined,
+      fats: instance ? instance.fats : undefined,
     },
   });
 

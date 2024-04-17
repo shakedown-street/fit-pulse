@@ -3,6 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
+  "license": "BSD-3-Clause",
   "scripts": {
     "start": "vite",
     "build": "vite build",

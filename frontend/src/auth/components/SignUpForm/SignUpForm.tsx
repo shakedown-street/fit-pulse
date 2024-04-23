@@ -66,6 +66,7 @@ export const SignUpForm = () => {
         {...signUpForm.register('password2', { required: true })}
         type="password"
       />
+      <p className="hint">Your password must be at least 8 characters.</p>
       {signUpForm.formState.errors.root && <p className="error">{signUpForm.formState.errors.root.message}</p>}
       <Button color="primary" disabled={!signUpForm.formState.isValid} fluid type="submit" variant="raised">
         Sign Up

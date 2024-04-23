@@ -1,7 +1,7 @@
 from django_filters import rest_framework as filters
 from rest_framework import viewsets
 
-from exercises.filters import PerformanceFilter
+from exercises.filters import ExerciseFilter, PerformanceFilter
 from exercises.models import Exercise, Metric, Performance
 from exercises.permissions import ExercisePermission, PerformancePermission
 from exercises.serializers import (
@@ -20,6 +20,8 @@ class ExerciseViewSet(viewsets.ModelViewSet):
     queryset = Exercise.objects.all()
     serializer_class = ExerciseSerializer
     permission_classes = (ExercisePermission,)
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_class = ExerciseFilter
 
     def get_queryset(self):
         qs = self.queryset

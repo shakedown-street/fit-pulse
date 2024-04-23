@@ -1,7 +1,15 @@
 from django_filters import rest_framework as filters
 from django_filters.widgets import RangeWidget
 
-from exercises.models import Performance
+from exercises.models import Exercise, Performance
+
+
+class ExerciseFilter(filters.FilterSet):
+    search = filters.CharFilter(field_name="name", lookup_expr="icontains")
+
+    class Meta:
+        model = Exercise
+        fields = ("search",)
 
 
 class PerformanceFilter(filters.FilterSet):

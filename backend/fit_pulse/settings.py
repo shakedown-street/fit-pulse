@@ -145,20 +145,10 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # CSRF
 # https://docs.djangoproject.com/en/4.2/ref/settings/#csrf-cookie-age
 
-CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:5173",
-]
-
 CSRF_TRUSTED_ORIGINS = os.environ.get(
     "CSRF_TRUSTED_ORIGINS",
     "http://localhost:5173",
 ).split(",")
-
-
-# Email
-# https://docs.djangoproject.com/en/4.2/ref/settings/#email-backend
-
-EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
 
 
 ####################################
@@ -186,8 +176,3 @@ REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 20,
 }
-
-# sendgrid
-# https://pypi.org/project/sendgrid-django/
-
-SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY", "")

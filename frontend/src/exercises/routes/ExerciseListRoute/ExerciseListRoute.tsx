@@ -1,21 +1,70 @@
 import React from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { ConfirmDialog } from '~/components';
 import { ListResponse, http } from '~/http';
 import { Exercise, Performance } from '~/types';
-import { Button, Container, RadixDialog } from '~/ui';
+import { Button, Container, IconButton, Input, RadixDialog } from '~/ui';
+import { debounce } from '~/utils/debounce';
 import { ExerciseForm, ExerciseFormData, ExerciseTable, PerformanceForm, PerformanceFormData } from '../../components';
 import './ExerciseListRoute.scss';
 
 export const ExerciseListRoute = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [exercises, setExercises] = React.useState<Exercise[]>([]);
+  const [searchInput, setSearchInput] = React.useState(searchParams.get('search') || '');
+  const [totalExercises, setTotalExercises] = React.useState(0);
+  const [hasPreviousPage, setHasPreviousPage] = React.useState(false);
+  const [hasNextPage, setHasNextPage] = React.useState(false);
   const [exerciseDialogOpen, setExerciseDialogOpen] = React.useState(false);
   const [exerciseDialogInstance, setExerciseDialogInstance] = React.useState<Exercise | undefined>();
   const [performanceDialogOpen, setPerformanceDialogOpen] = React.useState(false);
   const [deleteExerciseDialogOpen, setDeleteExerciseDialogOpen] = React.useState(false);
 
   React.useEffect(() => {
-    http.get<ListResponse<Exercise>>('/api/exercises/').then((exercises) => setExercises(exercises.data.results));
-  }, []);
+    http
+      .get<ListResponse<Exercise>>('/api/exercises/', {
+        params: searchParams,
+      })
+      .then((exercises) => {
+        setExercises(exercises.data.results);
+        setTotalExercises(exercises.data.count);
+        setHasPreviousPage(!!exercises.data.previous);
+        setHasNextPage(!!exercises.data.next);
+      });
+  }, [searchParams]);
+
+  const updateSearchParam = React.useCallback(
+    debounce((name: string, value: string) => {
+      if (name !== 'page') {
+        searchParams.delete('page');
+      }
+      if (!value) {
+        searchParams.delete(name);
+      } else {
+        searchParams.set(name, value);
+      }
+      setSearchParams(searchParams);
+    }, 300),
+    [searchParams, setSearchParams],
+  );
+
+  function handleSearchInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setSearchInput(e.target.value);
+    updateSearchParam('search', e.target.value);
+  }
+
+  function getPage() {
+    return parseInt(searchParams.get('page') || '1', 10);
+  }
+
+  function setPage(page: number) {
+    searchParams.set('page', page.toString());
+    setSearchParams(searchParams);
+  }
+
+  function getTotalPages() {
+    return Math.ceil(totalExercises / 20);
+  }
 
   function submitExerciseForm(data: ExerciseFormData, instance?: Exercise) {
     if (instance) {
@@ -76,6 +125,9 @@ export const ExerciseListRoute = () => {
               Create Exercise
             </Button>
           </div>
+          <div className="ExerciseListRoute__filter">
+            <Input onChange={handleSearchInputChange} placeholder="Search exercises" value={searchInput} />
+          </div>
           <ExerciseTable
             exercises={exercises}
             onCreatePerformance={(exercise) => {
@@ -91,6 +143,21 @@ export const ExerciseListRoute = () => {
               setExerciseDialogOpen(true);
             }}
           />
+          {getTotalPages() > 1 && (
+            <div className="flex justify-center my-8">
+              <div className="Pagination">
+                <IconButton disabled={!hasPreviousPage} onClick={() => setPage(getPage() - 1)}>
+                  <span className="material-symbols-outlined">chevron_left</span>
+                </IconButton>
+                <p>
+                  {getPage()} of {getTotalPages()}
+                </p>
+                <IconButton disabled={!hasNextPage} onClick={() => setPage(getPage() + 1)}>
+                  <span className="material-symbols-outlined">chevron_right</span>
+                </IconButton>
+              </div>
+            </div>
+          )}
         </Container>
       </div>
       <RadixDialog

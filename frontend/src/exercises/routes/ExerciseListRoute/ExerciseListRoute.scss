@@ -8,6 +8,10 @@
     gap: 1rem;
     margin: 2rem 0;
   }
+
+  &__filter {
+    margin: 2rem 0;
+  }
 }
 
 @include breakpoint('sm') {

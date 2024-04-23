@@ -36,7 +36,7 @@ export const FoodLogForm = ({ readOnlyDate, instance, onSubmit }: FoodLogFormPro
 
   React.useEffect(() => {
     if (instance) {
-      http.get(`/api/foods/${instance.food.id}`).then((food) => {
+      http.get(`/api/foods/${instance.food.id}/`).then((food) => {
         foodLogForm.setValue('food', food.data);
       });
     }

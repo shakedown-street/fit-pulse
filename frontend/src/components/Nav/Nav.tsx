@@ -24,7 +24,7 @@ export const Nav = () => {
           </Link>
           {user && (
             <>
-              <Link to="/diet">
+              <Link to="/">
                 <Button color="primary" size="sm">
                   Diet
                 </Button>

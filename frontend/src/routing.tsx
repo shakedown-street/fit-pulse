@@ -3,7 +3,6 @@ import { AppLayout } from './AppLayout';
 import { LoginRoute, ProfileRoute, SignUpRoute, useAuth } from './auth';
 import { DietRoute, FoodListRoute } from './diet';
 import { ExerciseDetailRoute, ExerciseListRoute } from './exercises';
-import { HomeRoute } from './routes';
 
 export type RouteGuard = {
   children: React.ReactNode;
@@ -35,10 +34,6 @@ export const routes: RouteObject[] = [
     element: <AppLayout />,
     children: [
       {
-        path: '/',
-        element: <HomeRoute />,
-      },
-      {
         path: '/login',
         element: (
           <PublicRoute>
@@ -63,7 +58,7 @@ export const routes: RouteObject[] = [
         ),
       },
       {
-        path: '/diet',
+        path: '/',
         element: (
           <ProtectedRoute>
             <DietRoute />

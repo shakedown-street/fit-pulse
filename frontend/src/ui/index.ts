@@ -1,5 +1,6 @@
 export * from './Avatar/Avatar';
 export * from './Button/Button';
+export * from './Callout/Callout';
 export * from './Card/Card';
 export * from './Container/Container';
 export * from './IconButton/IconButton';

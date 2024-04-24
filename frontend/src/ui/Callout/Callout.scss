@@ -1,0 +1,34 @@
+@import '~/scss/mixins';
+@import '~/scss/variables';
+
+$colors: (
+  'primary',
+  'gray',
+  'red',
+  'pink',
+  'grape',
+  'violet',
+  'indigo',
+  'blue',
+  'cyan',
+  'teal',
+  'green',
+  'lime',
+  'yellow',
+  'orange'
+);
+
+.Callout {
+  @include radius-sm;
+  border: 1px solid $border;
+  padding: 0.5rem 1rem;
+  width: 100%;
+
+  @each $name, $values in $colors {
+    &.Callout--color--#{$name} {
+      background-color: oc-get-color($name, '0');
+      border-color: oc-get-color($name, '4');
+      color: oc-get-color($name, '9');
+    }
+  }
+}

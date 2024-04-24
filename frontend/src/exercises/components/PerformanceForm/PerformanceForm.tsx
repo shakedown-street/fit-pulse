@@ -33,14 +33,19 @@ export const PerformanceForm = ({ exercise, instance, onSubmit }: PerformanceFor
   const selectedExercise = exercises.find((exercise) => exercise.id === performanceForm.watch('exercise'));
 
   React.useEffect(() => {
-    http.get<ListResponse<Exercise>>('/api/exercises/').then((exercises) => {
-      setExercises(exercises.data.results);
-      if (instance) {
-        performanceForm.setValue('exercise', instance.exercise.id);
-      } else if (exercise) {
-        performanceForm.setValue('exercise', exercise.id);
-      }
-    });
+    if (exercise) {
+      http.get(`/api/exercises/${exercise.id}/`).then((exercise) => {
+        setExercises([exercise.data]);
+        performanceForm.setValue('exercise', exercise.data.id);
+      });
+    } else {
+      http.get<ListResponse<Exercise>>('/api/exercises/').then((exercises) => {
+        setExercises(exercises.data.results);
+        if (instance) {
+          performanceForm.setValue('exercise', instance.exercise.id);
+        }
+      });
+    }
   }, []);
 
   return (

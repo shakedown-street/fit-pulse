@@ -1,11 +1,12 @@
-import { format } from 'date-fns';
+import { format, isToday } from 'date-fns';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '~/auth';
 import { ConfirmDialog } from '~/components';
 import { ListResponse, http } from '~/http';
 import { FoodLog } from '~/types';
-import { Button, Card, Container, Input, RadixDialog, TabItem, Tabs } from '~/ui';
+import { Button, Callout, Card, Container, Input, RadixDialog, TabItem, Tabs } from '~/ui';
+import { parseDateString } from '~/utils/dateString';
 import {
   DietForm,
   DietFormData,
@@ -16,6 +17,7 @@ import {
   MacroChart,
 } from '../../components';
 import './DietRoute.scss';
+import { SecretBirthdayMessage } from './SecretBirthdayMessage';
 
 export const DietRoute = () => {
   const [selectedDate, setSelectedDate] = React.useState(format(new Date(), 'yyyy-MM-dd'));
@@ -119,6 +121,11 @@ export const DietRoute = () => {
     <>
       <div className="DietRoute">
         <Container>
+          {user.username === 'lprice' && isToday(parseDateString('2024-04-24', 'yyyy-MM-dd')) && (
+            <Callout className="mt-8" color="green">
+              <SecretBirthdayMessage />
+            </Callout>
+          )}
           <div className="DietRoute__header">
             <DietTargetCard onUpdate={() => setDietDialogOpen(true)} user={user} />
             <Link to="/diet/foods">

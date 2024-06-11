@@ -27,6 +27,18 @@ class Exercise(BaseMixin):
         return self.name
 
 
+class Workout(BaseMixin):
+    user = models.ForeignKey(User, related_name="workouts", on_delete=models.CASCADE)
+    name = models.CharField(max_length=256)
+    exercises = models.ManyToManyField(Exercise, related_name="workouts")
+
+    class Meta:
+        ordering = ("name",)
+
+    def __str__(self):
+        return self.name
+
+
 class Performance(BaseMixin):
     user = models.ForeignKey(
         User, related_name="performances", on_delete=models.CASCADE

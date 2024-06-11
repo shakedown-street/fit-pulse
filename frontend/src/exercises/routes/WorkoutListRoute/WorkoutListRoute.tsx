@@ -116,7 +116,13 @@ export const WorkoutListRoute = () => {
             </div>
           </div>
           <div className="WorkoutListRoute__filter">
-            <Input onChange={handleSearchInputChange} placeholder="Search workouts" value={searchInput} />
+            <Input
+              id="search"
+              label="Search"
+              onChange={handleSearchInputChange}
+              placeholder="Search workouts"
+              value={searchInput}
+            />
           </div>
           <WorkoutTable
             workouts={workouts}

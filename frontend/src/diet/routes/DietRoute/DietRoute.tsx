@@ -136,8 +136,13 @@ export const DietRoute = () => {
           </div>
           <div className="DietRoute__foodLog">
             <div className="DietRoute__foodLog__header">
-              <h3>Food Log</h3>
-              <Input onChange={(e) => setSelectedDate(e.target.value)} type="date" value={selectedDate} />
+              <Input
+                id="date"
+                label="Date"
+                onChange={(e) => setSelectedDate(e.target.value)}
+                type="date"
+                value={selectedDate}
+              />
             </div>
             <Button
               color="primary"

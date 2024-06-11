@@ -110,7 +110,13 @@ export const FoodListRoute = () => {
             </Button>
           </div>
           <div className="FoodListRoute__filter">
-            <Input onChange={handleSearchInputChange} placeholder="Search foods" value={searchInput} />
+            <Input
+              id="search"
+              label="Search"
+              onChange={handleSearchInputChange}
+              placeholder="Search foods"
+              value={searchInput}
+            />
           </div>
           <FoodTable
             foods={foods}

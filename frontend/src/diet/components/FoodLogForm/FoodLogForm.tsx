@@ -83,7 +83,7 @@ export const FoodLogForm = ({ readOnlyDate, instance, onSubmit }: FoodLogFormPro
                 );
               }}
               renderMatch={(match) => <>{match.name}</>}
-              trigger={<Input fluid label="Food" readOnly type="input" value={field.value?.name} />}
+              trigger={<Input fluid id="food" label="Food" readOnly type="input" value={field.value?.name} />}
             />
           )}
         />

@@ -1,0 +1,39 @@
+@import '~/scss/mixins';
+
+.WorkoutListRoute {
+  &__header {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 2rem 0;
+
+    &__title {
+      align-items: center;
+      display: flex;
+      gap: 1rem;
+    }
+
+    &__actions {
+      align-items: center;
+      display: flex;
+      gap: 1rem;
+    }
+  }
+
+  &__filter {
+    align-items: end;
+    display: flex;
+    margin: 2rem 0;
+    gap: 1rem;
+  }
+}
+
+@include breakpoint('sm') {
+  .WorkoutListRoute {
+    &__header {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+  }
+}

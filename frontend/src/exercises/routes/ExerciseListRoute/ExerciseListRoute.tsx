@@ -1,9 +1,9 @@
 import React from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { ConfirmDialog } from '~/components';
 import { ListResponse, http } from '~/http';
-import { Exercise, Performance } from '~/types';
-import { Button, Container, IconButton, Input, RadixDialog } from '~/ui';
+import { Exercise, Performance, Workout } from '~/types';
+import { Button, Container, IconButton, Input, RadixDialog, Select } from '~/ui';
 import { debounce } from '~/utils/debounce';
 import { ExerciseForm, ExerciseFormData, ExerciseTable, PerformanceForm, PerformanceFormData } from '../../components';
 import './ExerciseListRoute.scss';
@@ -11,7 +11,9 @@ import './ExerciseListRoute.scss';
 export const ExerciseListRoute = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [exercises, setExercises] = React.useState<Exercise[]>([]);
+  const [workouts, setWorkouts] = React.useState<Workout[]>([]);
   const [searchInput, setSearchInput] = React.useState(searchParams.get('search') || '');
+  const [selectedWorkout, setSelectedWorkout] = React.useState(searchParams.get('workout') || '');
   const [totalExercises, setTotalExercises] = React.useState(0);
   const [hasPreviousPage, setHasPreviousPage] = React.useState(false);
   const [hasNextPage, setHasNextPage] = React.useState(false);
@@ -31,6 +33,9 @@ export const ExerciseListRoute = () => {
         setHasPreviousPage(!!exercises.data.previous);
         setHasNextPage(!!exercises.data.next);
       });
+    http.get<ListResponse<Workout>>('/api/workouts/').then((workouts) => {
+      setWorkouts(workouts.data.results);
+    });
   }, [searchParams]);
 
   const updateSearchParam = React.useCallback(
@@ -51,6 +56,11 @@ export const ExerciseListRoute = () => {
   function handleSearchInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     setSearchInput(e.target.value);
     updateSearchParam('search', e.target.value);
+  }
+
+  function handleWorkoutSelectChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    setSelectedWorkout(e.target.value);
+    updateSearchParam('workout', e.target.value);
   }
 
   function getPage() {
@@ -114,19 +124,32 @@ export const ExerciseListRoute = () => {
         <Container>
           <div className="ExerciseListRoute__header">
             <h2>Exercises</h2>
-            <Button
-              color="primary"
-              onClick={() => {
-                setExerciseDialogInstance(undefined);
-                setExerciseDialogOpen(true);
-              }}
-              variant="raised"
-            >
-              Create Exercise
-            </Button>
+            <div className="ExerciseListRoute__header__actions">
+              <Link to="/workouts">
+                <Button variant="ghost">Manage Workouts</Button>
+              </Link>
+              <Button
+                color="primary"
+                onClick={() => {
+                  setExerciseDialogInstance(undefined);
+                  setExerciseDialogOpen(true);
+                }}
+                variant="raised"
+              >
+                Create Exercise
+              </Button>
+            </div>
           </div>
           <div className="ExerciseListRoute__filter">
             <Input onChange={handleSearchInputChange} placeholder="Search exercises" value={searchInput} />
+            <Select onChange={handleWorkoutSelectChange} value={selectedWorkout}>
+              <option value="">All Workouts</option>
+              {workouts.map((workout) => (
+                <option key={workout.id} value={workout.id}>
+                  {workout.name}
+                </option>
+              ))}
+            </Select>
           </div>
           <ExerciseTable
             exercises={exercises}

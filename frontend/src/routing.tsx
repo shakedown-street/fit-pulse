@@ -2,7 +2,7 @@ import { Navigate, RouteObject } from 'react-router-dom';
 import { AppLayout } from './AppLayout';
 import { LoginRoute, ProfileRoute, SignUpRoute, useAuth } from './auth';
 import { DietRoute, FoodListRoute } from './diet';
-import { ExerciseDetailRoute, ExerciseListRoute } from './exercises';
+import { ExerciseDetailRoute, ExerciseListRoute, WorkoutListRoute } from './exercises';
 
 export type RouteGuard = {
   children: React.ReactNode;
@@ -86,6 +86,14 @@ export const routes: RouteObject[] = [
         element: (
           <ProtectedRoute>
             <ExerciseDetailRoute />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/workouts',
+        element: (
+          <ProtectedRoute>
+            <WorkoutListRoute />
           </ProtectedRoute>
         ),
       },

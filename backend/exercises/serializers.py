@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from exercises.models import Exercise, Metric, Performance, PerformanceMetric
+from exercises.models import Exercise, Metric, Performance, PerformanceMetric, Workout
 
 
 class MetricSerializer(serializers.ModelSerializer):
@@ -19,6 +19,27 @@ class ExerciseSerializer(serializers.ModelSerializer):
         data = super().to_representation(instance)
         data["metrics"] = MetricSerializer(instance.metrics, many=True).data
         return data
+
+    def validate(self, data):
+        data["user"] = self.context["request"].user
+        return data
+
+
+class WorkoutSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Workout
+        read_only_fields = ("user",)
+        fields = "__all__"
+
+    def validate_exercises(self, value):
+        # Check if all exercises belong to the user
+        user = self.context["request"].user
+        for exercise in value:
+            if exercise.user != user:
+                raise serializers.ValidationError(
+                    "Exercise does not belong to the user."
+                )
+        return value
 
     def validate(self, data):
         data["user"] = self.context["request"].user

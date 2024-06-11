@@ -27,7 +27,12 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 from diet.views import FoodViewSet, FoodLogViewSet
-from exercises.views import ExerciseViewSet, MetricViewSet, PerformanceViewSet
+from exercises.views import (
+    ExerciseViewSet,
+    MetricViewSet,
+    PerformanceViewSet,
+    WorkoutViewSet,
+)
 from rest_framework import routers
 
 router = routers.DefaultRouter()
@@ -36,6 +41,7 @@ router.register("foods", FoodViewSet)
 router.register("food-logs", FoodLogViewSet)
 router.register("metrics", MetricViewSet)
 router.register("exercises", ExerciseViewSet)
+router.register("workouts", WorkoutViewSet)
 router.register("performances", PerformanceViewSet)
 
 

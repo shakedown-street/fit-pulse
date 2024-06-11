@@ -6,3 +6,4 @@ export * from './Metric';
 export * from './Performance';
 export * from './PerformanceMetric';
 export * from './User';
+export * from './Workout';

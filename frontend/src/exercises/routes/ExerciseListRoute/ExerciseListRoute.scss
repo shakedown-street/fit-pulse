@@ -26,8 +26,21 @@
 @include breakpoint('sm') {
   .ExerciseListRoute {
     &__header {
-      align-items: flex-start;
+      align-items: start;
       flex-direction: column;
+    }
+
+    &__filter {
+      align-items: start;
+      flex-direction: column;
+
+      .Input__container {
+        width: 100%;
+
+        .Input {
+          width: 100%;
+        }
+      }
     }
   }
 }

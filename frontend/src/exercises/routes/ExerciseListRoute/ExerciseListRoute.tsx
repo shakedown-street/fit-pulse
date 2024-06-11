@@ -141,8 +141,14 @@ export const ExerciseListRoute = () => {
             </div>
           </div>
           <div className="ExerciseListRoute__filter">
-            <Input onChange={handleSearchInputChange} placeholder="Search exercises" value={searchInput} />
-            <Select onChange={handleWorkoutSelectChange} value={selectedWorkout}>
+            <Input
+              id="search"
+              label="Search"
+              onChange={handleSearchInputChange}
+              placeholder="Search exercises"
+              value={searchInput}
+            />
+            <Select id="Workout" label="Workout" onChange={handleWorkoutSelectChange} value={selectedWorkout}>
               <option value="">All Workouts</option>
               {workouts.map((workout) => (
                 <option key={workout.id} value={workout.id}>

@@ -17,7 +17,6 @@ import {
   MacroChart,
 } from '../../components';
 import './DietRoute.scss';
-import { SecretBirthdayMessage } from './SecretBirthdayMessage';
 
 export const DietRoute = () => {
   const [selectedDate, setSelectedDate] = React.useState(format(new Date(), 'yyyy-MM-dd'));
@@ -121,11 +120,6 @@ export const DietRoute = () => {
     <>
       <div className="DietRoute">
         <Container>
-          {user.username === 'lprice' && isToday(parseDateString('2024-04-24', 'yyyy-MM-dd')) && (
-            <Callout className="mt-8" color="green">
-              <SecretBirthdayMessage />
-            </Callout>
-          )}
           <div className="DietRoute__header">
             <DietTargetCard onUpdate={() => setDietDialogOpen(true)} user={user} />
             <Link to="/diet/foods">

@@ -23,4 +23,3 @@ dist-ssr
 # misc
 
 .env.production
-**/SecretBirthdayMessage.tsx

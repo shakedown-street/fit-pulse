@@ -1,0 +1,20 @@
+:root {
+  --primary-1: var(--oc-violet-1);
+  --primary-2: var(--oc-violet-2);
+  --primary-3: var(--oc-violet-3);
+  --primary-4: var(--oc-violet-4);
+  --primary-5: var(--oc-violet-5);
+  --primary-6: var(--oc-violet-6);
+  --primary-7: var(--oc-violet-7);
+  --primary-8: var(--oc-violet-8);
+  --primary-9: var(--oc-violet-9);
+}
+
+a {
+  color: var(--primary-9);
+}
+
+.centerPage {
+  max-width: 20rem;
+  margin: 3rem auto 1rem;
+}

@@ -1,0 +1,14 @@
+<div class="nav">
+  <div class="pw-container">
+    <div class="nav__content">
+      <a class="nav__title" [routerLink]="['/']"><h1>FitPulse</h1></a>
+      <div class="nav__spacer"></div>
+      @if (auth.user()) {
+        <button class="pw-button primary raised sm" (click)="logout()">Logout</button>
+      } @else {
+        <button class="pw-button primary sm" [routerLink]="['/signup']">Sign Up</button>
+        <button class="pw-button primary raised sm" [routerLink]="['/login']">Login</button>
+      }
+    </div>
+  </div>
+</div>

@@ -1,3 +1,4 @@
+import { ButtonComponent } from '@/app/ui/button/button.component';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -6,7 +7,7 @@ import { AuthService, LoginRequest } from '../../services/auth.service';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterModule],
+  imports: [ButtonComponent, ReactiveFormsModule, RouterModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })

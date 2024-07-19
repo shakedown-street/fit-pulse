@@ -2,9 +2,29 @@
   <div class="pw-container">
     <div class="nav__content">
       <a class="nav__title" [routerLink]="['/']"><h1>FitPulse</h1></a>
+      <button class="pw-button primary sm" [routerLink]="['/']">Diet</button>
+      <button class="pw-button primary sm" [routerLink]="['/exercises']">Exercise</button>
       <div class="nav__spacer"></div>
       @if (auth.user()) {
-        <button class="pw-button primary raised sm" (click)="logout()">Logout</button>
+        <div class="position-relative">
+          <app-popover
+            [options]="{
+              relativeTop: '44px',
+              relativeRight: '0',
+              width: '140px',
+            }"
+            [visible]="userMenuOpen"
+            (visibleChange)="userMenuOpen = $event"
+          >
+            <ng-container slot="trigger">
+              <app-user-avatar [user]="auth.user()" size="xs"></app-user-avatar>
+            </ng-container>
+            <div class="p-2" (click)="userMenuOpen = false">
+              <button class="pw-button fluid sm text-left" [routerLink]="['/profile']">Profile</button>
+              <button class="pw-button fluid sm text-left" (click)="logout()">Logout</button>
+            </div>
+          </app-popover>
+        </div>
       } @else {
         <button class="pw-button primary sm" [routerLink]="['/signup']">Sign Up</button>
         <button class="pw-button primary raised sm" [routerLink]="['/login']">Login</button>

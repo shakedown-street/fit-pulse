@@ -1,0 +1,7 @@
+<div class="pw-avatar" [ngClass]="size">
+  @if (user && user.image) {
+    <img [src]="user.image" [alt]="user.username" class="pw-avatar-image" />
+  } @else {
+    <div class="pw-avatar-fallback">{{ getInitials() }}</div>
+  }
+</div>
